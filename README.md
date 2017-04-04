@@ -1,6 +1,8 @@
 # WalkThisWeiApp
 
-Check the [WalktThisWeiWebpage](https://stephde.github.io/WalkThisWeiApp/)
+Check out the [WalktThisWeiWebpage](https://stephde.github.io/WalkThisWeiApp/)
+
+Also have a look at the waffle.io [IssueBoard](https://waffle.io/stephde/WalkThisWeiApp)
 
 ## Set Up for IOS on MacOS
 
@@ -30,3 +32,4 @@ All images are in the images subdirectory and styles are in CSS subdir
 - create pull request in order to get code to production
 - do not commit your node_modules directory
 - test if your code works and does not break any other functionality BEFORE committing
+- look for and manage tasks on the waffle.io board or in the github issues
