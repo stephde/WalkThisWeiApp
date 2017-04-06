@@ -18,12 +18,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 let Home = require('./src/home.js');
 let Search = require('./src/search.js');
 
+
 export default class WalkThisWeiApp extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-        selectedTab: 'home'
+        selectedTab: 'home',
+        responseText: 'No request yet...'
     };
   }
 

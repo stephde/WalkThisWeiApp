@@ -14,8 +14,35 @@ import {
     View,
 } from 'react-native';
 
+import ApiUtils from './apiUtils';
+
+let ApiUrl = 'http://localhost:3000'
 
 class Home extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            responseText: 'No request yet...'
+        };
+    }
+
+    callApi(requestParam) {
+        fetch(ApiUrl + '/sample?name=' + requestParam + '\'')
+            .then(ApiUtils.checkStatus)
+            .then(response => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    responseText: responseJson.text
+                })
+            })
+            .catch(function(err) {
+                console.log(err)
+                this.state.responseText = err
+            })
+            .done()
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -25,11 +52,18 @@ class Home extends Component {
                 <Text style={styles.instructions}>
                     To get started click the button below
                 </Text>
-                <Button style={styles.button} title="Hit Me!" onPress="">
-                    Get Started!
+                <Button
+                    style={styles.button}
+                    title='Request API'
+                    onPress={() => this.callApi('WalkThisWeiApp')}
+                >
+
                 </Button>
                 <Text style={styles.instructions}>
                     Press Cmd+R to reload,{'\n'} Cmd+D or shake for dev menu
+                </Text>
+                <Text style={styles.instructions}>
+                    {this.state.responseText}
                 </Text>
             </View>
         );
