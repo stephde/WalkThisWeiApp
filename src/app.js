@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Home from './home';
 import Search from './search';
 
-export default class MainView extends Component {
+export default class App extends Component {
 
 
     constructor(props) {
