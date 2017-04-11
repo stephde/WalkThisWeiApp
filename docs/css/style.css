@@ -464,6 +464,19 @@
 				margin-bottom: 0.5em;
 			}
 
+			.icon.rounded.big-x {
+				font-size: 4em;
+				margin-bottom: 0.5em;
+			}
+
+			.icon.rounded.big-xx {
+				font-size: 4em;
+				margin-bottom: 0.5em;
+			}
+			.icon.rounded.big-xx:before {
+				font-size: 1.6em;
+			}
+
 			.icon.rounded.color1 {
 				background-color: #3cadd4;
 			}

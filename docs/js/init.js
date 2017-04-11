@@ -86,3 +86,15 @@
 	});
 
 })(jQuery);
+
+
+/*************** Custom Functions *******************/
+
+/***
+ * Scroll to the <a> element with the given id.
+ * @param id
+ */
+window.goToByScroll = function(id) {
+	$('#content').animate({scrollTop: $("#"+id).offset().top},'slow')
+	return false
+}
