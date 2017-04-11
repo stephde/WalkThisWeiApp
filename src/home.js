@@ -18,7 +18,7 @@ import ApiUtils from './apiUtils';
 
 let ApiUrl = 'http://localhost:3000'
 
-class Home extends Component {
+export default class Home extends Component {
 
     constructor(props) {
         super(props);
@@ -33,7 +33,7 @@ class Home extends Component {
             .then(response => response.json())
             .then((responseJson) => {
                 this.setState({
-                    responseText: responseJson.text
+                    responseText: responseJson.message
                 })
             })
             .catch(function(err) {
@@ -95,5 +95,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#BBBBBB'
     },
 });
-
-module.exports = Home;
