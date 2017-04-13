@@ -76,24 +76,26 @@ export default class Home extends Component {
 
     render() {
         return (
-          <MapView
-            style={styles.map}
-            region={this.state.mapRegion}
-            showsUserLocation={true}
-            followUserLocation={true}
-            onRegionChange={this.onRegionChange.bind(this)}>
-            <MapView.Marker
-              coordinate={{
-                latitude: (this.state.lastLat + 0.00050) || -36.82339,
-                longitude: (this.state.lastLong + 0.00050) || -73.03569,
-              }}>
-              <View>
-                <Text style={{color: '#000'}}>
-                  { this.state.lastLong } / { this.state.lastLat }
-                </Text>
-              </View>
-            </MapView.Marker>
-          </MapView>
+          <View style={styles.container}>
+            <MapView
+              style={styles.map}
+              region={this.state.mapRegion}
+              showsUserLocation={true}
+              followUserLocation={true}
+              onRegionChange={this.onRegionChange.bind(this)}>
+              <MapView.Marker
+                coordinate={{
+                  latitude: (this.state.lastLat + 0.00050) || -36.82339,
+                  longitude: (this.state.lastLong + 0.00050) || -73.03569,
+                }}>
+                <View>
+                  <Text style={{color: '#000'}}>
+                    { this.state.lastLong } / { this.state.lastLat }
+                  </Text>
+                </View>
+              </MapView.Marker>
+            </MapView>
+          </View>
         );
     }
 }
