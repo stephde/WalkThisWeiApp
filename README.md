@@ -29,6 +29,9 @@ Also have a look at the waffle.io [IssueBoard](https://waffle.io/stephde/WalkThi
 - run `react-native link`
 - run `react-native run-ios` in WalkThisWeiApp directory to start
 
+if you get an error like 'FSEventStreamStart: register_with_server: ERROR: f2d_register_rpc() => (null) (-22)'
+then run `brew install watchman`
+
 
 ## Set up for Android (MacOS and Windows)
 - installation process is described in the [react-native docs](https://facebook.github.io/react-native/releases/0.23/docs/android-setup.html)
