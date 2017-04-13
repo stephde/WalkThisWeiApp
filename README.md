@@ -25,7 +25,8 @@ Also have a look at the waffle.io [IssueBoard](https://waffle.io/stephde/WalkThi
 - run `react-native run-ios` in WalkThisWeiApp directory to start
 
 
-## Set up for Android on MacOS
+## Set up for Android (MacOS and Windows)
+- installation process is described in the [react-native docs](https://facebook.github.io/react-native/releases/0.23/docs/android-setup.html)
 - install android sdk
 - install android emulator (e.g. genymotion)
 - set ANDROID_HOME environment variable to sdk location
