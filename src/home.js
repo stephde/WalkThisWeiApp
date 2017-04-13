@@ -6,7 +6,7 @@
 
 
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import {
     StyleSheet,
     Text,
@@ -15,61 +15,8 @@ import {
 } from 'react-native';
 
 import ApiUtils from './apiUtils';
-
-let ApiUrl = 'http://localhost:3000'
-
-export default class Home extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            responseText: 'No request yet...'
-        };
-    }
-
-    callApi(requestParam) {
-        fetch(ApiUrl + '/sample?name=' + requestParam + '\'')
-            .then(ApiUtils.checkStatus)
-            .then(response => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    responseText: responseJson.message
-                })
-            })
-            .catch(function(err) {
-                console.log(err)
-                this.state.responseText = err
-            })
-            .done()
-    }
-
-    render() {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    Welcome WalkThisWei!
-                </Text>
-                <Text style={styles.instructions}>
-                    To get started click the button below
-                </Text>
-                <Button
-                    style={styles.button}
-                    title='Request API'
-                    onPress={() => this.callApi('WalkThisWeiApp')}
-                >
-
-                </Button>
-                <Text style={styles.instructions}>
-                    Press Cmd+R to reload,{'\n'} Cmd+D or shake for dev menu
-                </Text>
-                <Text style={styles.instructions}>
-                    {this.state.responseText}
-                </Text>
-            </View>
-        );
-    }
-}
-
+import { getAnnotations } from './actions';
+import { API_URL } from './constants/url.js';
 
 const styles = StyleSheet.create({
     container: {
@@ -95,3 +42,61 @@ const styles = StyleSheet.create({
         backgroundColor: '#BBBBBB'
     },
 });
+
+class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            responseText: 'No request yet...'
+        };
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.welcome}>
+                    Welcome WalkThisWei!
+                </Text>
+                <Text style={styles.instructions}>
+                    To get started click the button below
+                </Text>
+                <Button
+                    style={styles.button}
+                    title='Request API'
+                    onPress={() => this.props.onAnnotationsClick()}
+                />
+                <Text style={styles.instructions}>
+                    Press Cmd+R to reload,{'\n'} Cmd+D or shake for dev menu
+                </Text>
+                {   Object.keys(this.props.annotations)
+                    .map((a) =>
+                            <Text key={this.props.annotations[a]._id}>
+                                { this.props.annotations[a].description }
+                            </Text>
+                    )
+                }
+                <Text style={styles.instructions}>
+
+                </Text>
+            </View>
+        );
+    }
+}
+
+Home.propTypes = {
+    annotations: React.PropTypes.array,
+    onAnnotationsClick: React.PropTypes.func.isRequired
+}
+function mapStateToProps(state) {
+    return {
+        annotations: state.annotation.annotations
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        onAnnotationsClick: () => dispatch(getAnnotations()),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
