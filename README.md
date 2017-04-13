@@ -11,6 +11,7 @@ Also have a look at the waffle.io [IssueBoard](https://waffle.io/stephde/WalkThi
 - npm
 - any editor (e.g. Atom, IntelliJ)
 - any terminal (e.g. iTerm)
+- (for debugging install [react-native-debugger](https://github.com/jhen0409/react-native-debugger) on macOs `brew cask install react-native-debugger`)
 
 
 ## General Installation
