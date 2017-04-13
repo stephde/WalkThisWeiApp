@@ -25,7 +25,7 @@ var styles = StyleSheet.create({
     }
 });
 
-class Search extends Component {
+export default class Search extends Component {
     render() {
         return (
             <View style={styles.container}>
@@ -36,5 +36,3 @@ class Search extends Component {
         );
     }
 }
-
-module.exports = Search;
