@@ -45,3 +45,7 @@ All images are in the images subdirectory and styles are in CSS subdir
 - do not commit your node_modules directory
 - test if your code works and does not break any other functionality BEFORE committing
 - look for and manage tasks on the waffle.io board or in the github issues
+
+
+## Open App on IPhone, Android-Phone
+as described in the [react-native docs](https://facebook.github.io/react-native/docs/running-on-device.html)

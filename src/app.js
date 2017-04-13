@@ -19,12 +19,13 @@ export default class App extends Component {
     }
 
     navigateToTab(tab) {
+        console.log("getting current tab");
         this.setState({
             selectedTab: tab
         });
     }
 
-    getCurrentTab() {
+    renderCurrentTab() {
         console.log("getting current tab");
         switch (this.state.selectedTab) {
             case 'home': return (<Home />);
@@ -49,17 +50,17 @@ export default class App extends Component {
                     </Button>
                 </Header>
 
-                {this.getCurrentTab()}
+                {this.renderCurrentTab()}
 
                 <Footer>
                     <FooterTab>
-                        <Button onclick={() => this.navigateToTab('home')}>
+                        <Button onPress={() => this.navigateToTab('home')}>
                             <Icon name="apps" />
                         </Button>
-                        <Button onclick={() => this.navigateToTab('search')}>
+                        <Button onPress={() => this.navigateToTab('search')}>
                             <Icon name="person" />
                         </Button>
-                        <Button onclick={() => this.navigateToTab('map')}>
+                        <Button onPress={() => this.navigateToTab('map')}>
                             <Icon name="navigate" />
                         </Button>
                     </FooterTab>
