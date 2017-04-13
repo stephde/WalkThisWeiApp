@@ -19,6 +19,7 @@ Also have a look at the waffle.io [IssueBoard](https://waffle.io/stephde/WalkThi
 - `cd WalkThisWeiApp`
 - `npm install -g react-native-cli`
 - `npm install`
+- `react-native link`
 
 
 ## Set Up for IOS on MacOS
