@@ -14,6 +14,8 @@ import {
     View,
 } from 'react-native';
 
+import MapView from 'react-native-maps';
+
 import ApiUtils from './apiUtils';
 
 let ApiUrl = 'http://localhost:3000'
@@ -23,7 +25,10 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            responseText: 'No request yet...'
+            responseText: 'No request yet...',
+            mapRegion: null,
+            lastLat: null,
+            lastLong: null,
         };
     }
 
@@ -43,29 +48,54 @@ export default class Home extends Component {
             .done()
     }
 
+    componentDidMount() {
+      this.watchID = navigator.geolocation.watchPosition((position) => {
+        // Create the object to update this.state.mapRegion through the onRegionChange function
+        let region = {
+          latitude:       position.coords.latitude,
+          longitude:      position.coords.longitude,
+          latitudeDelta:  0.00922*1.5,
+          longitudeDelta: 0.00421*1.5
+        }
+        this.onRegionChange(region, region.latitude, region.longitude);
+      });
+    }
+
+    onRegionChange(region, lastLat, lastLong) {
+      this.setState({
+        mapRegion: region,
+        // If there are no new values set the current ones
+        lastLat: lastLat || this.state.lastLat,
+        lastLong: lastLong || this.state.lastLong
+      });
+    }
+
+    componentWillUnmount() {
+      navigator.geolocation.clearWatch(this.watchID);
+    }
+
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    Welcome WalkThisWei!
-                </Text>
-                <Text style={styles.instructions}>
-                    To get started click the button below
-                </Text>
-                <Button
-                    style={styles.button}
-                    title='Request API'
-                    onPress={() => this.callApi('WalkThisWeiApp')}
-                >
-
-                </Button>
-                <Text style={styles.instructions}>
-                    Press Cmd+R to reload,{'\n'} Cmd+D or shake for dev menu
-                </Text>
-                <Text style={styles.instructions}>
-                    {this.state.responseText}
-                </Text>
-            </View>
+          <View style={styles.container}>
+            <MapView
+              style={styles.map}
+              region={this.state.mapRegion}
+              showsUserLocation={true}
+              followUserLocation={true}
+              onRegionChange={this.onRegionChange.bind(this)}>
+              <MapView.Marker
+                coordinate={{
+                  latitude: (this.state.lastLat + 0.00050) || -36.82339,
+                  longitude: (this.state.lastLong + 0.00050) || -73.03569,
+                }}>
+                <View>
+                  <Text style={{color: '#000'}}>
+                    { this.state.lastLong } / { this.state.lastLat }
+                  </Text>
+                </View>
+              </MapView.Marker>
+            </MapView>
+          </View>
         );
     }
 }
@@ -77,6 +107,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
+    },
+    map: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
     },
     welcome: {
         fontSize: 20,
