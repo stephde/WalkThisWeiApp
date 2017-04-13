@@ -14,6 +14,8 @@ import {
     View,
 } from 'react-native';
 
+import MapView from 'react-native-maps';
+
 import ApiUtils from './apiUtils';
 
 let ApiUrl = 'http://localhost:3000'
@@ -45,27 +47,15 @@ export default class Home extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    Welcome WalkThisWei!
-                </Text>
-                <Text style={styles.instructions}>
-                    To get started click the button below
-                </Text>
-                <Button
-                    style={styles.button}
-                    title='Request API'
-                    onPress={() => this.callApi('WalkThisWeiApp')}
-                >
-
-                </Button>
-                <Text style={styles.instructions}>
-                    Press Cmd+R to reload,{'\n'} Cmd+D or shake for dev menu
-                </Text>
-                <Text style={styles.instructions}>
-                    {this.state.responseText}
-                </Text>
-            </View>
+              <MapView
+                style={ styles.map }
+                initialRegion={{
+                  latitude: 52.3923,
+                  longitude: 13.1239,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                }}
+              />
         );
     }
 }
@@ -77,6 +67,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
+    },
+    map: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
     },
     welcome: {
         fontSize: 20,
