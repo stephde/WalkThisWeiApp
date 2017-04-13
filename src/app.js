@@ -1,9 +1,8 @@
 
 import React, {Component} from 'react';
-import {TabBarIOS} from 'react-native'
-import {Container, Header, Button, Title} from 'native-base';
+import {Container, Header, Button, Title, Footer, FooterTab, Icon} from 'native-base';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+//import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Home from './home';
 import Search from './search';
@@ -20,9 +19,19 @@ export default class App extends Component {
     }
 
     navigateToTab(tab) {
+        console.log("getting current tab");
         this.setState({
             selectedTab: tab
         });
+    }
+
+    renderCurrentTab() {
+        console.log("getting current tab");
+        switch (this.state.selectedTab) {
+            case 'home': return (<Home />);
+            case 'search': return (<Search />);
+            case 'map': return (<Search />);
+        }
     }
 
     render() {
@@ -31,36 +40,31 @@ export default class App extends Component {
 
                 <Header>
                     <Button transparent>
-                        <Icon name="xing" />
+                        <Icon name="person" />
                     </Button>
 
                     <Title>WalkThisWei</Title>
 
                     <Button transparent>
-                        <Icon name="gear" />
+                        <Icon name="camera" />
                     </Button>
                 </Header>
 
-                <TabBarIOS selectedTab={this.state.selectedTab}>
-                    <Icon.TabBarItem
-                        title="Home"
-                        iconName="home"
-                        selectedIconName="home"
-                        selected={this.state.selectedTab === 'home'}
-                        onPress={() => this.navigateToTab('home')}
-                    >
-                        <Home/>
-                    </Icon.TabBarItem>
-                    <Icon.TabBarItem
-                        title="Search"
-                        iconName="search"
-                        selectedIconName="search"
-                        selected={this.state.selectedTab === 'search'}
-                        onPress={() => this.navigateToTab('search')}
-                    >
-                        <Search/>
-                    </Icon.TabBarItem>
-                </TabBarIOS>
+                {this.renderCurrentTab()}
+
+                <Footer>
+                    <FooterTab>
+                        <Button onPress={() => this.navigateToTab('home')}>
+                            <Icon name="apps" />
+                        </Button>
+                        <Button onPress={() => this.navigateToTab('search')}>
+                            <Icon name="person" />
+                        </Button>
+                        <Button onPress={() => this.navigateToTab('map')}>
+                            <Icon name="navigate" />
+                        </Button>
+                    </FooterTab>
+                </Footer>
 
             </Container>
         );
