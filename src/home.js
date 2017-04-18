@@ -67,8 +67,8 @@ class Home extends Component {
       this.watchID = navigator.geolocation.watchPosition((position) => {
         // Create the object to update this.state.mapRegion through the onRegionChange function
         let region = {
-          latitude:       52.392111, // position.coords.latitude
-          longitude:      13.119445, // position.coords.longitude
+          latitude:       position.coords.latitude,
+          longitude:      position.coords.longitude,
           latitudeDelta:  0.00922*1.5,
           longitudeDelta: 0.00421*1.5
         }
