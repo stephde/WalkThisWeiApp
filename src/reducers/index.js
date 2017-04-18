@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import blub from './blub';
+import annotation from './annotation';
 
 export default combineReducers({
-  blub
+  annotation
 });
