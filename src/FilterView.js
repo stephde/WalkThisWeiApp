@@ -1,8 +1,9 @@
 
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet } from 'react-native';
 import { View, Content, Container, List, ListItem, Text, CheckBox } from 'native-base';
-
+import { filterChanged } from './actions/index';
 
 var styles = {
     container: {
@@ -22,7 +23,7 @@ var styles = {
 };
 
 
-export default class FilterView extends Component {
+class FilterView extends Component {
 
     constructor(props) {
         super(props);
@@ -50,6 +51,9 @@ export default class FilterView extends Component {
         });
 
         this.setState(newState);
+
+        this.props.onFilterChanged(key);
+
     }
 
     _getFilters() {
@@ -82,3 +86,20 @@ export default class FilterView extends Component {
         );
     }
 }
+
+FilterView.propTypes = {
+    onFilterChanged: React.PropTypes.func
+}
+
+function mapStateToProps() {
+    return {}
+}
+
+function mapDispatchToProps(dispatch) {
+
+    return {
+        onFilterChanged: (key) => dispatch(filterChanged(key))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterView)

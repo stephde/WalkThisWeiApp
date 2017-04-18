@@ -30,14 +30,12 @@ export default class App extends Component {
     }
 
     navigateToTab(tab) {
-        console.log("getting current tab");
         this.setState({
             selectedTab: tab
         });
     }
 
     renderCurrentTab() {
-        console.log("getting current tab");
         switch (this.state.selectedTab) {
             case 'home': return (<Home />);
             case 'search': return (<FilterView />);
