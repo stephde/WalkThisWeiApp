@@ -14,7 +14,6 @@ export default function configureStore(onCompletion) {
   );
 
   const store = createStore(reducer, enhancer);
-  persistStore(store, { storage: AsyncStorage }, onCompletion);
 
   return store;
 }

@@ -6,7 +6,7 @@
 
 
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import {
     StyleSheet,
     Text,
@@ -17,35 +17,50 @@ import {
 import MapView from 'react-native-maps';
 
 import ApiUtils from './apiUtils';
+import { getAnnotations } from './actions';
+import { API_URL } from './constants/url.js';
 
-let ApiUrl = 'http://localhost:3000'
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#F5FCFF',
+    },
+    welcome: {
+      fontSize: 20,
+      textAlign: 'center',
+      margin: 10,
+    },
+    map: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    },
+    instructions: {
+      textAlign: 'center',
+      color: '#333333',
+      marginBottom: 5,
+    },
+    button: {
+      borderColor: '#2222AA',
+      borderWidth: 2,
+      borderStyle: 'solid',
+      backgroundColor: '#BBBBBB'
+    },
+});
 
-export default class Home extends Component {
-
+class Home extends Component {
     constructor(props) {
-        super(props);
-        this.state = {
-            responseText: 'No request yet...',
-            mapRegion: null,
-            lastLat: null,
-            lastLong: null,
-        };
-    }
-
-    callApi(requestParam) {
-        fetch(ApiUrl + '/sample?name=' + requestParam + '\'')
-            .then(ApiUtils.checkStatus)
-            .then(response => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    responseText: responseJson.message
-                })
-            })
-            .catch(function(err) {
-                console.log(err)
-                this.state.responseText = err
-            })
-            .done()
+      super(props);
+      this.state = {
+        responseText: 'No request yet...',
+        mapRegion: null,
+        lastLat: null,
+        lastLong: null,
+      };
     }
 
     componentDidMount() {
@@ -59,6 +74,7 @@ export default class Home extends Component {
         }
         this.onRegionChange(region, region.latitude, region.longitude);
       });
+      this.props.getAnnotations();
     }
 
     onRegionChange(region, lastLat, lastLong) {
@@ -74,61 +90,64 @@ export default class Home extends Component {
       navigator.geolocation.clearWatch(this.watchID);
     }
 
-    render() {
-        return (
-          <View style={styles.container}>
-            <MapView
-              style={styles.map}
-              region={this.state.mapRegion}
-              showsUserLocation={true}
-              followUserLocation={true}
-              onRegionChange={this.onRegionChange.bind(this)}>
-              <MapView.Marker
-                coordinate={{
-                  latitude: (this.state.lastLat + 0.00050) || -36.82339,
-                  longitude: (this.state.lastLong + 0.00050) || -73.03569,
-                }}>
-                <View>
-                  <Text style={{color: '#000'}}>
-                    { this.state.lastLong } / { this.state.lastLat }
-                  </Text>
-                </View>
-              </MapView.Marker>
-            </MapView>
-          </View>
+    _getMarkers() {
+      return Object.keys(this.props.annotations)
+        .map((a) =>
+          <MapView.Marker
+            key={this.props.annotations[a]._id}
+            coordinate={{
+              latitude: this.props.annotations[a].coordinates[0],
+              longitude: this.props.annotations[a].coordinates[1]
+            }}
+            title={this.props.annotations[a].title}
+            description={this.props.annotations[a].description}
+          />
         );
+    }
+
+    render() {
+      const markers = this._getMarkers();
+
+      return (
+        <View style={styles.container}>
+          <MapView
+            style={styles.map}
+            region={this.state.mapRegion}
+            showsUserLocation={true}
+            followUserLocation={true}
+            onRegionChange={this.onRegionChange.bind(this)}>
+            { markers }
+            <MapView.Marker
+              coordinate={{
+                latitude: (this.state.lastLat + 0.00050) || -36.82339,
+                longitude: (this.state.lastLong + 0.00050) || -73.03569,
+              }}>
+              <View>
+                <Text style={{color: '#000'}}>
+                  { this.state.lastLong } / { this.state.lastLat }
+                </Text>
+              </View>
+            </MapView.Marker>
+          </MapView>
+        </View>
+      );
     }
 }
 
+Home.propTypes = {
+    annotations: React.PropTypes.array,
+    getAnnotations: React.PropTypes.func.isRequired
+}
+function mapStateToProps(state) {
+    return {
+        annotations: state.annotation.annotations
+    };
+}
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    map: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-    button: {
-        borderColor: '#2222AA',
-        borderWidth: 2,
-        borderStyle: 'solid',
-        backgroundColor: '#BBBBBB'
-    },
-});
+function mapDispatchToProps(dispatch){
+    return {
+        getAnnotations: () => dispatch(getAnnotations()),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
