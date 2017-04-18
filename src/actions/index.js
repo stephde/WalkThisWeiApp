@@ -26,9 +26,9 @@ function getAnnotationsError (error) {
   };
 }
 
-export function getAnnotations() {
+export function getAnnotations(latitude, longitude) {
   return (dispatch) => {
-    dispatch(getAnnotationsStart());
+    dispatch(getAnnotationsByLocation(latitude,longitude));
     return getApi('/annotation')
       .then(json => {
         dispatch(getAnnotationsSuccess(json));

@@ -74,7 +74,7 @@ class Home extends Component {
         }
         this.onRegionChange(region, region.latitude, region.longitude);
       });
-      this.props.getAnnotations();
+      this.props.getAnnotations(position.coords.latitude, position.coords.longitude);
     }
 
     onRegionChange(region, lastLat, lastLong) {
@@ -146,7 +146,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch){
     return {
-        getAnnotations: () => dispatch(getAnnotations()),
+        getAnnotations: (latitude, longitude) => dispatch(getAnnotations(latitude, longitude)),
     };
 }
 
