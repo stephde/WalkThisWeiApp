@@ -3,7 +3,8 @@ import { API_URL } from '../constants/url.js';
 import {
   GET_ANNOTATIONS_START,
   GET_ANNOTATIONS_ERROR,
-  GET_ANNOTATIONS_SUCCESS
+  GET_ANNOTATIONS_SUCCESS,
+  FILTER_CHANGED
 } from '../constants/actionTypes.js';
 
 function getAnnotationsStart() {
@@ -35,5 +36,15 @@ export function getAnnotations() {
       }).catch((e) => {
         dispatch(getAnnotationsError(e));
       })
+  }
+}
+
+
+export function filterChanged(filterKey) {
+  return {
+    type: FILTER_CHANGED,
+    payload: {
+      filterKey: filterKey
+    }
   }
 }
