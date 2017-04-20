@@ -4,7 +4,7 @@ import {Container, Header, Button, Title, Footer, FooterTab, Icon} from 'native-
 
 //import Icon from 'react-native-vector-icons/FontAwesome';
 
-import Home from './home';
+import Home from './HomeContainer';
 import Search from './search';
 
 export default class App extends Component {

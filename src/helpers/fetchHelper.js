@@ -11,5 +11,5 @@ function getApi(path) {
 }
 
 export function getAnnotationsByLocation(latitude, longitude) {
-  return getApi(`/annotation?lat=${latitude}long=${longitude}`);
+  return getApi(`/annotations?lat=${latitude}&long=${longitude}`);
 }

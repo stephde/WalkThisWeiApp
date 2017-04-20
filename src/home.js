@@ -4,9 +4,7 @@
 
 'use strict';
 
-
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import {
     StyleSheet,
     Text,
@@ -15,10 +13,6 @@ import {
 } from 'react-native';
 
 import MapView from 'react-native-maps';
-
-import ApiUtils from './apiUtils';
-import { getAnnotations } from './actions';
-import { API_URL } from './constants/url.js';
 
 const styles = StyleSheet.create({
     container: {
@@ -52,38 +46,24 @@ const styles = StyleSheet.create({
     },
 });
 
-class Home extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        responseText: 'No request yet...',
-        mapRegion: null,
-        lastLat: null,
-        lastLong: null,
-      };
-    }
-
+export default class Home extends Component {
     componentDidMount() {
       this.watchID = navigator.geolocation.watchPosition((position) => {
         // Create the object to update this.state.mapRegion through the onRegionChange function
-        let region = {
-          latitude:       position.coords.latitude,
-          longitude:      position.coords.longitude,
+        this.props.getAnnotations(position.coords.latitude, position.coords.longitude);
+        const region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
           latitudeDelta:  0.00922*1.5,
-          longitudeDelta: 0.00421*1.5
+          longitudeDelta: 0.00421*1.5,
         }
-        this.onRegionChange(region, region.latitude, region.longitude);
+        this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
+        this.onRegionChange(region);
       });
-      this.props.getAnnotations(position.coords.latitude, position.coords.longitude);
     }
 
-    onRegionChange(region, lastLat, lastLong) {
-      this.setState({
-        mapRegion: region,
-        // If there are no new values set the current ones
-        lastLat: lastLat || this.state.lastLat,
-        lastLong: lastLong || this.state.lastLong
-      });
+    onRegionChange(region) {
+      this.props.onRegionChange(region);
     }
 
     componentWillUnmount() {
@@ -92,17 +72,26 @@ class Home extends Component {
 
     _getMarkers() {
       return Object.keys(this.props.annotations)
-        .map((a) =>
-          <MapView.Marker
-            key={this.props.annotations[a]._id}
-            coordinate={{
-              latitude: this.props.annotations[a].coordinates[0],
-              longitude: this.props.annotations[a].coordinates[1]
-            }}
-            title={this.props.annotations[a].title}
-            description={this.props.annotations[a].description}
-          />
-        );
+        .map((key) => {
+          const color = this.props.annotations[key].inDistance
+            ? "#FF0000"
+            : "#666666";
+          const description = this.props.annotations[key].inDistance
+            ? this.props.annotations[key].description
+            : "Zu weit weg du Spast! Beweg deinen Arsch hier her!";
+          return (
+            <MapView.Marker
+              key={this.props.annotations[key]._id}
+              coordinate={{
+                latitude: this.props.annotations[key].coordinates[0],
+                longitude: this.props.annotations[key].coordinates[1]
+              }}
+              title={this.props.annotations[key].title}
+              description={description}
+              pinColor={color}
+            />
+          );
+        });
     }
 
     render() {
@@ -111,20 +100,20 @@ class Home extends Component {
       return (
         <View style={styles.container}>
           <MapView
-            style={styles.map}
-            region={this.state.mapRegion}
+            style={ styles.map }
+            region={ this.props.mapRegion }
             showsUserLocation={true}
             followUserLocation={true}
-            onRegionChange={this.onRegionChange.bind(this)}>
+            onRegionChange={region => this.onRegionChange(region)}>
             { markers }
             <MapView.Marker
               coordinate={{
-                latitude: (this.state.lastLat + 0.00050) || -36.82339,
-                longitude: (this.state.lastLong + 0.00050) || -73.03569,
+                latitude: (this.props.mapRegion.latitude + 0.00050) || -36.82339,
+                longitude: (this.props.mapRegion.longitude + 0.00050) || -73.03569,
               }}>
               <View>
                 <Text style={{color: '#000'}}>
-                  { this.state.lastLong } / { this.state.lastLat }
+                  {`${this.props.mapRegion.longitude} / ${this.props.mapRegion.latitude}`}
                 </Text>
               </View>
             </MapView.Marker>
@@ -135,19 +124,11 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-    annotations: React.PropTypes.array,
-    getAnnotations: React.PropTypes.func.isRequired
-}
-function mapStateToProps(state) {
-    return {
-        annotations: state.annotation.annotations
-    };
+  annotations: React.PropTypes.array,
+  mapRegion: React.PropTypes.object,
+  getAnnotations: React.PropTypes.func.isRequired,
+  onUserLocationChange: React.PropTypes.func.isRequired,
+  onRegionChange: React.PropTypes.func.isRequired,
 }
 
-function mapDispatchToProps(dispatch){
-    return {
-        getAnnotations: (latitude, longitude) => dispatch(getAnnotations(latitude, longitude)),
-    };
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
