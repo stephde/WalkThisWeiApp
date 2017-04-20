@@ -58,7 +58,6 @@ export default class Home extends Component {
     componentDidMount() {
       this.watchID = navigator.geolocation.watchPosition((position) => {
         // Create the object to update this.state.mapRegion through the onRegionChange function
-        console.log('Got a location change');
         this.props.getAnnotations(position.coords.latitude, position.coords.longitude);
         const region = {
           latitude: position.coords.latitude,
