@@ -10,6 +10,12 @@ function getApi(path) {
     .then(response => response.json())
 }
 
-export function getAnnotationsByLocation(latitude, longitude) {
-  return getApi(`/annotations?lat=${latitude}&long=${longitude}`);
+export function getAnnotationsByLocation(latitude, longitude, categories) {
+
+  let query = `/annotations?lat=${latitude}&long=${longitude}`;
+
+  if(categories && categories.length > 0)
+    query += `&categories=${categories}`;
+
+  return getApi(query);
 }

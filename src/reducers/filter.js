@@ -3,9 +3,7 @@ import {
 } from '../constants/actionTypes.js';
 
 const initialState = {
-    filter: [],
-    loading: false,
-    error: null
+    categories: ["history", "nature"]
 };
 
 function removeItem(array, item){
@@ -17,12 +15,12 @@ function removeItem(array, item){
     }
 }
 
-export default function annotation(state = initialState, action) {
-    const filterKey = action.payload.filterKey;
+export default function filter(state = initialState, action) {
 
     switch(action.type) {
         case FILTER_CHANGED:
-            let newFilter = state.filter
+            const filterKey = action.payload.filterKey;
+            let newFilter = state.categories
             if(newFilter.includes(filterKey)) {
                 removeItem(newFilter, filterKey);
             } else {
@@ -30,7 +28,7 @@ export default function annotation(state = initialState, action) {
             }
             return {
                 ...state,
-                filter: newFilter
+                categories: newFilter
             };
 
         default:
