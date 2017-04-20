@@ -29,7 +29,7 @@ export default function annotation(state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        annotations: action.payload
+        annotations: action.payload.annotations
       };
     default:
       return state;
