@@ -3118,6 +3118,10 @@ react-devtools-core@^2.0.8:
     cross-env "^3.1.4"
     ws "^2.0.3"
 
+react-native-audio-streaming@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-audio-streaming/-/react-native-audio-streaming-2.3.2.tgz#3f25b61c13a8093d67001cdb5d458fc5a3185835"
+
 react-native-debugger-open@^0.3.5:
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/react-native-debugger-open/-/react-native-debugger-open-0.3.5.tgz#782d1de4bf1f8d4a038be5bdada29e1d95a8f251"

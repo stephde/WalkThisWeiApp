@@ -6,6 +6,7 @@ import {
   GET_ANNOTATIONS_SUCCESS,
   SET_REGION,
   SET_USER_LOCATION,
+  FILTER_CHANGED
 } from '../constants/actionTypes.js';
 
 function getAnnotationsStart() {
@@ -57,4 +58,13 @@ export function setUserLocation(latitude, longitude) {
       longitude: longitude
     }
   };
+}
+
+export function filterChanged(filterKey) {
+  return {
+    type: FILTER_CHANGED,
+    payload: {
+      filterKey: filterKey
+    }
+  }
 }

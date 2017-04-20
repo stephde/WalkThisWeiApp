@@ -1,14 +1,25 @@
 
 import React, {Component} from 'react';
+import { StyleSheet } from 'react-native';
 import {Container, Header, Button, Title, Footer, FooterTab, Icon} from 'native-base';
 
-//import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Home from './HomeContainer';
 import Search from './search';
+import FilterView from './FilterView';
+
+var styles = {
+    headerText: {
+        marginLeft: -10,
+        marginTop: 7,
+        fontSize: 23
+    },
+    menuButton: {
+        left: -80
+    }
+};
 
 export default class App extends Component {
-
 
     constructor(props) {
         super(props);
@@ -19,18 +30,16 @@ export default class App extends Component {
     }
 
     navigateToTab(tab) {
-        console.log("getting current tab");
         this.setState({
             selectedTab: tab
         });
     }
 
     renderCurrentTab() {
-        console.log("getting current tab");
         switch (this.state.selectedTab) {
             case 'home': return (<Home />);
-            case 'search': return (<Search />);
-            case 'map': return (<Search />);
+            case 'search': return (<FilterView />);
+            case 'sound': return (<Search />);
         }
     }
 
@@ -39,15 +48,13 @@ export default class App extends Component {
             <Container>
 
                 <Header>
-                    <Button transparent>
-                        <Icon name="person" />
+                    <Button transparent style={styles.menuButton}>
+                        <Icon name="menu" />
                     </Button>
 
-                    <Title>WalkThisWei</Title>
-
-                    <Button transparent>
-                        <Icon name="camera" />
-                    </Button>
+                    <Title style={styles.headerText}>
+                        WalkThisWei
+                    </Title>
                 </Header>
 
                 {this.renderCurrentTab()}
@@ -55,13 +62,13 @@ export default class App extends Component {
                 <Footer>
                     <FooterTab>
                         <Button onPress={() => this.navigateToTab('home')}>
-                            <Icon name="apps" />
+                            <Icon name="navigate" />
                         </Button>
                         <Button onPress={() => this.navigateToTab('search')}>
-                            <Icon name="person" />
+                            <Icon name="options" />
                         </Button>
-                        <Button onPress={() => this.navigateToTab('map')}>
-                            <Icon name="navigate" />
+                        <Button onPress={() => this.navigateToTab('sound')}>
+                            <Icon name="ios-musical-note" />
                         </Button>
                     </FooterTab>
                 </Footer>

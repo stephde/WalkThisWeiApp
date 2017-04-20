@@ -12,6 +12,7 @@ Also have a look at the waffle.io [IssueBoard](https://waffle.io/stephde/WalkThi
 - any editor (e.g. Atom, IntelliJ)
 - any terminal (e.g. iTerm)
 - (for debugging install [react-native-debugger](https://github.com/jhen0409/react-native-debugger) on macOs `brew cask install react-native-debugger`)
+- (on mac [homebrew](https://brew.sh/)) 
 
 
 ## General Installation
@@ -19,11 +20,17 @@ Also have a look at the waffle.io [IssueBoard](https://waffle.io/stephde/WalkThi
 - `cd WalkThisWeiApp`
 - `npm install -g react-native-cli`
 - `npm install`
+- `react-native link`
 
 
 ## Set Up for IOS on MacOS
 - install xcode
+- run `brew update && brew cask install react-native-debugger` to install the debugger
+- run `react-native link`
 - run `react-native run-ios` in WalkThisWeiApp directory to start
+
+if you get an error like 'FSEventStreamStart: register_with_server: ERROR: f2d_register_rpc() => (null) (-22)'
+then run `brew install watchman`
 
 
 ## Set up for Android (MacOS and Windows)

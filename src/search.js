@@ -12,6 +12,7 @@ import {
     Text,
     View,
 } from 'react-native';
+import { Player } from 'react-native-audio-streaming';
 
 var styles = StyleSheet.create({
     description: {
@@ -29,9 +30,7 @@ export default class Search extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.description}>
-                    Search Tab
-                </Text>
+               <Player url='https://storage.googleapis.com/walkthisei-audio/test.mp3' />
             </View>
         );
     }

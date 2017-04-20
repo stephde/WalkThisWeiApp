@@ -12,6 +12,7 @@
     "native-base": "^2.1.1",
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.0",
+    "react-native-audio-streaming": "^2.3.2",
     "react-native-maps": "^0.13.1",
     "react-native-vector-icons": "^4.0.0",
     "react-redux": "^5.0.4",
