@@ -11,7 +11,7 @@ import {
     Button,
     View,
 } from 'react-native';
-
+import { Player } from 'react-native-audio-streaming';
 import MapView from 'react-native-maps';
 
 const styles = StyleSheet.create({
@@ -20,6 +20,14 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: '#F5FCFF',
+    },
+    markerCallout: {
+      justifyContent: 'center',
+      alignItems: 'baseline',
+      flexDirection: 'row',
+      padding: 5,
+      height: 100,
+      width:100,
     },
     welcome: {
       fontSize: 20,
@@ -78,18 +86,29 @@ export default class Home extends Component {
             : "#666666";
           const description = this.props.annotations[key].inDistance
             ? this.props.annotations[key].description
-            : "Zu weit weg du Spast! Beweg deinen Arsch hier her!";
+            : "Too far away. Move closer to listen to the content!";
           return (
             <MapView.Marker
               key={this.props.annotations[key]._id}
               coordinate={{
-                latitude: this.props.annotations[key].coordinates[0],
-                longitude: this.props.annotations[key].coordinates[1]
+                longitude: this.props.annotations[key].coordinates[0],
+                latitude: this.props.annotations[key].coordinates[1],
               }}
               title={this.props.annotations[key].title}
               description={description}
               pinColor={color}
-            />
+            >
+              { this.props.annotations[key].inDistance &&
+                <MapView.Callout tooltip={false}>
+                  <View style={styles.markerCallout}>
+                    <Text style={{color: '#000'}}>
+                      {this.props.annotations[key].title}
+                    </Text>
+                    <Player url={this.props.annotations[key].url} />
+                  </View>
+                </MapView.Callout>
+              }
+            </MapView.Marker>
           );
         });
     }
@@ -106,17 +125,6 @@ export default class Home extends Component {
             followUserLocation={true}
             onRegionChange={region => this.onRegionChange(region)}>
             { markers }
-            <MapView.Marker
-              coordinate={{
-                latitude: (this.props.mapRegion.latitude + 0.00050) || -36.82339,
-                longitude: (this.props.mapRegion.longitude + 0.00050) || -73.03569,
-              }}>
-              <View>
-                <Text style={{color: '#000'}}>
-                  {`${this.props.mapRegion.longitude} / ${this.props.mapRegion.latitude}`}
-                </Text>
-              </View>
-            </MapView.Marker>
           </MapView>
         </View>
       );
