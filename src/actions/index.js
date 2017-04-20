@@ -1,9 +1,11 @@
-import { getApi } from '../helpers/fetchHelper.js';
+import { getAnnotationsByLocation } from '../helpers/fetchHelper.js';
 import { API_URL } from '../constants/url.js';
 import {
   GET_ANNOTATIONS_START,
   GET_ANNOTATIONS_ERROR,
   GET_ANNOTATIONS_SUCCESS,
+  SET_REGION,
+  SET_USER_LOCATION,
   FILTER_CHANGED
 } from '../constants/actionTypes.js';
 
@@ -27,10 +29,10 @@ function getAnnotationsError (error) {
   };
 }
 
-export function getAnnotations() {
+export function getAnnotations(latitude, longitude) {
   return (dispatch) => {
     dispatch(getAnnotationsStart());
-    return getApi('/annotation')
+    return getAnnotationsByLocation(latitude,longitude)
       .then(json => {
         dispatch(getAnnotationsSuccess(json));
       }).catch((e) => {
@@ -39,6 +41,24 @@ export function getAnnotations() {
   }
 }
 
+export function setRegion(region) {
+  return {
+    type: SET_REGION,
+    payload: {
+      mapRegion: region
+    }
+  };
+}
+
+export function setUserLocation(latitude, longitude) {
+  return {
+    type: SET_USER_LOCATION,
+    payload: {
+      latitude: latitude,
+      longitude: longitude
+    }
+  };
+}
 
 export function filterChanged(filterKey) {
   return {

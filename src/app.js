@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import {Container, Header, Button, Title, Footer, FooterTab, Icon} from 'native-base';
 
 
-import Home from './home';
+import Home from './HomeContainer';
 import Search from './search';
 import FilterView from './FilterView';
 
