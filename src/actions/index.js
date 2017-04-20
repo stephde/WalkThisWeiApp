@@ -30,9 +30,10 @@ function getAnnotationsError (error) {
 }
 
 export function getAnnotations(latitude, longitude) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(getAnnotationsStart());
-    return getAnnotationsByLocation(latitude,longitude)
+    const { filter } = getState();
+    return getAnnotationsByLocation(latitude, longitude, filter.categories)
       .then(json => {
         dispatch(getAnnotationsSuccess(json));
       }).catch((e) => {

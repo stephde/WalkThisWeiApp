@@ -29,10 +29,10 @@ class FilterView extends Component {
         super(props);
         this.state = {
             filters: {
-                history: {title: "History", checked: true},
-                personal: {title: "Personal", checked: true},
-                stories: {title: "Stories", checked: false},
-                nature: {title: "Nature", checked: false}
+                history: {title: "History"},
+                personal: {title: "Personal"},
+                stories: {title: "Stories"},
+                nature: {title: "Nature"}
             }
         };
     }
@@ -62,11 +62,11 @@ class FilterView extends Component {
                 let checkBox = this.state.filters[key]
                 return <ListItem
                                 onPress={() => this.checkBoxOnPress(key)}
-                                id={key}
+                                key={key}
                                 style={styles.listItem}>
                             <CheckBox
                                 onPress={() => this.checkBoxOnPress(key)}
-                                checked={checkBox.checked}
+                                checked={this.props.categories.includes(key)}
                                 style={styles.checkBox}/>
                             <Text>{checkBox.title}</Text>
                         </ListItem>
@@ -88,11 +88,14 @@ class FilterView extends Component {
 }
 
 FilterView.propTypes = {
+    categories: React.PropTypes.arrayOf(React.PropTypes.string),
     onFilterChanged: React.PropTypes.func
-}
+};
 
-function mapStateToProps() {
-    return {}
+function mapStateToProps(state) {
+    return {
+        categories: state.filter.categories
+    }
 }
 
 function mapDispatchToProps(dispatch) {
