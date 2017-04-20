@@ -16,9 +16,7 @@ import {
 
 import MapView from 'react-native-maps';
 
-import ApiUtils from './apiUtils';
 import { getAnnotations } from './actions';
-import { API_URL } from './constants/url.js';
 
 const styles = StyleSheet.create({
     container: {

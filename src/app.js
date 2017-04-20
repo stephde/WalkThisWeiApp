@@ -39,7 +39,7 @@ export default class App extends Component {
         switch (this.state.selectedTab) {
             case 'home': return (<Home />);
             case 'search': return (<FilterView />);
-            case 'map': return (<Search />);
+            case 'sound': return (<Search />);
         }
     }
 
@@ -62,13 +62,13 @@ export default class App extends Component {
                 <Footer>
                     <FooterTab>
                         <Button onPress={() => this.navigateToTab('home')}>
-                            <Icon name="apps" />
+                            <Icon name="navigate" />
                         </Button>
                         <Button onPress={() => this.navigateToTab('search')}>
-                            <Icon name="person" />
+                            <Icon name="options" />
                         </Button>
-                        <Button onPress={() => this.navigateToTab('map')}>
-                            <Icon name="navigate" />
+                        <Button onPress={() => this.navigateToTab('sound')}>
+                            <Icon name="ios-musical-note" />
                         </Button>
                     </FooterTab>
                 </Footer>
