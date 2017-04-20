@@ -21,6 +21,7 @@ function getComposedAnnotations(annotations, position){
 }
 
 function mapStateToProps(state) {
+  console.log(state);
   return {
     annotations: getComposedAnnotations(state.annotation.annotations, state.position.userLocation),
     mapRegion: state.position.mapRegion,

@@ -11,6 +11,7 @@ const initialState = {
 };
 
 export default function annotation(state = initialState, action) {
+  console.log(action);
   switch(action.type) {
     case GET_ANNOTATIONS_START:
       return {
