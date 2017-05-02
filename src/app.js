@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import {Container, Header, Button, Title, Footer, FooterTab, Icon} from 'native-base';
 
 
-import Home from './HomeContainer';
+import MapContainer from './components/map/MapContainer';
 import Search from './search';
 import FilterView from './FilterView';
 
@@ -24,7 +24,7 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'home',
+            selectedTab: 'map',
             responseText: 'No request yet...'
         };
     }
@@ -37,7 +37,7 @@ export default class App extends Component {
 
     renderCurrentTab() {
         switch (this.state.selectedTab) {
-            case 'home': return (<Home />);
+            case 'map': return (<MapContainer />);
             case 'search': return (<FilterView />);
             case 'sound': return (<Search />);
         }
@@ -61,7 +61,7 @@ export default class App extends Component {
 
                 <Footer>
                     <FooterTab>
-                        <Button onPress={() => this.navigateToTab('home')}>
+                        <Button onPress={() => this.navigateToTab('map')}>
                             <Icon name="navigate" />
                         </Button>
                         <Button onPress={() => this.navigateToTab('search')}>

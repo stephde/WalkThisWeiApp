@@ -1,7 +1,3 @@
-/**
- * Created by stephde on 04/04/2017.
- */
-
 'use strict';
 
 import React, { Component } from 'react';
@@ -11,50 +7,19 @@ import {
     Button,
     View,
 } from 'react-native';
-import { Player } from 'react-native-audio-streaming';
+import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming';
 import MapView from 'react-native-maps';
+import styles from './styles';
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
-    },
-    markerCallout: {
-      justifyContent: 'center',
-      alignItems: 'baseline',
-      flexDirection: 'row',
-      padding: 5,
-      height: 100,
-      width:100,
-    },
-    welcome: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 10,
-    },
-    map: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-    },
-    instructions: {
-      textAlign: 'center',
-      color: '#333333',
-      marginBottom: 5,
-    },
-    button: {
-      borderColor: '#2222AA',
-      borderWidth: 2,
-      borderStyle: 'solid',
-      backgroundColor: '#BBBBBB'
-    },
-});
 
-export default class Home extends Component {
+export default class Map extends Component {
+    constructor() {
+        super();
+        this.state = {
+            selectedSource: ""
+        };
+    }
+
     componentDidMount() {
       this.watchID = navigator.geolocation.watchPosition((position) => {
         // Create the object to update this.state.mapRegion through the onRegionChange function
@@ -97,6 +62,7 @@ export default class Home extends Component {
               title={this.props.annotations[key].title}
               description={description}
               pinColor={color}
+              onSelect={() => {this.handleOnMarkerPress(key);}}
             >
               { this.props.annotations[key].inDistance &&
                 <MapView.Callout tooltip={false}>
@@ -104,13 +70,20 @@ export default class Home extends Component {
                     <Text style={{color: '#000'}}>
                       {this.props.annotations[key].title}
                     </Text>
-                    <Player url={this.props.annotations[key].url} />
+                    <Player url={this.state.selectedSource} />
                   </View>
                 </MapView.Callout>
               }
             </MapView.Marker>
           );
         });
+    }
+
+    handleOnMarkerPress (key) {
+      if(this.state.selectedSource !== this.props.annotations[key].url) {
+        ReactNativeAudioStreaming.play(this.props.annotations[key].url, {});
+      }
+      this.setState({selectedSource: this.props.annotations[key].url});
     }
 
     render() {
@@ -131,12 +104,10 @@ export default class Home extends Component {
     }
 }
 
-Home.propTypes = {
+Map.propTypes = {
   annotations: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
   getAnnotations: React.PropTypes.func.isRequired,
   onUserLocationChange: React.PropTypes.func.isRequired,
   onRegionChange: React.PropTypes.func.isRequired,
 }
-
-
