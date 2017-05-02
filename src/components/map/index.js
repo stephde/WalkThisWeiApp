@@ -80,6 +80,9 @@ export default class Map extends Component {
     }
 
     handleOnMarkerPress (key) {
+      if(!this.props.annotations[key].inDistance) {
+        return;
+      }
       if(this.state.selectedSource !== this.props.annotations[key].url) {
         ReactNativeAudioStreaming.play(this.props.annotations[key].url, {});
       }
