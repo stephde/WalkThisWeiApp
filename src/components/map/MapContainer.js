@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Map from './index';
+import Map from './map';
 import {
   getAnnotations,
   setUserLocation,
