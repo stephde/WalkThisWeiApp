@@ -1,79 +1,40 @@
 
 import React, {Component} from 'react';
-import { StyleSheet } from 'react-native';
-import {Container, Header, Button, Title, Footer, FooterTab, Icon} from 'native-base';
-
+import { Icon } from 'native-base';
+import { Router, Scene } from 'react-native-router-flux';
 
 import MapContainer from './components/map/MapContainer';
 import Search from './search';
 import FilterView from './FilterView';
 
-var styles = {
-    headerText: {
-        marginLeft: -10,
-        marginTop: 7,
-        fontSize: 23
-    },
-    menuButton: {
-        left: -80
-    }
-};
-
 export default class App extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedTab: 'map',
-            responseText: 'No request yet...'
-        };
-    }
-
-    navigateToTab(tab) {
-        this.setState({
-            selectedTab: tab
-        });
-    }
-
-    renderCurrentTab() {
-        switch (this.state.selectedTab) {
-            case 'map': return (<MapContainer />);
-            case 'search': return (<FilterView />);
-            case 'sound': return (<Search />);
-        }
-    }
-
-    render() {
-        return (
-            <Container>
-
-                <Header>
-                    <Button transparent style={styles.menuButton}>
-                        <Icon name="menu" />
-                    </Button>
-
-                    <Title style={styles.headerText}>
-                        WalkThisWei
-                    </Title>
-                </Header>
-
-                {this.renderCurrentTab()}
-
-                <Footer>
-                    <FooterTab>
-                        <Button onPress={() => this.navigateToTab('map')}>
-                            <Icon name="navigate" />
-                        </Button>
-                        <Button onPress={() => this.navigateToTab('search')}>
-                            <Icon name="options" />
-                        </Button>
-                        <Button onPress={() => this.navigateToTab('sound')}>
-                            <Icon name="ios-musical-note" />
-                        </Button>
-                    </FooterTab>
-                </Footer>
-
-            </Container>
-        );
-    }
+  render() {
+    return (
+      <Router>
+        <Scene key="root">
+          <Scene key="tabbar" tabs={true} hideNavBar={true} tabBarStyle={{ backgroundColor: '#FFFFFF' }}>
+            <Scene
+              key="map"
+              component={MapContainer}
+              title="WalkThisWei"
+              initial
+              icon={() => <Icon name="navigate" />}
+            />
+            <Scene
+              key="filterView"
+              component={FilterView}
+              title="FilterView"
+              icon={() => <Icon name="options" />}
+            />
+            <Scene
+              key="search"
+              component={Search}
+              title="Search"
+              icon={() => <Icon name="ios-musical-note" />}
+            />
+          </Scene>
+        </Scene>
+      </Router>
+    );
+  }
 }
