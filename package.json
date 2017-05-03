@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "postinstall": "rndebugger-open"
+    "postinstall": "rndebugger-open && rm -rf node_modules/react-native-router-flux/node_modules"
   },
   "dependencies": {
     "module-resolver": "^1.0.0",
