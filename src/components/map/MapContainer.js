@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Home from './home';
+import Map from './map';
 import {
   getAnnotations,
   setUserLocation,
   setRegion
-} from './actions';
+} from '../../actions';
 
 function getComposedAnnotations(annotations, position){
   const currentPosition = Math.abs(position.latitude) + Math.abs(position.longitude)
@@ -35,4 +35,4 @@ function mapDispatchToProps(dispatch){
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Map)

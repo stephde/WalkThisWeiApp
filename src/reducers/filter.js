@@ -3,7 +3,7 @@ import {
 } from '../constants/actionTypes.js';
 
 const initialState = {
-    categories: ["history", "nature"]
+    categories: []
 };
 
 function removeItem(array, item){
