@@ -15,13 +15,6 @@ const OUT_DISTANCE_MARKER = require('../../../images/outDistanceMarker.png');
 import { Actions } from 'react-native-router-flux';
 
 export default class Map extends Component {
-    constructor() {
-        super();
-        this.state = {
-            selectedSource: ""
-        };
-    }
-
     componentDidMount() {
       this.watchID = navigator.geolocation.watchPosition((position) => {
         // Create the object to update this.state.mapRegion through the onRegionChange function
@@ -68,7 +61,6 @@ export default class Map extends Component {
 
     handleOnMarkerPress (key) {
       Actions.player({annotation: this.props.annotations[key]});
-      this.setState({selectedSource: this.props.annotations[key].url});
     }
 
     render() {
