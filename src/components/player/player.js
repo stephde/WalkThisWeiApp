@@ -51,7 +51,7 @@ export default class MarkerPlayer extends Component {
       return (
         <View style={{flex:0.5, alignItems:'flex-start'}}>
           <Button transparent onPress={() => this._onPlayerControllButtonPress()}>
-            <Icon name={this._getPlayerControlButton()} style={{fontSize: 50}}/>
+            <Icon name={this._getPlayerControlButton()} style={{fontSize: 50, color:'#FFFFFF'}}/>
           </Button>
         </View>
       );
@@ -63,8 +63,8 @@ export default class MarkerPlayer extends Component {
     return (
         <View style={styles.container}>
           <View style={{flex:0.5, alignItems:'center', justifyContent: 'flex-end'}}>
-            <Text>{this.props.annotation.title}</Text>
-            <Text>{this.props.annotation.description}</Text>
+            <Text style={{color: '#FFFFFF'}}>{this.props.annotation.title}</Text>
+            <Text style={{color: '#FFFFFF'}}>{this.props.annotation.description}</Text>
           </View>
           {this._renderPlayerControls()}
         </View>

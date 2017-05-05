@@ -13,8 +13,17 @@ import styles from './styles';
 const IN_DISTANCE_MARKER = require('../../../images/inDistanceMarker.png');
 const OUT_DISTANCE_MARKER = require('../../../images/outDistanceMarker.png');
 import { Actions } from 'react-native-router-flux';
+import Modal from 'react-native-modalbox';
+import MarkerPlayer from '../player/player';
 
 export default class Map extends Component {
+    constructor() {
+      super();
+      this.state = {
+        selectedAnnotation: ''
+      };
+    }
+
     componentDidMount() {
       this.watchID = navigator.geolocation.watchPosition((position) => {
         // Create the object to update this.state.mapRegion through the onRegionChange function
@@ -60,7 +69,8 @@ export default class Map extends Component {
     }
 
     handleOnMarkerPress (key) {
-      Actions.player({annotation: this.props.annotations[key]});
+      this.setState({selectedAnnotation: this.props.annotations[key]});
+      this.refs.modal1.open();
     }
 
     render() {
@@ -76,6 +86,13 @@ export default class Map extends Component {
             onRegionChange={region => this.onRegionChange(region)}>
             { markers }
           </MapView>
+          <Modal
+            style={{backgroundColor: 'rgba(155, 155, 155, 0.3)'}}
+            ref={"modal1"}
+            animationDuration={700}
+            swipeToClose={true}>
+            <MarkerPlayer annotation={this.state.selectedAnnotation}/>
+          </Modal>
         </View>
       );
     }
