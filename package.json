@@ -8,6 +8,7 @@
     "postinstall": "rndebugger-open && rm -rf node_modules/react-native-router-flux/node_modules"
   },
   "dependencies": {
+    "geolib": "^2.0.22",
     "module-resolver": "^1.0.0",
     "native-base": "^2.1.1",
     "react": "16.0.0-alpha.6",

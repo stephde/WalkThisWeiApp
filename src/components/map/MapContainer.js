@@ -6,13 +6,13 @@ import {
   setUserLocation,
   setRegion
 } from '../../actions';
+import geolib from 'geolib';
 
 function getComposedAnnotations(annotations, position){
   const currentPosition = Math.abs(position.latitude) + Math.abs(position.longitude)
   return annotations.map(annotation => {
-    const annotationPosition = Math.abs(annotation.coordinates[0]) + Math.abs(annotation.coordinates[1])
-    const difference = Math.abs(currentPosition - annotationPosition);
-    const inDistance = difference < 0.001;
+    var difference = geolib.getDistance(position, {latitude: annotation.coordinates[1], longitude: annotation.coordinates[0]});
+    var inDistance = difference < 200;
     return {
       ...annotation,
       inDistance

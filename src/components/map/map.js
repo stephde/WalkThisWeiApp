@@ -7,12 +7,12 @@ import {
     Button,
     View,
 } from 'react-native';
-import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming';
 import MapView from 'react-native-maps';
 import styles from './styles';
 
 const IN_DISTANCE_MARKER = require('../../../images/inDistanceMarker.png');
 const OUT_DISTANCE_MARKER = require('../../../images/outDistanceMarker.png');
+import { Actions } from 'react-native-router-flux';
 
 export default class Map extends Component {
     constructor() {
@@ -59,33 +59,15 @@ export default class Map extends Component {
                 longitude: this.props.annotations[key].coordinates[0],
                 latitude: this.props.annotations[key].coordinates[1],
               }}
-              title={this.props.annotations[key].title}
-              description={description}
               image={markerPicture}
               onSelect={() => {this.handleOnMarkerPress(key);}}
-            >
-              { this.props.annotations[key].inDistance &&
-                <MapView.Callout tooltip={false}>
-                  <View style={styles.markerCallout}>
-                    <Text style={{color: '#000'}}>
-                      {this.props.annotations[key].title}
-                    </Text>
-                    <Player url={this.state.selectedSource} />
-                  </View>
-                </MapView.Callout>
-              }
-            </MapView.Marker>
+            />
           );
         });
     }
 
     handleOnMarkerPress (key) {
-      if(!this.props.annotations[key].inDistance) {
-        return;
-      }
-      if(this.state.selectedSource !== this.props.annotations[key].url) {
-        ReactNativeAudioStreaming.play(this.props.annotations[key].url, {});
-      }
+      Actions.player({annotation: this.props.annotations[key]});
       this.setState({selectedSource: this.props.annotations[key].url});
     }
 

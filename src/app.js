@@ -4,6 +4,7 @@ import { Icon } from 'native-base';
 import { Router, Scene } from 'react-native-router-flux';
 
 import MapContainer from './components/map/MapContainer';
+import MarkerPlayer from './components/player/player';
 import Search from './search';
 import FilterView from './FilterView';
 
@@ -50,6 +51,13 @@ export default class App extends Component {
               icon={() => <Icon name="ios-musical-note" />}
             />
           </Scene>
+          <Scene
+            key="player"
+            component={MarkerPlayer}
+            title="Player"
+            direction="vertical"
+            schema="modal"
+            />
         </Scene>
       </Router>
     );
