@@ -11,6 +11,8 @@ import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming'
 import MapView from 'react-native-maps';
 import styles from './styles';
 
+const IN_DISTANCE_MARKER = require('../../../images/inDistanceMarker.png');
+const OUT_DISTANCE_MARKER = require('../../../images/outDistanceMarker.png');
 
 export default class Map extends Component {
     constructor() {
@@ -46,9 +48,7 @@ export default class Map extends Component {
     _getMarkers() {
       return Object.keys(this.props.annotations)
         .map((key) => {
-          const color = this.props.annotations[key].inDistance
-            ? "#FF0000"
-            : "#666666";
+          const markerPicture = this.props.annotations[key].inDistance ? IN_DISTANCE_MARKER : OUT_DISTANCE_MARKER;
           const description = this.props.annotations[key].inDistance
             ? this.props.annotations[key].description
             : "Too far away. Move closer to listen to the content!";
@@ -61,7 +61,7 @@ export default class Map extends Component {
               }}
               title={this.props.annotations[key].title}
               description={description}
-              pinColor={color}
+              image={markerPicture}
               onSelect={() => {this.handleOnMarkerPress(key);}}
             >
               { this.props.annotations[key].inDistance &&
