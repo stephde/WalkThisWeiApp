@@ -4,8 +4,7 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    Button,
-    View,
+    View
 } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './styles';
@@ -14,6 +13,7 @@ const IN_DISTANCE_MARKER = require('../../../images/inDistanceMarker.png');
 const OUT_DISTANCE_MARKER = require('../../../images/outDistanceMarker.png');
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
+import { Button, Icon } from 'native-base';
 import MarkerPlayer from '../player/player';
 
 export default class Map extends Component {
@@ -88,6 +88,9 @@ export default class Map extends Component {
             ref={"modal1"}
             animationDuration={700}
             swipeToClose={true}>
+            <Button transparent onPress={() => {this.refs.modal1.close();}}>
+              <Icon name="close-circle" style={{color: '#FFFFFF', fontSize: 25}}/>
+            </Button>
             <MarkerPlayer annotation={this.state.selectedAnnotation}/>
           </Modal>
         </View>
