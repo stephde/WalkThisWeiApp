@@ -49,14 +49,12 @@ export default class MarkerPlayer extends Component {
   _renderPlayerControls () {
     if (this.props.annotation.inDistance) {
       return (
-        <View style={{flex:0.5, alignItems:'flex-start'}}>
           <Button transparent onPress={() => this._onPlayerControllButtonPress()}>
             <Icon name={this._getPlayerControlButton()} style={{fontSize: 50, color:'#FFFFFF'}}/>
           </Button>
-        </View>
       );
     }
-    return (<View style={{flex:0.5, alignItems:'flex-start'}}/>);
+    return (<Text style={{color:'#FFFFFF', fontSize: 18}}>Too far away. Move closer to listen to the content!</Text>);
   }
 
   render() {
@@ -66,7 +64,9 @@ export default class MarkerPlayer extends Component {
             <Text style={{color: '#FFFFFF'}}>{this.props.annotation.title}</Text>
             <Text style={{color: '#FFFFFF'}}>{this.props.annotation.description}</Text>
           </View>
-          {this._renderPlayerControls()}
+          <View style={{flex:0.5, alignItems:'flex-start', paddingTop: 18}}>
+            {this._renderPlayerControls()}
+          </View>
         </View>
     );
   }

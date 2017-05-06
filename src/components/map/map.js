@@ -51,9 +51,6 @@ export default class Map extends Component {
       return Object.keys(this.props.annotations)
         .map((key) => {
           const markerPicture = this.props.annotations[key].inDistance ? IN_DISTANCE_MARKER : OUT_DISTANCE_MARKER;
-          const description = this.props.annotations[key].inDistance
-            ? this.props.annotations[key].description
-            : "Too far away. Move closer to listen to the content!";
           return (
             <MapView.Marker
               key={this.props.annotations[key]._id}
