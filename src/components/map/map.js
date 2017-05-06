@@ -84,12 +84,12 @@ export default class Map extends Component {
             { markers }
           </MapView>
           <Modal
-            style={{backgroundColor: 'rgba(155, 155, 155, 0.3)'}}
+            style={styles.modal}
             ref={"modal1"}
             animationDuration={700}
             swipeToClose={true}>
             <Button transparent onPress={() => {this.refs.modal1.close();}}>
-              <Icon name="close-circle" style={{color: '#FFFFFF', fontSize: 25}}/>
+              <Icon name="close-circle" style={Object.assign(styles.modalTextColor, styles.modalClosingButton)}/>
             </Button>
             <MarkerPlayer annotation={this.state.selectedAnnotation}/>
           </Modal>

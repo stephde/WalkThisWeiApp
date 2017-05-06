@@ -1,17 +1,11 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { Text, View} from 'react-native';
 import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming';
 import { Button, Icon} from 'native-base';
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-});
+import styles from './styles';
 
 export default class MarkerPlayer extends Component {
   constructor () {
@@ -50,19 +44,19 @@ export default class MarkerPlayer extends Component {
     if (this.props.annotation.inDistance) {
       return (
           <Button transparent onPress={() => this._onPlayerControllButtonPress()}>
-            <Icon name={this._getPlayerControlButton()} style={{fontSize: 50, color:'#FFFFFF'}}/>
+            <Icon name={this._getPlayerControlButton()} style={Object.assign({fontSize: 50}, styles.playerTextColor)}/>
           </Button>
       );
     }
-    return (<Text style={{color:'#FFFFFF', fontSize: 18}}>Too far away. Move closer to listen to the content!</Text>);
+    return (<Text style={Object.assign(styles.playerTextColor, {fontSize: 18})}>Too far away. Move closer to listen to the content!</Text>);
   }
 
   render() {
     return (
         <View style={styles.container}>
           <View style={{flex:0.5, alignItems:'center', justifyContent: 'flex-end'}}>
-            <Text style={{color: '#FFFFFF'}}>{this.props.annotation.title}</Text>
-            <Text style={{color: '#FFFFFF'}}>{this.props.annotation.description}</Text>
+            <Text style={styles.playerTextColor}>{this.props.annotation.title}</Text>
+            <Text style={styles.playerTextColor}>{this.props.annotation.description}</Text>
           </View>
           <View style={{flex:0.5, alignItems:'flex-start', paddingTop: 18}}>
             {this._renderPlayerControls()}
