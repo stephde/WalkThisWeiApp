@@ -60,9 +60,6 @@ export default class Map extends Component {
             onRegionChange={region => this.props.onRegionChange(region)}>
             { markers }
           </MapView>
-          <Button rounded onPress={Actions.userProfile} style={ styles.profileButton }>
-            <Text>Profile</Text>
-          </Button>
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>

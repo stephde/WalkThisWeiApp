@@ -1,7 +1,6 @@
-
 import React, {Component} from 'react';
 import { Icon, Text } from 'native-base';
-import { Router, Scene } from 'react-native-router-flux';
+import { Router, Scene, Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import MapContainer from './components/map/MapContainer';
 import UserStoriesContainer from './components/UserStoriesContainer';
@@ -14,6 +13,7 @@ import {
   setUserLocation,
   setRegion
 } from './actions';
+import Profile from './components/profile';
 
 const getSceneStyle = (props, computedProps) => {
   const style = {
@@ -38,6 +38,7 @@ class TabIcon extends React.Component {
         );
     }
 }
+import style from './styles';
 
 class App extends Component {
   componentDidMount() {
@@ -79,6 +80,9 @@ class App extends Component {
             title="WalkThisWei"
             hideTabBar
             initial
+            rightButtonImage={require('../images/user.png')}
+            rightButtonIconStyle={style.user}
+            onRight={() => Actions.profile()}
           />
           <Scene
             key="storyTabs"
@@ -110,9 +114,10 @@ class App extends Component {
             hideNavBar={false}
           />
           <Scene
-            key="userProfile"
-            title="User Profile"
-            component={UserProfile}
+            key="profile"
+            component={Profile}
+            hideNavBar={true}
+            direction='vertical'
           />
         </Scene>
       </Router>
@@ -133,5 +138,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(null,mapDispatchToProps)(App)
-
-
