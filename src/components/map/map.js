@@ -3,13 +3,13 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
-    Text,
-    Button,
     View,
 } from 'react-native';
 import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming';
 import MapView from 'react-native-maps';
 import styles from './styles';
+import { Button, Text } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
 
 export default class Map extends Component {
@@ -102,6 +102,12 @@ export default class Map extends Component {
             onRegionChange={region => this.onRegionChange(region)}>
             { markers }
           </MapView>
+          <Button rounded onPress={Actions.userProfile} style={ styles.profileButton }>
+            <Text>Profile</Text>
+          </Button>
+          <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
+            <Text>Stories</Text>
+          </Button>
         </View>
       );
     }
