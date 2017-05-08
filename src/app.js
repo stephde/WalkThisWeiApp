@@ -117,6 +117,7 @@ class App extends Component {
             key="profile"
             component={Profile}
             hideNavBar={true}
+            sceneStyle={{backgroundColor: '#70C8BE'}}
             direction='vertical'
           />
         </Scene>
