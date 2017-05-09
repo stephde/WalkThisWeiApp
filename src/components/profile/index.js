@@ -34,11 +34,11 @@ export default class Search extends Component {
           </View>
           <View style={{paddingTop: 16}}>
             <Text style={Object.assign({fontSize: 20}, styles.textColor)}>Contacts</Text>
-            <View style={{paddingTop: 16}}>
-              <Image style={{flex: 0.5}} source={require('../../../images/contactf.png')}/>
-            </View>
-            <View style={{paddingTop: 16}}>
-              <Image style={{flex: 0.5}} source={require('../../../images/contactm.png')}/>
+            <View style={{paddingTop: 16, flexDirection: 'row'}}>
+              <Image source={require('../../../images/contactf.png')}/>
+              <View style={{paddingLeft: 16}}>
+                <Text>Lauren</Text>
+              </View>
             </View>
           </View>
         </View>
