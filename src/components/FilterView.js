@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet } from 'react-native';
 import { View, Content, Container, List, ListItem, Text, CheckBox } from 'native-base';
-import { filterChanged } from './actions/index';
+import { filterChanged } from '../actions/index';
 
 var styles = {
     container: {
