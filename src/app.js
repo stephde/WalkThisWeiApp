@@ -6,8 +6,6 @@ import MapContainer from './components/map/MapContainer';
 import UserStoriesContainer from './components/UserStoriesContainer';
 import AllStoriesContainer from './components/AllStoriesContainer';
 import DetailedStoryContainer from './components/DetailedStoryContainer';
-import UserProfile from './components/UserProfile';
-import Search from './components/Search';
 import FilterView from './components/FilterView';
 import {
   setUserLocation,
