@@ -5,19 +5,6 @@ export default {
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  markerCallout: {
-    justifyContent: 'center',
-    alignItems: 'baseline',
-    flexDirection: 'row',
-    padding: 5,
-    height: 100,
-    width:100,
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
   map: {
     position: 'absolute',
     top: 0,
@@ -25,10 +12,14 @@ export default {
     right: 0,
     bottom: 0,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  modal: {
+    backgroundColor: 'rgba(155, 155, 155, 0.3)'
+  },
+  modalClosingButton: {
+     fontSize: 25
+  },
+  modalTextColor: {
+    color: '#FFFFFF'
   },
   button: {
     borderColor: '#2222AA',
@@ -39,12 +30,13 @@ export default {
   storiesButton: {
     position: 'absolute',
     bottom: 20,
-    right: 20
+    right: 20,
+    backgroundColor: '#70C8BE'
   },
   profileButton: {
     position: 'absolute',
     bottom: 20,
-    left: 20
+    left: 20,
+    backgroundColor: '#70C8BE'
   }
-
 }

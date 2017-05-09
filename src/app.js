@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react';
 import { Icon, Text } from 'native-base';
-import { Router, Scene, ActionConst } from 'react-native-router-flux';
+import { Router, Scene } from 'react-native-router-flux';
 
 import MapContainer from './components/map/MapContainer';
 import UserStoriesContainer from './components/UserStoriesContainer';

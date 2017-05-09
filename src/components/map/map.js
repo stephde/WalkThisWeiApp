@@ -3,21 +3,24 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
-    View,
+    View
 } from 'react-native';
-import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming';
 import MapView from 'react-native-maps';
 import styles from './styles';
-import { Button, Text } from 'native-base';
-import { Actions } from 'react-native-router-flux';
+import { Button, Text, Icon } from 'native-base';
 
+import { Actions } from 'react-native-router-flux';
+import Modal from 'react-native-modalbox';
+import MarkerPlayer from '../player/player';
+const IN_DISTANCE_MARKER = require('../../../images/inDistanceMarker.png');
+const OUT_DISTANCE_MARKER = require('../../../images/outDistanceMarker.png');
 
 export default class Map extends Component {
     constructor() {
-        super();
-        this.state = {
-            selectedSource: ""
-        };
+      super();
+      this.state = {
+        selectedAnnotation: ''
+      };
     }
 
     componentDidMount() {
@@ -46,12 +49,7 @@ export default class Map extends Component {
     _getMarkers() {
       return Object.keys(this.props.annotations)
         .map((key) => {
-          const color = this.props.annotations[key].inDistance
-            ? "#FF0000"
-            : "#666666";
-          const description = this.props.annotations[key].inDistance
-            ? this.props.annotations[key].description
-            : "Too far away. Move closer to listen to the content!";
+          const markerPicture = this.props.annotations[key].inDistance ? IN_DISTANCE_MARKER : OUT_DISTANCE_MARKER;
           return (
             <MapView.Marker
               key={this.props.annotations[key]._id}
@@ -59,34 +57,16 @@ export default class Map extends Component {
                 longitude: this.props.annotations[key].coordinates[0],
                 latitude: this.props.annotations[key].coordinates[1],
               }}
-              title={this.props.annotations[key].title}
-              description={description}
-              pinColor={color}
+              image={markerPicture}
               onSelect={() => {this.handleOnMarkerPress(key);}}
-            >
-              { this.props.annotations[key].inDistance &&
-                <MapView.Callout tooltip={false}>
-                  <View style={styles.markerCallout}>
-                    <Text style={{color: '#000'}}>
-                      {this.props.annotations[key].title}
-                    </Text>
-                    <Player url={this.state.selectedSource} />
-                  </View>
-                </MapView.Callout>
-              }
-            </MapView.Marker>
+            />
           );
         });
     }
 
     handleOnMarkerPress (key) {
-      if(!this.props.annotations[key].inDistance) {
-        return;
-      }
-      if(this.state.selectedSource !== this.props.annotations[key].url) {
-        ReactNativeAudioStreaming.play(this.props.annotations[key].url, {});
-      }
-      this.setState({selectedSource: this.props.annotations[key].url});
+      this.setState({selectedAnnotation: this.props.annotations[key]});
+      this.refs.modal1.open();
     }
 
     render() {
@@ -108,6 +88,16 @@ export default class Map extends Component {
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>
+          <Modal
+            style={styles.modal}
+            ref={"modal1"}
+            animationDuration={700}
+            swipeToClose={true}>
+            <Button transparent onPress={() => {this.refs.modal1.close();}}>
+              <Icon name="close-circle" style={Object.assign(styles.modalTextColor, styles.modalClosingButton)}/>
+            </Button>
+            <MarkerPlayer annotation={this.state.selectedAnnotation}/>
+          </Modal>
         </View>
       );
     }
