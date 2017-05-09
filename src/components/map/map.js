@@ -3,18 +3,17 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
-    Text,
     View
 } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from './styles';
+import { Button, Text, Icon } from 'native-base';
 
-const IN_DISTANCE_MARKER = require('../../../images/inDistanceMarker.png');
-const OUT_DISTANCE_MARKER = require('../../../images/outDistanceMarker.png');
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
-import { Button, Icon } from 'native-base';
 import MarkerPlayer from '../player/player';
+const IN_DISTANCE_MARKER = require('../../../images/inDistanceMarker.png');
+const OUT_DISTANCE_MARKER = require('../../../images/outDistanceMarker.png');
 
 export default class Map extends Component {
     constructor() {
@@ -83,6 +82,12 @@ export default class Map extends Component {
             onRegionChange={region => this.onRegionChange(region)}>
             { markers }
           </MapView>
+          <Button rounded onPress={Actions.userProfile} style={ styles.profileButton }>
+            <Text>Profile</Text>
+          </Button>
+          <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
+            <Text>Stories</Text>
+          </Button>
           <Modal
             style={styles.modal}
             ref={"modal1"}

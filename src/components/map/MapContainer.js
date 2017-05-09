@@ -11,8 +11,8 @@ import geolib from 'geolib';
 function getComposedAnnotations(annotations, position){
   const currentPosition = Math.abs(position.latitude) + Math.abs(position.longitude)
   return annotations.map(annotation => {
-    var difference = geolib.getDistance(position, {latitude: annotation.coordinates[1], longitude: annotation.coordinates[0]});
-    var inDistance = difference < 200;
+    const difference = geolib.getDistance(position, {latitude: annotation.coordinates[1], longitude: annotation.coordinates[0]});
+    const inDistance = difference < 200;
     return {
       ...annotation,
       inDistance

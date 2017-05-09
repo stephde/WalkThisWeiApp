@@ -1,9 +1,9 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Text, View} from 'react-native';
-import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming';
-import { Button, Icon} from 'native-base';
+import { View } from 'react-native';
+import { ReactNativeAudioStreaming } from 'react-native-audio-streaming';
+import { Button, Icon, Text} from 'native-base';
 
 import styles from './styles';
 

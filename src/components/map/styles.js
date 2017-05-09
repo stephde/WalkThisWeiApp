@@ -20,5 +20,23 @@ export default {
   },
   modalTextColor: {
     color: '#FFFFFF'
+  },
+  button: {
+    borderColor: '#2222AA',
+    borderWidth: 2,
+    borderStyle: 'solid',
+    backgroundColor: '#BBBBBB'
+  },
+  storiesButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: '#70C8BE'
+  },
+  profileButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    backgroundColor: '#70C8BE'
   }
 }
