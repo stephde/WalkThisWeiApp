@@ -7,7 +7,7 @@ import { Actions } from 'react-native-router-flux';
 
 import styles from './styles';
 
-export default class Search extends Component {
+export default class Profile extends Component {
   constructor() {
     super();
     this.state = {
@@ -35,8 +35,8 @@ export default class Search extends Component {
           <View key={contact.id} style={{paddingTop: 16, flexDirection: 'row'}}>
             <Image source={contact.image}/>
             <View style={{paddingLeft: 16, flex: 1, justifyContent: 'center'}}>
-              <Text style={Object.assign(styles.otherFontSize, styles.textColor)}>{contact.name}</Text>
-              <Text style={Object.assign(styles.otherFontSize, styles.textColor)}>{contact.contactPlace}</Text>
+              <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>{contact.name}</Text>
+              <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>{contact.contactPlace}</Text>
             </View>
             <View>
               <Icon name='ios-call-outline' style={Object.assign({fontSize: 40}, styles.textColor)}/>
@@ -61,18 +61,18 @@ export default class Search extends Component {
         </View>
         <View style={{paddingLeft: 16, paddingRight: 16}}>
           <View>
-            <Text style={Object.assign(styles.titleFontSize, styles.textColor)}>Earned Badges</Text>
+            <Text style={Object.assign({}, styles.titleFontSize, styles.textColor)}>Earned Badges</Text>
             <View style={{paddingTop: 8}}>
               <Image source={require('../../../images/badge.png')}/>
             </View>
           </View>
           <View style={{paddingTop: 16}}>
             <Text style={Object.assign({paddingBottom: 16}, styles.titleFontSize, styles.textColor)}>Walking Stats</Text>
-            <Text style={Object.assign(styles.otherFontSize, styles.textColor)}>Today’s Distance: 5km (1 h)</Text>
-            <Text style={Object.assign(styles.otherFontSize, styles.textColor)}>Weekly Distance: 12km (8:20h)</Text>
+            <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>Today’s Distance: 5km (1 h)</Text>
+            <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>Weekly Distance: 12km (8:20h)</Text>
           </View>
           <View style={{paddingTop: 16}}>
-            <Text style={Object.assign(styles.titleFontSize, styles.textColor)}>Contacts</Text>
+            <Text style={Object.assign({}, styles.titleFontSize, styles.textColor)}>Contacts</Text>
             { contacts }
           </View>
         </View>

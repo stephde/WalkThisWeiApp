@@ -7,11 +7,11 @@ import UserStoriesContainer from './components/UserStoriesContainer';
 import AllStoriesContainer from './components/AllStoriesContainer';
 import DetailedStoryContainer from './components/DetailedStoryContainer';
 import FilterView from './components/FilterView';
+import Profile from './components/profile/Profile';
 import {
   setUserLocation,
   setRegion
 } from './actions';
-import Profile from './components/profile';
 
 const getSceneStyle = (props, computedProps) => {
   const style = {
