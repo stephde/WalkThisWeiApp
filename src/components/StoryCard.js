@@ -24,6 +24,9 @@ const styles = {
     flex: 1,
     width: 400,
     height: 150
+  },
+  button: {
+    backgroundColor: '#70C8BE'
   }
 }
 
@@ -54,7 +57,7 @@ export default function StoryCard(props) {
         </Left>
         <Right>
           <Body>
-            <Button rounded>
+            <Button rounded style={styles.button}>
               <Text>Start</Text>
             </Button>
           </Body>

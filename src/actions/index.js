@@ -1,43 +1,63 @@
-import { getAnnotationsByLocation } from '../helpers/fetchHelper.js';
+import {
+  fetchStoriesByLocation,
+  fetchStoriesById,
+  fetchUserById
+} from '../helpers/fetchHelper.js';
 import { API_URL } from '../constants/url.js';
 import {
-  GET_ANNOTATIONS_START,
-  GET_ANNOTATIONS_ERROR,
-  GET_ANNOTATIONS_SUCCESS,
+  GET_USER_START,
+  GET_USER_ERROR,
+  GET_USER_SUCCESS,
+  GET_STORIES_START,
+  GET_STORIES_ERROR,
+  GET_STORIES_SUCCESS,
   SET_REGION,
   SET_USER_LOCATION,
   FILTER_CHANGED
 } from '../constants/actionTypes.js';
 
-function getAnnotationsStart() {
-  return {
-    type: GET_ANNOTATIONS_START
-  };
-}
+const getUserStart = () => ({ type: GET_USER_START });
+const getUserSuccess = json => ({ type: GET_USER_SUCCESS, payload: json });
+const getUserError = error => ({ type: GET_USER_ERROR, payload: error });
 
-function getAnnotationsSuccess (json) {
-  return {
-    type: GET_ANNOTATIONS_SUCCESS,
-    payload: json
-  };
-}
 
-function getAnnotationsError (error) {
-  return {
-    type: GET_ANNOTATIONS_ERROR,
-    payload: error
-  };
-}
-
-export function getAnnotations(latitude, longitude) {
-  return (dispatch, getState) => {
-    dispatch(getAnnotationsStart());
-    const { filter } = getState();
-    return getAnnotationsByLocation(latitude, longitude, filter.categories)
+export function getUser(userId) {
+  return (dispatch) => {
+    dispatch(getUserStart());
+    return fetchUserById(userId)
       .then(json => {
-        dispatch(getAnnotationsSuccess(json));
+        dispatch(getUserSuccess(json));
       }).catch((e) => {
-        dispatch(getAnnotationsError(e));
+        dispatch(getUserError(e));
+      })
+  }
+}
+
+const getStoriesStart = () => ({ type: GET_STORIES_START });
+const getStoriesSuccess = (json) => ({ type: GET_STORIES_SUCCESS, payload: json });
+const getStoriesError = (error) => ({ type: GET_STORIES_ERROR, payload: error });
+
+export function getStoriesByLocation(latitude, longitude) {
+  return (dispatch, getState) => {
+    dispatch(getStoriesStart());
+    const { filter } = getState();
+    return fetchStoriesByLocation(latitude, longitude, filter.categories)
+      .then(json => {
+        dispatch(getStoriesSuccess(json));
+      }).catch((e) => {
+        dispatch(getStoriesError(e));
+      })
+  }
+}
+
+export function getStoriesById(storyId) {
+  return (dispatch) => {
+    dispatch(getStoriesStart());
+    return fetchStoriesById(storyId)
+      .then(json => {
+        dispatch(getStoriesSuccess(json));
+      }).catch((e) => {
+        dispatch(getStoriesError(e));
       })
   }
 }
