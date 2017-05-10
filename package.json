@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "geolib": "^2.0.22",
+    "lodash.get": "^4.4.2",
     "module-resolver": "^1.0.0",
     "native-base": "^2.1.1",
     "react": "16.0.0-alpha.6",

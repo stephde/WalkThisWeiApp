@@ -6,6 +6,7 @@ import {
     View
 } from 'react-native';
 import MapView from 'react-native-maps';
+import isEqual from 'lodash.isequal';
 import styles from './styles';
 import { Button, Text, Icon } from 'native-base';
 
@@ -21,29 +22,6 @@ export default class Map extends Component {
       this.state = {
         selectedAnnotation: ''
       };
-    }
-
-    componentDidMount() {
-      this.watchID = navigator.geolocation.watchPosition((position) => {
-        // Create the object to update this.state.mapRegion through the onRegionChange function
-        this.props.getAnnotations(position.coords.latitude, position.coords.longitude);
-        const region = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          latitudeDelta:  0.00922*1.5,
-          longitudeDelta: 0.00421*1.5,
-        }
-        this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
-        this.onRegionChange(region);
-      });
-    }
-
-    onRegionChange(region) {
-      this.props.onRegionChange(region);
-    }
-
-    componentWillUnmount() {
-      navigator.geolocation.clearWatch(this.watchID);
     }
 
     _getMarkers() {
@@ -79,7 +57,7 @@ export default class Map extends Component {
             region={ this.props.mapRegion }
             showsUserLocation={true}
             followUserLocation={true}
-            onRegionChange={region => this.onRegionChange(region)}>
+            onRegionChange={region => this.props.onRegionChange(region)}>
             { markers }
           </MapView>
           <Button rounded onPress={Actions.userProfile} style={ styles.profileButton }>
@@ -106,7 +84,5 @@ export default class Map extends Component {
 Map.propTypes = {
   annotations: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
-  getAnnotations: React.PropTypes.func.isRequired,
-  onUserLocationChange: React.PropTypes.func.isRequired,
-  onRegionChange: React.PropTypes.func.isRequired,
+  onRegionChange: React.PropTypes.func,
 }

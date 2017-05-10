@@ -4,18 +4,29 @@ function getApi(path) {
   return fetch(API_URL + path)
     .then(response => {
       if (response.status < 200 || response.status >=300 )
-        return Promise.reject('Error')
+        return Promise.reject(new Error('Error! Response Status not 2xx'))
       else return response;
     })
     .then(response => response.json())
 }
 
-export function getAnnotationsByLocation(latitude, longitude, categories) {
+export function fetchUserById(userId) {
+  let query = `/users/${userId}`;
 
-  let query = `/annotations?lat=${latitude}&long=${longitude}`;
+  return getApi(query);
+}
+
+export function fetchStoriesByLocation(latitude, longitude, categories = null) {
+  let query = `/stories?lat=${latitude}&long=${longitude}`;
 
   if(categories && categories.length > 0)
     query += `&categories=${categories}`;
+
+  return getApi(query);
+}
+
+export function fetchStoriesById(storyId) {
+  let query = `/stories/${storyId}`;
 
   return getApi(query);
 }

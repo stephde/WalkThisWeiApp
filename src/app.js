@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import { Icon, Text } from 'native-base';
 import { Router, Scene } from 'react-native-router-flux';
-
+import { connect } from 'react-redux';
 import MapContainer from './components/map/MapContainer';
 import UserStoriesContainer from './components/UserStoriesContainer';
 import AllStoriesContainer from './components/AllStoriesContainer';
@@ -10,7 +10,10 @@ import DetailedStoryContainer from './components/DetailedStoryContainer';
 import UserProfile from './components/UserProfile';
 import Search from './components/Search';
 import FilterView from './components/FilterView';
-
+import {
+  setUserLocation,
+  setRegion
+} from './actions';
 
 const getSceneStyle = (props, computedProps) => {
   const style = {
@@ -36,11 +39,40 @@ class TabIcon extends React.Component {
     }
 }
 
-export default class App extends Component {
+class App extends Component {
+  componentDidMount() {
+    this.watchID = navigator.geolocation.watchPosition((position) => {
+      // Create the object to update this.state.mapRegion through the onRegionChange function
+      const region = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta:  0.00922*1.5,
+        longitudeDelta: 0.00421*1.5,
+      }
+      this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
+      this.props.onRegionChange(region);
+    });
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+
   render() {
     return (
-      <Router getSceneStyle={getSceneStyle}>
-        <Scene key="root">
+      <Router
+        getSceneStyle={getSceneStyle}
+        titleStyle={{
+          color: 'white'
+        }}
+        navigationBarStyle={{
+          backgroundColor: '#70C8BE',
+        }}
+        barButtonIconStyle={{ tintColor: 'white' }}
+      >
+        <Scene
+          key="root"
+        >
           <Scene
             key="map"
             component={MapContainer}
@@ -50,6 +82,12 @@ export default class App extends Component {
           />
           <Scene
             key="storyTabs"
+            tabBarStyle={{
+              backgroundColor: '#70C8BE',
+            }}
+            tabTitleStyle={{
+              color: 'white'
+            }}
             tabs
           >
             <Scene
@@ -81,3 +119,19 @@ export default class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  onRegionChange: React.PropTypes.func,
+  onUserLocationChange: React.PropTypes.func,
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onRegionChange: (region) => dispatch(setRegion(region)),
+    onUserLocationChange: (latitude, longitude) => dispatch(setUserLocation(latitude, longitude))
+  };
+}
+
+export default connect(null,mapDispatchToProps)(App)
+
+

@@ -11,9 +11,13 @@ export default class UserStoriesContainer extends Component {
     return (
       <Container>
         <Content>
-          <H3>Active Stories</H3>
+          <H3 style={{margin: 10}}>
+            Active Stories
+          </H3>
           <StoryCard />
-          <H3>Completed Stories</H3>
+          <H3 style={{margin: 10}}>
+            Completed Stories
+          </H3>
           <StoryCard />
           <StoryCard />
         </Content>

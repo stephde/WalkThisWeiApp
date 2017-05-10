@@ -1,15 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Map from './map';
+import MapWrapper from './MapWrapper';
 import {
-  getAnnotations,
-  setUserLocation,
-  setRegion
+  setRegion,
+  getUser,
+  getStoriesById
 } from '../../actions';
 import geolib from 'geolib';
 
+function getVisibleAnnotations(stories, user) {
+  if (!user || !stories) return [];
+  if (!user.activeStoryId) return [];
+
+  // make dynamic, when we get actual activeStoryId + ChapterProgress!
+  return stories[user.activeStoryId]
+    ? stories[user.activeStoryId].chapters[0].subChapters
+    : [];
+}
+
 function getComposedAnnotations(annotations, position){
   const currentPosition = Math.abs(position.latitude) + Math.abs(position.longitude)
+
   return annotations.map(annotation => {
     const difference = geolib.getDistance(position, {latitude: annotation.coordinates[1], longitude: annotation.coordinates[0]});
     const inDistance = difference < 200;
@@ -21,18 +32,21 @@ function getComposedAnnotations(annotations, position){
 }
 
 function mapStateToProps(state) {
+  const annotations = getVisibleAnnotations(state.stories.data, state.users.data);
+
   return {
-    annotations: getComposedAnnotations(state.annotation.annotations, state.position.userLocation),
+    annotations: getComposedAnnotations(annotations, state.position.userLocation),
     mapRegion: state.position.mapRegion,
+    currentUser: state.users.data,
   };
 }
 
 function mapDispatchToProps(dispatch){
   return {
-    getAnnotations: (latitude, longitude) => dispatch(getAnnotations(latitude, longitude)),
     onRegionChange: (region) => dispatch(setRegion(region)),
-    onUserLocationChange: (latitude, longitude) => dispatch(setUserLocation(latitude, longitude)),
+    getCurrentUser: (userId) => dispatch(getUser(userId)),
+    getCurrentStory: (storyId) => dispatch(getStoriesById(storyId))
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Map)
+export default connect(mapStateToProps, mapDispatchToProps)(MapWrapper)
