@@ -36,6 +36,7 @@ export default class Map extends Component {
                 latitude: this.props.annotations[key].coordinates[1],
               }}
               image={markerPicture}
+              onPress={() => {this.handleOnMarkerPress(key);}}
               onSelect={() => {this.handleOnMarkerPress(key);}}
             />
           );
