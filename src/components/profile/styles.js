@@ -6,6 +6,9 @@ export default {
     color: '#FFFFFF',
     fontSize: 30
   },
+  otherFontSize: {
+    fontSize: 18
+  },
   user: {
     width: 120,
     height: 120,
@@ -13,5 +16,8 @@ export default {
   },
   textColor: {
     color: '#FFFFFF'
+  },
+  titleFontSize: {
+    fontSize: 20
   }
 }
