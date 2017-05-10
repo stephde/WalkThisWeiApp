@@ -6,6 +6,8 @@ import { Button, Container, Form, Input, Item, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import PhoneInput from 'react-native-phone-input'
+import { connect } from 'react-redux';
+import { setUser } from '../../actions/';
 
 // import styles from './styles';
 class InputPhone extends Component {
@@ -29,9 +31,11 @@ class InputPhone extends Component {
   }
 }
 
+class Login extends Component {
+  onLogin() {
+    this.props.setUser("test");
+  }
 
-
-export default class Login extends Component {
   render() {
     return (
       <Container style={{alignItems: 'center', justifyContent: 'center', backgroundColor: '#70C8BE', paddingTop: 20}}>
@@ -44,7 +48,7 @@ export default class Login extends Component {
           </Row>
           <Row size={30} style={{alignItems: 'center', justifyContent: 'center'}}>
             <View>
-              <Button transparent style={{borderWidth: 3, borderColor: '#FFFFFF', borderRadius: 99, height: 70, width: 170, justifyContent: 'center'}}>
+              <Button transparent style={{borderWidth: 3, borderColor: '#FFFFFF', borderRadius: 99, height: 70, width: 170, justifyContent: 'center'}} onPress={() => {this.onLogin();}}>
                 <Text style={{fontSize: 22, color: '#FFFFFF'}}>Login</Text>
               </Button>
             </View>
@@ -54,3 +58,13 @@ export default class Login extends Component {
     );
   }
 }
+
+function bindActions(dispatch) {
+  return {
+    setUser: name => dispatch(setUser(name))
+  };
+}
+
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, bindActions)(Login);

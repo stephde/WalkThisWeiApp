@@ -1,5 +1,6 @@
 export const SET_REGION = "SET_REGION";
 export const SET_USER_LOCATION = "SET_USER_LOCATION";
+export const SET_USER = "SET_USER";
 
 export const GET_USER_START = "GET_USER_START";
 export const GET_USER_ERROR = "GET_USER_ERROR";

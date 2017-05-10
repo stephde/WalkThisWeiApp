@@ -12,6 +12,7 @@ import {
   GET_STORIES_ERROR,
   GET_STORIES_SUCCESS,
   SET_REGION,
+  SET_USER,
   SET_USER_LOCATION,
   FILTER_CHANGED
 } from '../constants/actionTypes.js';
@@ -67,6 +68,15 @@ export function setRegion(region) {
     type: SET_REGION,
     payload: {
       mapRegion: region
+    }
+  };
+}
+
+export function setUser(userId) {
+  return {
+    type: SET_USER,
+    payload: {
+      userId: userId
     }
   };
 }

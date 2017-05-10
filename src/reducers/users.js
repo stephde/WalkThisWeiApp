@@ -1,7 +1,8 @@
 import {
   GET_USER_START,
   GET_USER_ERROR,
-  GET_USER_SUCCESS
+  GET_USER_SUCCESS,
+  SET_USER
 } from '../constants/actionTypes.js';
 
 const initialState = {
@@ -30,6 +31,11 @@ export default function users(state = initialState, action) {
         loading: false,
         error: null,
         data: action.payload
+      };
+    case SET_USER:
+      return {
+        ...state,
+        userId: action.payload.userId
       };
     default:
       return state;
