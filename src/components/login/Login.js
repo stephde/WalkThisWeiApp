@@ -27,7 +27,7 @@ class InputPhone extends Component {
           </View>
         </View>
       </Form>
-  );
+    );
   }
 }
 
