@@ -9,6 +9,7 @@ import PhoneInput from 'react-native-phone-input'
 import { connect } from 'react-redux';
 import { login } from '../../actions/';
 import DeviceInfo from 'react-native-device-info';
+import SplashScreen from '../splashscreen/SplashScreen'
 
 class Login extends Component {
   constructor(props) {
@@ -17,6 +18,10 @@ class Login extends Component {
       phoneNumber: '',
       isPhoneInputValid: true
     }
+  }
+
+  componentDidMount() {
+    this.props.login(DeviceInfo.getUniqueID(), null);
   }
 
   onLogin() {
@@ -38,7 +43,7 @@ class Login extends Component {
     });
   }
 
-  render() {
+  _renderLogin() {
     const inputBorderColor = this.state.isPhoneInputValid ? '#FFFFFF' : 'red';
     return (
       <Container style={{alignItems: 'center', justifyContent: 'center', backgroundColor: '#70C8BE', paddingTop: 20}}>
@@ -69,14 +74,25 @@ class Login extends Component {
       </Container>
     );
   }
+
+  render() {
+    if(this.props.isUserLoading && !this.state.phoneNumber) {
+      return (<SplashScreen/>);
+    }
+    return (
+      this._renderLogin()
+    );
+  }
 }
 
 function bindActions(dispatch) {
   return {
-    login: (deviceId, phone) => dispatch(login(deviceId, phone))
+    login: (deviceId, phone) => dispatch(login(deviceId, phone)),
   };
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  isUserLoading: state.users.loading
+});
 
 export default connect(mapStateToProps, bindActions)(Login);
