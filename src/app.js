@@ -17,7 +17,7 @@ function bindAction(dispatch) {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.users.userId,
+  currentUser: state.users.id,
 });
 
 export default connect(mapStateToProps, bindAction)(App);

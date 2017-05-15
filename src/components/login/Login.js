@@ -7,7 +7,8 @@ import { Actions } from 'react-native-router-flux';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import PhoneInput from 'react-native-phone-input'
 import { connect } from 'react-redux';
-import { setUser } from '../../actions/';
+import { login } from '../../actions/';
+import DeviceInfo from 'react-native-device-info';
 
 class Login extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class Login extends Component {
            });
       return;
     }
-    this.props.setUser("test");
+    this.props.login(DeviceInfo.getUniqueID(),this.state.phoneNumber);
   }
   onPhoneNumberChange(number) {
     this.setState({
@@ -72,7 +73,7 @@ class Login extends Component {
 
 function bindActions(dispatch) {
   return {
-    setUser: name => dispatch(setUser(name))
+    login: (deviceId, phone) => dispatch(login(deviceId, phone))
   };
 }
 

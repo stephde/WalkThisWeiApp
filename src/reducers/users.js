@@ -2,7 +2,10 @@ import {
   GET_USER_START,
   GET_USER_ERROR,
   GET_USER_SUCCESS,
-  SET_USER
+  SET_USER,
+  LOGIN_START,
+  LOGIN_ERROR,
+  LOGIN_SUCCESS,
 } from '../constants/actionTypes.js';
 
 const initialState = {
@@ -36,6 +39,25 @@ export default function users(state = initialState, action) {
       return {
         ...state,
         userId: action.payload.userId
+      };
+    case LOGIN_START:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case LOGIN_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        ...action.payload
       };
     default:
       return state;

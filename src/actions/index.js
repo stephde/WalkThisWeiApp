@@ -3,6 +3,7 @@ import {
   fetchStoriesById,
   fetchUserById
 } from '../helpers/fetchHelper.js';
+import { postLogin} from '../helpers/loginHelper.js';
 import { API_URL } from '../constants/url.js';
 import {
   GET_USER_START,
@@ -11,6 +12,9 @@ import {
   GET_STORIES_START,
   GET_STORIES_ERROR,
   GET_STORIES_SUCCESS,
+  LOGIN_ERROR,
+  LOGIN_START,
+  LOGIN_SUCCESS,
   SET_REGION,
   SET_USER,
   SET_USER_LOCATION,
@@ -59,6 +63,23 @@ export function getStoriesById(storyId) {
         dispatch(getStoriesSuccess(json));
       }).catch((e) => {
         dispatch(getStoriesError(e));
+      })
+  }
+}
+
+const loginStart = () => ({ type: LOGIN_START });
+const loginSuccess = (json) => ({ type: LOGIN_SUCCESS, payload: json });
+const loginError = (error) => ({ type: LOGIN_ERROR, payload: error });
+
+export function login(deviceId, phoneNumber) {
+  return (dispatch) => {
+    dispatch(loginStart());
+    return postLogin(deviceId, phoneNumber)
+      .then(json => {
+        dispatch(loginSuccess(json));
+      }).catch((e) => {
+        console.log(e);
+        dispatch(loginError(e));
       })
   }
 }
