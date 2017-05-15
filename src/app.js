@@ -4,6 +4,10 @@ import AppNavigator from './components/AppNavigator';
 import { connect } from 'react-redux';
 
 class App extends Component {
+  componentDidMount() {
+    console.log("MOUNTED");
+  }
+
   render() {
     if(!this.props.currentUser) {
       return (<Login/>);
