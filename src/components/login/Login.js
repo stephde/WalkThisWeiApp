@@ -66,7 +66,7 @@ class Login extends Component {
           <Row size={30} style={{alignItems: 'center', justifyContent: 'center'}}>
             <View>
               <Button transparent style={{borderWidth: 3, borderColor: inputBorderColor, borderRadius: 99, height: 70, width: 170, justifyContent: 'center'}} onPress={() => {this.onLogin();}}>
-                <Text style={{fontSize: 22, color: inputBorderColor}}>Login</Text>
+                <Text style={{lineHeight: 28, fontSize: 22, color: inputBorderColor}}>Login</Text>
               </Button>
             </View>
           </Row>
