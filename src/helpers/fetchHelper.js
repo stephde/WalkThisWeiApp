@@ -11,7 +11,7 @@ function getApi(path) {
 }
 
 export function fetchUserById(userId) {
-  let query = `/users/${userId}`;
+  const query = `/users/${userId}`;
 
   return getApi(query);
 }
@@ -26,7 +26,13 @@ export function fetchStoriesByLocation(latitude, longitude, categories = null) {
 }
 
 export function fetchStoriesById(storyId) {
-  let query = `/stories/${storyId}`;
+  const query = `/stories/${storyId}`;
+
+  return getApi(query);
+}
+
+export function fetchStoryProgress(userId, activeStoryId) {
+  const query = `/users/${userId}/stories/${storyId}`;
 
   return getApi(query);
 }

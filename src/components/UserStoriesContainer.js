@@ -39,7 +39,9 @@ class UserStoriesContainer extends Component {
           <StoryCard
             story={mockStory}
             isStartable={true}
-            setStoryActive={this.props.setStoryActive}
+            setStoryActive={
+              storyId => this.props.setStoryActive(this.props.activeUserId, storyId)
+            }
           />
           <H3 style={{margin: 10}}>
             Completed Stories
@@ -58,10 +60,21 @@ class UserStoriesContainer extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+UserStoriesContainer.propTypes = {
+  activeUserId: React.PropTypes.string,
+  setStoryActive: React.PropTypes.func
+}
+
+function mapStateToProps({activeUser: {id}}) {
   return {
-    setStoryActive: (storyId) => dispatch(setStoryActive(storyId))
+    activeUserId: id
   }
 }
 
-export default connect(null,mapDispatchToProps)(UserStoriesContainer);
+function mapDispatchToProps(dispatch) {
+  return {
+    setStoryActive: (userId, storyId) => dispatch(setStoryActive(userId, storyId))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(UserStoriesContainer);

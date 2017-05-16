@@ -1,9 +1,14 @@
 import {
   fetchStoriesByLocation,
   fetchStoriesById,
-  fetchUserById
+  fetchUserById,
+  fetchStoryProgress
 } from '../helpers/fetchHelper.js';
-import { postLogin} from '../helpers/postHelper.js';
+import {
+  postLogin,
+  postActiveStory,
+  postStoryProgress,
+} from '../helpers/postHelper.js';
 import { API_URL } from '../constants/url.js';
 import {
   GET_STORIES_START,
@@ -12,6 +17,9 @@ import {
   SET_STORY_ACTIVE_START,
   SET_STORY_ACTIVE_ERROR,
   SET_STORY_ACTIVE_SUCCESS,
+  SET_STORY_PROGRESS_START,
+  SET_STORY_PROGRESS_ERROR,
+  SET_STORY_PROGRESS_SUCCESS,
   LOGIN_ERROR,
   LOGIN_START,
   LOGIN_SUCCESS,
@@ -68,10 +76,57 @@ const setStoryActiveStart = () => ({ type: SET_STORY_ACTIVE_START });
 const setStoryActiveSuccess = (json) => ({ type: SET_STORY_ACTIVE_SUCCESS, payload: json });
 const setStoryActiveError = (error) => ({ type: SET_STORY_ACTIVE_ERROR, payload: error });
 
-export function setStoryActive(storyId) {
+export function setStoryActive(userId, storyId) {
   return (dispatch) => {
-    return dispatch(setStoryActiveStart());
-  }
+    dispatch(setStoryActiveStart());
+    return postActiveStory(userId, storyId)
+      .then(json => {
+        debugger;
+        dispatch(setStoryActiveSuccess(json));
+      }).catch((e) => {
+        debugger;
+        dispatch(setStoryActiveError(e));
+      })
+  };
+}
+
+
+const setStoryProgressStart = () => ({ type: SET_STORY_PROGRESS_START });
+const setStoryProgressSuccess = (json) => ({ type: SET_STORY_PROGRESS_SUCCESS, payload: json });
+const setStoryProgressError = (error) => ({ type: SET_STORY_PROGRESS_ERROR, payload: error });
+
+export function setStoryProgress(userId, storyId) {
+  return (dispatch) => {
+    dispatch(setStoryProgressStart());
+    const progress = {
+
+    };
+    return postStoryProgress(userId, storyId, progress)
+      .then(json => {
+        dispatch(setStoryProgressSuccess(json));
+      }).catch((e) => {
+        dispatch(setStoryProgressError(e));
+      })
+  };
+}
+
+const getStoryProgressStart = () => ({ type: GET_STORY_PROGRESS_START });
+const getStoryProgressSuccess = (json) => ({ type: GET_STORY_PROGRESS_SUCCESS, payload: json });
+const getStoryProgressError = (error) => ({ type: GET_STORY_PROGRESS_ERROR, payload: error });
+
+export function getStoryProgress(userId, storyId) {
+  return (dispatch) => {
+    dispatch(getStoryProgressStart());
+    const progress = {
+
+    };
+    return fetchStoryProgress(userId, storyId)
+      .then(json => {
+        dispatch(getStoryProgressSuccess(json));
+      }).catch((e) => {
+        dispatch(getStoryProgressError(e));
+      })
+  };
 }
 
 const loginStart = () => ({ type: LOGIN_START });
