@@ -38,10 +38,10 @@ export default function StoryCard(props) {
         style={styles.imageItem}
       >
         <TouchableOpacity
-          onPress={() => Actions.detailedStory({story:"Beach Trail"})}
+          onPress={() => Actions.detailedStory({story: props.story})}
         >
           <Image
-            source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+            source={{uri: props.story.picture}}
             style={styles.cardItemImage}
             resizeMode='cover'
           />
@@ -50,19 +50,33 @@ export default function StoryCard(props) {
       <CardItem>
         <Left>
           <Body>
-            <Text>Beach Trail</Text>
+            <Text>{props.story.title}</Text>
             <Text note>Chapter: 12 of 15</Text>
             <Text note>Progress: 73%</Text>
           </Body>
         </Left>
-        <Right>
-          <Body>
-            <Button rounded style={styles.button}>
-              <Text>Start</Text>
-            </Button>
-          </Body>
-        </Right>
+        { props.isStartable &&
+          <Right>
+            <Body>
+              <Button
+                rounded
+                style={styles.button}
+                onPress={() => props.setStoryActive(props.story.id)}
+              >
+                <Text>Start</Text>
+              </Button>
+            </Body>
+          </Right>
+        }
       </CardItem>
     </Card>
   );
 }
+
+StoryCard.propTypes =  {
+  story: React.PropTypes.object.isRequired,
+  isStartable: React.PropTypes.bool.isRequired,
+  setStoryActive: React.PropTypes.func
+};
+
+

@@ -14,7 +14,7 @@ export default class DetailedStoryContainer extends Component {
             This is DetailedStoryContainer!
           </Text>
           <Text>
-            { `Showing: ${this.props.story}` }
+            { `Showing: ${this.props.story.title}` }
           </Text>
         </Content>
       </Container>

@@ -6,7 +6,6 @@ import {
     View
 } from 'react-native';
 import MapView from 'react-native-maps';
-import isEqual from 'lodash.isequal';
 import styles from './styles';
 import { Button, Text, Icon } from 'native-base';
 

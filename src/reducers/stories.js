@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   GET_STORIES_START,
   GET_STORIES_ERROR,
@@ -25,13 +26,24 @@ export default function stories(state = initialState, action) {
         error: action.payload
       };
     case GET_STORIES_SUCCESS:
+      const newStories = _.reduce(
+        _.map(
+          _.castArray(action.payload),
+          (story) => ({[story.id]: story} )
+        ),
+        (r,v,k) => {
+          r[_.findKey(v)]=v[_.findKey(v)];
+          return r;
+        },
+        {}
+      );
       return {
         ...state,
         loading: false,
         error: null,
         data: {
           ...state.data,
-          [action.payload.id]: action.payload
+          ...newStories
         }
       };
     default:
