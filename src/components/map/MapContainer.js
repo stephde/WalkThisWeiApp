@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import MapWrapper from './MapWrapper';
 import {
   setRegion,
-  getUser,
   getStoriesById
 } from '../../actions';
 import geolib from 'geolib';
@@ -32,19 +31,18 @@ function getComposedAnnotations(annotations, position){
 }
 
 function mapStateToProps(state) {
-  const annotations = getVisibleAnnotations(state.stories.data, state.users.data);
+  const annotations = getVisibleAnnotations(state.stories.data, state.activeUser);
 
   return {
     annotations: getComposedAnnotations(annotations, state.position.userLocation),
     mapRegion: state.position.mapRegion,
-    currentUser: state.users.data,
+    currentUser: state.activeUser,
   };
 }
 
 function mapDispatchToProps(dispatch){
   return {
     onRegionChange: (region) => dispatch(setRegion(region)),
-    getCurrentUser: (userId) => dispatch(getUser(userId)),
     getCurrentStory: (storyId) => dispatch(getStoriesById(storyId))
   };
 }
