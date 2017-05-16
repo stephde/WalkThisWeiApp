@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import get from 'lodash.get';
+import _ from 'lodash';
 import Map from './Map';
 
 export default class MapWrapper extends Component {
@@ -11,7 +11,7 @@ export default class MapWrapper extends Component {
 
     componentWillReceiveProps(nextProps){
       // Request active story only if it's available and it changed
-      const nextActiveStoryId = get(nextProps,'currentUser.activeStoryId');
+      const nextActiveStoryId = _.get(nextProps,'currentUser.activeStoryId');
 
       if (!nextActiveStoryId)
         return;

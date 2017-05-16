@@ -12,9 +12,12 @@ function getVisibleAnnotations(stories, user) {
   if (!user || !stories) return [];
   if (!user.activeStoryId) return [];
 
+
   // make dynamic, when we get actual activeStoryId + ChapterProgress!
   return stories[user.activeStoryId]
-    ? stories[user.activeStoryId].chapters[0].subChapters
+    ? (stories[user.activeStoryId].chapters
+      ? stories[user.activeStoryId].chapters[0].subChapters
+      : [])
     : [];
 }
 

@@ -11,6 +11,9 @@ import {
   GET_STORIES_START,
   GET_STORIES_ERROR,
   GET_STORIES_SUCCESS,
+  SET_STORY_ACTIVE_START,
+  SET_STORY_ACTIVE_ERROR,
+  SET_STORY_ACTIVE_SUCCESS,
   SET_REGION,
   SET_USER_LOCATION,
   FILTER_CHANGED
@@ -37,6 +40,21 @@ const getStoriesStart = () => ({ type: GET_STORIES_START });
 const getStoriesSuccess = (json) => ({ type: GET_STORIES_SUCCESS, payload: json });
 const getStoriesError = (error) => ({ type: GET_STORIES_ERROR, payload: error });
 
+export function getStoriesAroundCurrentLocation() {
+  return (dispatch, getState) => {
+    dispatch(getStoriesStart());
+    const { filter, position } = getState();
+    const {longitude, latitude} = position.userLocation;
+
+    return fetchStoriesByLocation(latitude, longitude, filter.categories)
+      .then(json => {
+        dispatch(getStoriesSuccess(json));
+      }).catch((e) => {
+        dispatch(getStoriesError(e));
+      })
+  }
+}
+
 export function getStoriesByLocation(latitude, longitude) {
   return (dispatch, getState) => {
     dispatch(getStoriesStart());
@@ -59,6 +77,16 @@ export function getStoriesById(storyId) {
       }).catch((e) => {
         dispatch(getStoriesError(e));
       })
+  }
+}
+
+const setStoryActiveStart = () => ({ type: SET_STORY_ACTIVE_START });
+const setStoryActiveSuccess = (json) => ({ type: SET_STORY_ACTIVE_SUCCESS, payload: json });
+const setStoryActiveError = (error) => ({ type: SET_STORY_ACTIVE_ERROR, payload: error });
+
+export function setStoryActive(storyId) {
+  return (dispatch) => {
+    return dispatch(setStoryActiveStart());
   }
 }
 
