@@ -31,12 +31,12 @@ function getComposedAnnotations(annotations, position){
 }
 
 function mapStateToProps(state) {
-  const annotations = getVisibleAnnotations(state.stories.data, state.users);
+  const annotations = getVisibleAnnotations(state.stories.data, state.activeUser);
 
   return {
     annotations: getComposedAnnotations(annotations, state.position.userLocation),
     mapRegion: state.position.mapRegion,
-    currentUser: state.users,
+    currentUser: state.activeUser,
   };
 }
 

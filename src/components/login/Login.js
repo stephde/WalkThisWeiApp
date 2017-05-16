@@ -85,14 +85,14 @@ class Login extends Component {
   }
 }
 
-function bindActions(dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     login: (deviceId, phone) => dispatch(login(deviceId, phone)),
   };
 }
 
 const mapStateToProps = state => ({
-  isUserLoading: state.users.loading
+  isUserLoading: state.activeUser.loading
 });
 
-export default connect(mapStateToProps, bindActions)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

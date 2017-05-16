@@ -3,7 +3,7 @@ import {
   fetchStoriesById,
   fetchUserById
 } from '../helpers/fetchHelper.js';
-import { postLogin} from '../helpers/loginHelper.js';
+import { postLogin} from '../helpers/postHelper.js';
 import { API_URL } from '../constants/url.js';
 import {
   GET_STORIES_START,
@@ -57,7 +57,6 @@ export function login(deviceId, phoneNumber) {
       .then(json => {
         dispatch(loginSuccess(json));
       }).catch((e) => {
-        console.log(e);
         dispatch(loginError(e));
       })
   }
