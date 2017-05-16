@@ -35,6 +35,7 @@ export default class Map extends Component {
                 latitude: this.props.annotations[key].coordinates[1],
               }}
               image={markerPicture}
+              onPress={() => {this.handleOnMarkerPress(key);}}
               onSelect={() => {this.handleOnMarkerPress(key);}}
             />
           );
@@ -59,9 +60,6 @@ export default class Map extends Component {
             onRegionChange={region => this.props.onRegionChange(region)}>
             { markers }
           </MapView>
-          <Button rounded onPress={Actions.userProfile} style={ styles.profileButton }>
-            <Text>Profile</Text>
-          </Button>
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>

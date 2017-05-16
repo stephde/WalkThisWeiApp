@@ -1,7 +1,7 @@
 import {
-  GET_USER_START,
-  GET_USER_ERROR,
-  GET_USER_SUCCESS
+  LOGIN_START,
+  LOGIN_ERROR,
+  LOGIN_SUCCESS,
 } from '../constants/actionTypes.js';
 
 const initialState = {
@@ -10,26 +10,26 @@ const initialState = {
   error: null
 };
 
-export default function users(state = initialState, action) {
+export default function activeUser(state = initialState, action) {
   switch(action.type) {
-    case GET_USER_START:
+    case LOGIN_START:
       return {
         ...state,
         loading: true,
         error: null
       };
-    case GET_USER_ERROR:
+    case LOGIN_ERROR:
       return {
         ...state,
         loading: false,
         error: action.payload
       };
-    case GET_USER_SUCCESS:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
         error: null,
-        data: action.payload
+        ...action.payload
       };
     default:
       return state;

@@ -3,38 +3,22 @@ import {
   fetchStoriesById,
   fetchUserById
 } from '../helpers/fetchHelper.js';
+import { postLogin} from '../helpers/postHelper.js';
 import { API_URL } from '../constants/url.js';
 import {
-  GET_USER_START,
-  GET_USER_ERROR,
-  GET_USER_SUCCESS,
   GET_STORIES_START,
   GET_STORIES_ERROR,
   GET_STORIES_SUCCESS,
   SET_STORY_ACTIVE_START,
   SET_STORY_ACTIVE_ERROR,
   SET_STORY_ACTIVE_SUCCESS,
+  LOGIN_ERROR,
+  LOGIN_START,
+  LOGIN_SUCCESS,
   SET_REGION,
   SET_USER_LOCATION,
   FILTER_CHANGED
 } from '../constants/actionTypes.js';
-
-const getUserStart = () => ({ type: GET_USER_START });
-const getUserSuccess = json => ({ type: GET_USER_SUCCESS, payload: json });
-const getUserError = error => ({ type: GET_USER_ERROR, payload: error });
-
-
-export function getUser(userId) {
-  return (dispatch) => {
-    dispatch(getUserStart());
-    return fetchUserById(userId)
-      .then(json => {
-        dispatch(getUserSuccess(json));
-      }).catch((e) => {
-        dispatch(getUserError(e));
-      })
-  }
-}
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
 const getStoriesSuccess = (json) => ({ type: GET_STORIES_SUCCESS, payload: json });
@@ -87,6 +71,22 @@ const setStoryActiveError = (error) => ({ type: SET_STORY_ACTIVE_ERROR, payload:
 export function setStoryActive(storyId) {
   return (dispatch) => {
     return dispatch(setStoryActiveStart());
+  }
+}
+
+const loginStart = () => ({ type: LOGIN_START });
+const loginSuccess = (json) => ({ type: LOGIN_SUCCESS, payload: json });
+const loginError = (error) => ({ type: LOGIN_ERROR, payload: error });
+
+export function login(deviceId, phoneNumber) {
+  return (dispatch) => {
+    dispatch(loginStart());
+    return postLogin(deviceId, phoneNumber)
+      .then(json => {
+        dispatch(loginSuccess(json));
+      }).catch((e) => {
+        dispatch(loginError(e));
+      })
   }
 }
 
