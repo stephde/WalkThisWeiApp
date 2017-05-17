@@ -32,7 +32,7 @@ export function fetchStoriesById(storyId) {
 }
 
 export function fetchStoryProgress(userId, activeStoryId) {
-  const query = `/users/${userId}/stories/${storyId}`;
+  const query = `/users/${userId}/stories/${activeStoryId}`;
 
   return getApi(query);
 }

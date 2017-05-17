@@ -20,6 +20,9 @@ import {
   SET_STORY_PROGRESS_START,
   SET_STORY_PROGRESS_ERROR,
   SET_STORY_PROGRESS_SUCCESS,
+  GET_STORY_PROGRESS_START,
+  GET_STORY_PROGRESS_ERROR,
+  GET_STORY_PROGRESS_SUCCESS,
   LOGIN_ERROR,
   LOGIN_START,
   LOGIN_SUCCESS,
@@ -81,10 +84,9 @@ export function setStoryActive(userId, storyId) {
     dispatch(setStoryActiveStart());
     return postActiveStory(userId, storyId)
       .then(json => {
-        debugger;
         dispatch(setStoryActiveSuccess(json));
+        dispatch(getStoryProgress(userId, storyId))
       }).catch((e) => {
-        debugger;
         dispatch(setStoryActiveError(e));
       })
   };
@@ -117,9 +119,6 @@ const getStoryProgressError = (error) => ({ type: GET_STORY_PROGRESS_ERROR, payl
 export function getStoryProgress(userId, storyId) {
   return (dispatch) => {
     dispatch(getStoryProgressStart());
-    const progress = {
-
-    };
     return fetchStoryProgress(userId, storyId)
       .then(json => {
         dispatch(getStoryProgressSuccess(json));
