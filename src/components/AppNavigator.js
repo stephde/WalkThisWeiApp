@@ -6,7 +6,6 @@ import MapContainer from './map/MapContainer';
 import UserStoriesContainer from './UserStoriesContainer';
 import AllStoriesContainer from './AllStoriesContainer';
 import DetailedStoryContainer from './DetailedStoryContainer';
-import FilterView from './FilterView';
 import Profile from './profile/Profile';
 import {
   setUserLocation,
@@ -50,6 +49,7 @@ class AppNavigator extends Component {
       }
       this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
       this.props.onRegionChange(region);
+      this.props.detailStoryTitle = "Title"
     });
   }
 
@@ -107,7 +107,7 @@ class AppNavigator extends Component {
           </Scene>
           <Scene
             key="detailedStory"
-            title="Detailed Story"
+            title={this.props.detailStoryTitle}
             component={DetailedStoryContainer}
             hideNavBar={false}
           />
