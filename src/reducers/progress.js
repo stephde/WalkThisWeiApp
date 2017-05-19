@@ -47,7 +47,7 @@ export default function progress(state = {}, action) {
         error: null,
         data: {
           ...state.data,
-          newProgress
+          ...newProgress
         }
       };
     default:

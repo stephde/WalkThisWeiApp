@@ -28,7 +28,8 @@ import {
   LOGIN_SUCCESS,
   SET_REGION,
   SET_USER_LOCATION,
-  FILTER_CHANGED
+  FILTER_CHANGED,
+  SHOW_NEW_CHAPTER_TOGGLE
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -97,12 +98,9 @@ const setStoryProgressStart = () => ({ type: SET_STORY_PROGRESS_START });
 const setStoryProgressSuccess = (json) => ({ type: SET_STORY_PROGRESS_SUCCESS, payload: json });
 const setStoryProgressError = (error) => ({ type: SET_STORY_PROGRESS_ERROR, payload: error });
 
-export function setStoryProgress(userId, storyId) {
+export function setStoryProgress(userId, storyId, progress) {
   return (dispatch) => {
     dispatch(setStoryProgressStart());
-    const progress = {
-
-    };
     return postStoryProgress(userId, storyId, progress)
       .then(json => {
         dispatch(setStoryProgressSuccess(json));
@@ -138,6 +136,9 @@ export function login(deviceId, phoneNumber) {
     return postLogin(deviceId, phoneNumber)
       .then(json => {
         dispatch(loginSuccess(json));
+        const { activeStoryId, id } = json;
+        if (activeStoryId)
+          dispatch(getStoryProgress(id, activeStoryId));
       }).catch((e) => {
         dispatch(loginError(e));
       })
@@ -170,4 +171,10 @@ export function filterChanged(filterKey) {
       filterKey: filterKey
     }
   }
+}
+
+export function showNewChapterToggle() {
+  return {
+    type: SHOW_NEW_CHAPTER_TOGGLE
+  };
 }
