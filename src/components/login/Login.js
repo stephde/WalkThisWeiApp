@@ -49,7 +49,7 @@ class Login extends Component {
       <Container style={{alignItems: 'center', justifyContent: 'center', backgroundColor: '#70C8BE', paddingTop: 20}}>
         <Grid>
           <Row size={30} style={{alignItems: 'center'}}>
-            <Text style={{fontSize: 34, color: '#FFFFFF'}}>Sign Up with us</Text>
+            <Text style={{fontSize: 34, color: '#FFFFFF'}}>Sin Up with us</Text>
           </Row>
           <Row size={40} style={{justifyContent: 'center', alignItems: 'center'}}>
             <View style={{justifyContent: 'center', flex: 1}}>
@@ -57,7 +57,7 @@ class Login extends Component {
                 <PhoneInput
                   ref='phone'
                   style={{flex: 1, height: 50}} flagStyle={{height: 18, resizeMode: 'contain'}}
-                  textProps={{placeholder: 'Phone Number', placeholderTextColor: '#FFFFFF'}}
+                  textProps={{placeholder: 'Phone Number', placeholderTextColor: '#FFFFFF', keyboardType: "name-phone-pad"}}
                   textStyle={{flex: 1, color: '#FFFFFF'}}
                   onChangePhoneNumber={(number) => {this.onPhoneNumberChange(number);}}/>
               </Item>
