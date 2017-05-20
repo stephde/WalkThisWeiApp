@@ -4,6 +4,7 @@ import filter from './filter';
 import stories from './stories';
 import activeUser from './activeUser';
 import progress from './progress';
+import ui from './ui';
 
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
   activeUser,
   progress,
   position,
-  filter
+  filter,
+  ui
 });

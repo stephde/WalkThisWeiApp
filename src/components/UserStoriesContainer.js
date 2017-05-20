@@ -7,6 +7,7 @@ import {
 } from 'native-base';
 import StoryCard from './StoryCard';
 import { setStoryActive } from '../actions';
+import _ from 'lodash';
 
 const mockStory = {
   _id: '59130080f1450662efcb0fa2',
@@ -22,6 +23,51 @@ const mockStory = {
 };
 
 class UserStoriesContainer extends Component {
+  _buildProgressedStories() {
+    let result = [];
+    if (this.props.progressedStories.length > 0) {
+      result.push(
+        <H3 style={{margin: 10}} key={'progressed-stories-h3'}>
+          Progressed Stories
+        </H3>
+      );
+      this.props.progressedStories.forEach(story =>
+        result.push(
+          <StoryCard
+            key={`progressed-${story.id}`}
+            story={story}
+            isStartable={true}
+            setStoryActive={
+              storyId => this.props.setStoryActive(this.props.activeUserId, storyId)
+            }
+          />
+        )
+      );
+    }
+    return result;
+  }
+
+  _buildCompletedStories() {
+    let result = [];
+    if (this.props.completedStories.length > 0) {
+      result.push(
+        <H3 style={{margin: 10}} key={'completed-stories-h3'}>
+          Completed Stories
+        </H3>
+      );
+      this.props.completedStories.forEach(story =>
+        result.push(
+          <StoryCard
+            key={`completed-${story.id}`}
+            story={story}
+            isStartable={false}
+          />
+        )
+      );
+    }
+    return result;
+  }
+
   render() {
     return (
       <Container>
@@ -29,31 +75,17 @@ class UserStoriesContainer extends Component {
           <H3 style={{margin: 10}}>
             Active Stories
           </H3>
-          <StoryCard
-            story={mockStory}
-            isStartable={false}
-          />
-          <H3 style={{margin: 10}}>
-            Progressed Stories
-          </H3>
-          <StoryCard
-            story={mockStory}
-            isStartable={true}
-            setStoryActive={
-              storyId => this.props.setStoryActive(this.props.activeUserId, storyId)
-            }
-          />
-          <H3 style={{margin: 10}}>
-            Completed Stories
-          </H3>
-          <StoryCard
-            story={mockStory}
-            isStartable={false}
-          />
-          <StoryCard
-            story={mockStory}
-            isStartable={false}
-          />
+          { this.props.activeStory
+            ? <StoryCard
+                story={ this.props.activeStory }
+                isStartable={false}
+              />
+            : <Text>
+                You do not have an active story :(
+              </Text>
+          }
+          { this._buildProgressedStories() }
+          { this._buildCompletedStories() }
         </Content>
       </Container>
     )
@@ -62,12 +94,35 @@ class UserStoriesContainer extends Component {
 
 UserStoriesContainer.propTypes = {
   activeUserId: React.PropTypes.string,
+  activeStory: React.PropTypes.object,
+  progressedStories: React.PropTypes.array,
+  completedStories: React.PropTypes.array,
   setStoryActive: React.PropTypes.func
 }
 
-function mapStateToProps({activeUser: {id}}) {
+function mapStateToProps(state) {
+  const { activeStoryId } = state.activeUser;
+  const stories = state.stories.data;
+  const storiesInProgressIds = state.activeUser.storiesInProgress;
+  const completedStoriesIds = state.activeUser.completedStories;
+  const progressedStories = _.filter(stories, (v,k) => {
+    return _.some(
+        storiesInProgressIds,
+        (storyId) => storyId === k
+      ) && k !== activeStoryId;
+  });
+  const completedStories = _.filter(stories, (v,k) => {
+    return _.some(
+        completedStoriesIds,
+        (storyId) => storyId === k
+      );
+  });
+
   return {
-    activeUserId: id
+    activeUserId: state.activeUser.id,
+    activeStory: stories[`${activeStoryId}`],
+    progressedStories,
+    completedStories
   }
 }
 

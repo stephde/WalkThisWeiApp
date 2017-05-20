@@ -4,8 +4,10 @@ import _ from 'lodash';
 import { isInDistance } from '../helpers/locationHelper';
 import {
   showNewChapterToggle,
-  setStoryProgress
+  setStoryProgress,
+  finishedStory
 } from '../actions';
+import { DISTANCE } from '../constants/distance';
 
 class LocationObserver extends React.Component {
 
@@ -13,10 +15,10 @@ class LocationObserver extends React.Component {
     return isInDistance(
       userLocation,
       {
-        latitude: audioLocation.coordinates[1],
-        longitude: audioLocation.coordinates[0]
+        latitude: audioLocation[1],
+        longitude: audioLocation[0]
       },
-      200
+      DISTANCE
     );
   }
 
@@ -28,13 +30,20 @@ class LocationObserver extends React.Component {
     const { activeChapterIndex, activeSubChapterIndex } = progress;
     const chapterCount = _.get(activeStory, 'chapters.length');
     const subChapterCount = _.get(activeStory, `chapters[${activeChapterIndex - 1}].subChapters.length`);
-    if (chapterCount === activeChapterIndex
-      && subChapterCount === activeSubChapterIndex)
-      return;
     const activeSubChapter = _.get(activeStory, `chapters[${activeChapterIndex - 1}].subChapters[${activeSubChapterIndex - 1}]`);
     if (this._userIsInRange(activeSubChapter.coordinates, userLocation)) {
-      if (subChapterCount === activeSubChapterIndex)
-        this.props.showNewChapterToggle();
+      if (chapterCount === activeChapterIndex
+        && subChapterCount === activeSubChapterIndex)
+        this.props.finishedStory();
+      else if (subChapterCount === activeSubChapterIndex)
+        this.props.showNewChapterToggle({
+          userId,
+          storyId: activeStory.id,
+          progress: {
+            activeChapterIndex: activeChapterIndex + 1,
+            activeSubChapterIndex: 1
+          }
+        });
       else
         this.props.setStoryProgress(
           userId,
@@ -46,9 +55,15 @@ class LocationObserver extends React.Component {
         );
     }
   }
+  componentDidMount() {
+    this._checkProgress(this.props);
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    this._checkProgress(this.props);
+  }
 
   render() {
-    this._checkProgress(this.props);
     return (this.props.children);
   }
 }
@@ -75,4 +90,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, {setStoryProgress, showNewChapterToggle})(LocationObserver)
+export default connect(
+  mapStateToProps, {
+    setStoryProgress,
+    finishedStory,
+    showNewChapterToggle
+  }
+)(LocationObserver)

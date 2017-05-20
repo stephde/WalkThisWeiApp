@@ -10,6 +10,7 @@ import {
   postStoryProgress,
 } from '../helpers/postHelper.js';
 import { API_URL } from '../constants/url.js';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import {
   GET_STORIES_START,
   GET_STORIES_ERROR,
@@ -29,7 +30,8 @@ import {
   SET_REGION,
   SET_USER_LOCATION,
   FILTER_CHANGED,
-  SHOW_NEW_CHAPTER_TOGGLE
+  SHOW_NEW_CHAPTER_TOGGLE,
+  FINISHED_STORY
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -86,6 +88,7 @@ export function setStoryActive(userId, storyId) {
     return postActiveStory(userId, storyId)
       .then(json => {
         dispatch(setStoryActiveSuccess(json));
+        Actions.map({type: ActionConst.RESET});
         dispatch(getStoryProgress(userId, storyId))
       }).catch((e) => {
         dispatch(setStoryActiveError(e));
@@ -173,8 +176,17 @@ export function filterChanged(filterKey) {
   }
 }
 
-export function showNewChapterToggle() {
+export function showNewChapterToggle(nextProgress) {
   return {
-    type: SHOW_NEW_CHAPTER_TOGGLE
+    type: SHOW_NEW_CHAPTER_TOGGLE,
+    payload: {
+      nextProgress
+    }
+  };
+}
+
+export function finishedStory() {
+  return {
+    type: FINISHED_STORY
   };
 }

@@ -5,11 +5,9 @@ import {
   SET_STORY_ACTIVE_START,
   SET_STORY_ACTIVE_ERROR,
   SET_STORY_ACTIVE_SUCCESS,
-
 } from '../constants/actionTypes.js';
 
 const initialState = {
-  data: {},
   loading: false,
   error: null
 };

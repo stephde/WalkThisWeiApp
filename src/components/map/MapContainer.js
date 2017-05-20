@@ -5,12 +5,12 @@ import {
   setRegion,
   getStoriesById
 } from '../../actions';
-import geolib from 'geolib';
+import { isInDistance } from '../../helpers/locationHelper';
+import { DISTANCE } from '../../constants/distance.js';
 
 function getVisibleAnnotations(stories, user) {
   if (!user || !stories) return [];
   if (!user.activeStoryId) return [];
-
 
   // make dynamic, when we get actual activeStoryId + ChapterProgress!
   return stories[user.activeStoryId]
@@ -21,11 +21,15 @@ function getVisibleAnnotations(stories, user) {
 }
 
 function getComposedAnnotations(annotations, position){
-  const currentPosition = Math.abs(position.latitude) + Math.abs(position.longitude)
-
   return annotations.map(annotation => {
-    const difference = geolib.getDistance(position, {latitude: annotation.coordinates[1], longitude: annotation.coordinates[0]});
-    const inDistance = difference < 200;
+    const inDistance = isInDistance(
+      position,
+      {
+        latitude: annotation.coordinates[1],
+        longitude: annotation.coordinates[0]
+      },
+      DISTANCE
+    );
     return {
       ...annotation,
       inDistance

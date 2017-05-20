@@ -33,6 +33,11 @@ export default {
     right: 20,
     backgroundColor: '#70C8BE'
   },
+  newChapterButton: {
+    position: 'absolute',
+    top: 10,
+    backgroundColor: '#70C8BE'
+  },
   profileButton: {
     position: 'absolute',
     bottom: 20,

@@ -8,7 +8,7 @@ import {
 import MapView from 'react-native-maps';
 import styles from './styles';
 import { Button, Text, Icon } from 'native-base';
-
+import NewChapterButton from './NewChapterButton';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
 import MarkerPlayer from '../player/player';
@@ -60,6 +60,11 @@ export default class Map extends Component {
             onRegionChange={region => this.props.onRegionChange(region)}>
             { markers }
           </MapView>
+          <NewChapterButton
+            style={ styles.newChapterButton }
+          >
+            <Text>Change to new Chapter</Text>
+          </NewChapterButton>
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>
