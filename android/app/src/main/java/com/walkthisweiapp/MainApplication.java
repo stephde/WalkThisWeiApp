@@ -3,6 +3,7 @@ package com.walkthisweiapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.polidea.reactnativeble.BlePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.audioStreaming.ReactNativeAudioStreamingPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new BlePackage(),
             new RNDeviceInfo(),
             new ReactNativeAudioStreamingPackage(),
             new MapsPackage(),
