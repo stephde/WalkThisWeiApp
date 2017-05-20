@@ -4,6 +4,7 @@ import MapWrapper from './MapWrapper';
 import {
   setRegion,
   getStoryById
+  writeCharacteristic
 } from '../../actions';
 import { isInDistance } from '../../helpers/locationHelper';
 import { DISTANCE } from '../../constants/distance.js';
@@ -51,6 +52,7 @@ function mapDispatchToProps(dispatch){
   return {
     onRegionChange: (region) => dispatch(setRegion(region)),
     getCurrentStory: (storyId) => dispatch(getStoryById(storyId))
+    writeCharacteristic: (command) => dispatch(writeCharacteristic(command))
   };
 }
 

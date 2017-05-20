@@ -33,6 +33,7 @@ export default class MapWrapper extends Component {
           annotations={this.props.annotations}
           mapRegion={this.props.mapRegion}
           onRegionChange={this.props.onRegionChange}
+          writeCharacteristic={this.props.writeCharacteristic}
         />
       );
     }

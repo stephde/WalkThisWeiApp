@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
+import { completeOperation } from '../../actions';
+import { connect } from 'react-redux';
 
-export default class BleComponent extends Component {
+class BleComponent extends Component {
   constructor(props) {
     super(props);
     this.manager = new BleManager();
@@ -17,13 +19,28 @@ export default class BleComponent extends Component {
     }, true);
   }
 
-  render() {
-    return null;
+  componentWillReceiveProps(newProps) {
+    const type = newProps.operation.type;
+    switch (type) {
+      case 'write':
+        this.manager.writeCharacteristicWithResponseForDevice(this.device.id,
+                                                              this.serviceId,
+                                                              this.characteristicId,
+                                                              this.encode(newProps.operation.command))
+        .then((characteristic) => {
+          newProps.completeOperation()
+        }, (rejected) => {
+          console.log(rejected);
+          newProps.completeOperation()
+        });
+        break;
+      default:
+        console.log("Operation not supported");
+    }
   }
 
-  async bleNano() {
-    var services = await this.device.services()
-    console.log(services);
+  render() {
+    return null;
   }
 
   async fetchServicesAndCharacteristicsForDevice(device) {
@@ -71,6 +88,7 @@ export default class BleComponent extends Component {
               // Stop scanning as it's not necessary if you are scanning for one device.
               this.manager.connectToDevice(device.id)
               .then((device) => {
+                this.device = device;
                 var promise = device.discoverAllServicesAndCharacteristics();
                 return promise;
               })
@@ -78,28 +96,9 @@ export default class BleComponent extends Component {
                 return this.fetchServicesAndCharacteristicsForDevice(device);
               })
               .then((services) => {
-                let serviceId = Object.keys(services)[0];
-                let characteristicId = Object.keys(services[serviceId].characteristics)
-                  .find(cId => services[serviceId].characteristics[cId].isWritable);
-                this.manager.writeCharacteristicWithResponseForDevice(device.id,
-                                                      Object.keys(services)[0],
-                                                      characteristicId,
-                                                      this.encode("S121"))
-                                                      .then((characteristic) => {
-                                                        this.manager.writeCharacteristicWithResponseForDevice(device.id,
-                                                                                              Object.keys(services)[0],
-                                                                                              characteristicId,
-                                                                                              this.encode("T121"))
-                                                                                              .then((characteristic) => {
-                                                                                                console.log(characteristic);
-                                                                                              },
-                                                                                              (rejected) => {
-                                                                                                console.log(rejected.message);
-                                                                                              });
-                                                      },
-                                                      (rejected) => {
-                                                        console.log(rejected.message);
-                                                      });
+                this.serviceId = Object.keys(services)[0];
+                this.characteristicId = Object.keys(services[this.serviceId].characteristics)
+                  .find(cId => services[this.serviceId].characteristics[cId].isWritable);
               })
               .catch((error) => {
                 return console.log(error);
@@ -108,5 +107,18 @@ export default class BleComponent extends Component {
           }
       });
   }
-
 }
+
+function mapStateToProps(state) {
+  return {
+    operation: state.ble.operation
+  };
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    completeOperation: () => dispatch(completeOperation())
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BleComponent)

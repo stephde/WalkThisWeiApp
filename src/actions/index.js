@@ -33,6 +33,8 @@ import {
   FILTER_CHANGED,
   SHOW_NEW_CHAPTER_TOGGLE,
   FINISHED_STORY
+  WRITE_CHARACTERISTIC,
+  COMPLETE_OPERATION
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -203,4 +205,19 @@ export function finishedStory() {
   return {
     type: FINISHED_STORY
   };
+
+export function writeCharacteristic(command) {
+  return {
+    type: WRITE_CHARACTERISTIC,
+    payload: {
+      type: 'write',
+      command: command
+    }
+  }
+}
+
+export function completeOperation() {
+  return {
+    type: COMPLETE_OPERATION
+  }
 }
