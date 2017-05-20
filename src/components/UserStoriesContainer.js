@@ -6,7 +6,10 @@ import {
   H3
 } from 'native-base';
 import StoryCard from './StoryCard';
-import { setStoryActive } from '../actions';
+import {
+  setStoryActive,
+  getStoriesByIds
+} from '../actions';
 import _ from 'lodash';
 
 const mockStory = {
@@ -23,6 +26,10 @@ const mockStory = {
 };
 
 class UserStoriesContainer extends Component {
+  componentDidMount() {
+    this.props.getStoriesByIds(this.props.fetchStoryIds);
+  }
+
   _buildProgressedStories() {
     let result = [];
     if (this.props.progressedStories.length > 0) {
@@ -122,13 +129,15 @@ function mapStateToProps(state) {
     activeUserId: state.activeUser.id,
     activeStory: stories[`${activeStoryId}`],
     progressedStories,
-    completedStories
+    completedStories,
+    fetchStoryIds: _.union(storiesInProgressIds, completedStoriesIds)
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setStoryActive: (userId, storyId) => dispatch(setStoryActive(userId, storyId))
+    setStoryActive: (userId, storyId) => dispatch(setStoryActive(userId, storyId)),
+    getStoriesByIds: (storyIds) => dispatch(getStoriesByIds(storyIds))
   }
 }
 

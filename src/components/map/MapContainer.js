@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import MapWrapper from './MapWrapper';
 import {
   setRegion,
-  getStoriesById
+  getStoryById
 } from '../../actions';
 import { isInDistance } from '../../helpers/locationHelper';
 import { DISTANCE } from '../../constants/distance.js';
@@ -50,7 +50,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch){
   return {
     onRegionChange: (region) => dispatch(setRegion(region)),
-    getCurrentStory: (storyId) => dispatch(getStoriesById(storyId))
+    getCurrentStory: (storyId) => dispatch(getStoryById(storyId))
   };
 }
 

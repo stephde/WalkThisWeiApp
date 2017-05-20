@@ -1,6 +1,7 @@
 import {
   fetchStoriesByLocation,
-  fetchStoriesById,
+  fetchStoryById,
+  fetchStoriesByIds,
   fetchUserById,
   fetchStoryProgress
 } from '../helpers/fetchHelper.js';
@@ -66,10 +67,22 @@ export function getStoriesByLocation(latitude, longitude) {
   }
 }
 
-export function getStoriesById(storyId) {
+export function getStoriesByIds(storyIds) {
   return (dispatch) => {
     dispatch(getStoriesStart());
-    return fetchStoriesById(storyId)
+    return fetchStoriesByIds(storyIds)
+      .then(json => {
+        dispatch(getStoriesSuccess(json));
+      }).catch((e) => {
+        dispatch(getStoriesError(e));
+      })
+  }  
+}
+
+export function getStoryById(storyId) {
+  return (dispatch) => {
+    dispatch(getStoriesStart());
+    return fetchStoryById(storyId)
       .then(json => {
         dispatch(getStoriesSuccess(json));
       }).catch((e) => {
