@@ -27,18 +27,16 @@ function StoryStatusHeader(props) {
         <Text>Change to new Chapter</Text>
       </Button>)
     : props.hasFinishedStory
-      ? <Content>
-          <Text
-            style={{
-              color: '#FFFFFF',
-              backgroundColor: 'rgba(112, 200, 190, 0.7)',
-              width: width,
-              textAlign: 'center'
-            }}
-          >
-            You have finished this story!
-          </Text>
-        </Content>
+      ? <Text
+          style={{
+            color: '#FFFFFF',
+            backgroundColor: 'rgba(112, 200, 190, 0.7)',
+            width: width,
+            textAlign: 'center'
+          }}
+        >
+          You have finished this story!
+        </Text>
       : null;
 }
 

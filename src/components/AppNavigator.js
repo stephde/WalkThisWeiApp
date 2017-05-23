@@ -50,7 +50,9 @@ class AppNavigator extends Component {
       }
       this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
       this.props.onRegionChange(region);
-    });
+    },
+    (error) => console.error(error),
+    {enableHighAccuracy: true, timeout: 20000, maximumAge: 5000, distanceFilter: 5});
   }
 
   componentWillUnmount() {
