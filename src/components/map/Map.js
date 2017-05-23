@@ -60,7 +60,6 @@ export default class Map extends Component {
             onRegionChange={region => this.props.onRegionChange(region)}>
             { markers }
           </MapView>
-          <StoryStatusHeader />
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>
@@ -74,6 +73,9 @@ export default class Map extends Component {
             </Button>
             <MarkerPlayer annotation={this.state.selectedAnnotation}/>
           </Modal>
+          <View style={styles.floatView}>
+            <StoryStatusHeader />
+          </View>
         </View>
       );
     }

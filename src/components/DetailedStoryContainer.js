@@ -59,17 +59,14 @@ class DetailedStoryContainer extends Component {
     return (
       <Container>
         <Content>
-
           <Image
               source={{uri: this.props.story.picture}}
               style={styles.image}
               resizeMode='cover'
           />
-
           <Text style={styles.header}>
             { this.props.story.title }
           </Text>
-
           <Tabs>
             <Tab
                 heading={ <TabHeading><Icon name="list" /><Text>Info</Text></TabHeading>}
@@ -103,14 +100,4 @@ DetailedStoryContainer.propTypes = {
   setStoryActive: React.PropTypes.func
 }
 
-function mapStateToProps(state) {
-  return {  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setStoryActive: (storyId) => dispatch(setStoryActive(storyId))
-  }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(DetailedStoryContainer)
+export default connect(null,{setStoryActive})(DetailedStoryContainer)
