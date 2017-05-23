@@ -1,4 +1,5 @@
 import { API_URL } from '../constants/url.js';
+import _ from 'lodash';
 
 function getApi(path) {
   return fetch(API_URL + path)
@@ -11,7 +12,7 @@ function getApi(path) {
 }
 
 export function fetchUserById(userId) {
-  let query = `/users/${userId}`;
+  const query = `/users/${userId}`;
 
   return getApi(query);
 }
@@ -25,8 +26,30 @@ export function fetchStoriesByLocation(latitude, longitude, categories = null) {
   return getApi(query);
 }
 
-export function fetchStoriesById(storyId) {
-  let query = `/stories/${storyId}`;
+export function fetchStoryById(storyId) {
+  const query = `/stories/${storyId}`;
+
+  return getApi(query);
+}
+
+export function fetchStoriesByIds(storyIds) {
+  const params = `ids=${
+    _.reduce(
+      storyIds,
+      (acc, storyId, i) => {
+        return i === 0
+          ? storyId
+          : acc + `,${storyId}`;
+      }
+    )
+  }`;
+  const query = `/stories?${params}`;
+
+  return getApi(query);
+}
+
+export function fetchStoryProgress(userId, activeStoryId) {
+  const query = `/users/${userId}/stories/${activeStoryId}`;
 
   return getApi(query);
 }

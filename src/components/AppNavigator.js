@@ -7,10 +7,12 @@ import UserStoriesContainer from './UserStoriesContainer';
 import AllStoriesContainer from './AllStoriesContainer';
 import DetailedStoryContainer from './DetailedStoryContainer';
 import Profile from './profile/Profile';
+import LocationObserver from './LocationObserver';
 import {
   setUserLocation,
   setRegion
 } from '../actions';
+import style from './styles';
 
 const getSceneStyle = (props, computedProps) => {
   const style = {
@@ -29,13 +31,12 @@ const getSceneStyle = (props, computedProps) => {
 };
 
 class TabIcon extends React.Component {
-    render(){
-        return (
-            <Text style={{color: 'black'}}>{this.props.title}</Text>
-        );
-    }
+  render(){
+    return (
+      <Text style={{color: 'black'}}>{this.props.title}</Text>
+    );
+  }
 }
-import style from './styles';
 
 class AppNavigator extends Component {
   componentDidMount() {
@@ -49,7 +50,6 @@ class AppNavigator extends Component {
       }
       this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
       this.props.onRegionChange(region);
-      this.props.detailStoryTitle = "Title"
     });
   }
 
@@ -59,67 +59,69 @@ class AppNavigator extends Component {
 
   render() {
     return (
-      <Router
-        getSceneStyle={getSceneStyle}
-        titleStyle={{
-          color: 'white'
-        }}
-        navigationBarStyle={{
-          backgroundColor: '#70C8BE',
-        }}
-        barButtonIconStyle={{ tintColor: 'white' }}
-      >
-        <Scene
-          key="root"
+      <LocationObserver>
+        <Router
+          getSceneStyle={getSceneStyle}
+          titleStyle={{
+            color: 'white'
+          }}
+          navigationBarStyle={{
+            backgroundColor: '#70C8BE',
+          }}
+          barButtonIconStyle={{ tintColor: 'white' }}
         >
           <Scene
-            key="map"
-            component={MapContainer}
-            title="WalkThisWei"
-            hideTabBar
-            initial
-            rightButtonImage={require('../../images/user.png')}
-            rightButtonIconStyle={style.user}
-            onRight={() => Actions.profile()}
-          />
-          <Scene
-            key="storyTabs"
-            tabBarStyle={{
-              backgroundColor: '#70C8BE',
-            }}
-            tabTitleStyle={{
-              color: 'white'
-            }}
-            tabs
+            key="root"
           >
             <Scene
-              key="myStories"
-              title="My Stories"
-              component={UserStoriesContainer}
-              icon={TabIcon}
+              key="map"
+              component={MapContainer}
+              title="WalkThisWei"
+              hideTabBar
+              initial
+              rightButtonImage={require('../../images/user.png')}
+              rightButtonIconStyle={style.user}
+              onRight={() => Actions.profile()}
             />
             <Scene
-              key="allStories"
-              title="All Stories"
-              component={AllStoriesContainer}
-              icon={TabIcon}
+              key="storyTabs"
+              tabBarStyle={{
+                backgroundColor: '#70C8BE',
+              }}
+              tabTitleStyle={{
+                color: 'white'
+              }}
+              tabs
+            >
+              <Scene
+                key="myStories"
+                title="My Stories"
+                component={UserStoriesContainer}
+                icon={TabIcon}
+              />
+              <Scene
+                key="allStories"
+                title="All Stories"
+                component={AllStoriesContainer}
+                icon={TabIcon}
+              />
+            </Scene>
+            <Scene
+              key="detailedStory"
+              title="Detailed Story"
+              component={DetailedStoryContainer}
+              hideNavBar={false}
+            />
+            <Scene
+              key="profile"
+              component={Profile}
+              hideNavBar={true}
+              sceneStyle={{backgroundColor: '#70C8BE'}}
+              direction='vertical'
             />
           </Scene>
-          <Scene
-            key="detailedStory"
-            title={this.props.detailStoryTitle}
-            component={DetailedStoryContainer}
-            hideNavBar={false}
-          />
-          <Scene
-            key="profile"
-            component={Profile}
-            hideNavBar={true}
-            sceneStyle={{backgroundColor: '#70C8BE'}}
-            direction='vertical'
-          />
-        </Scene>
-      </Router>
+        </Router>
+      </LocationObserver>
     );
   }
 }

@@ -3,6 +3,16 @@ import _ from 'lodash';
 import Map from './Map';
 
 export default class MapWrapper extends Component {
+    componentDidMount() {
+      // Request active story on start up
+      const activeStoryId = _.get(this.props,'currentUser.activeStoryId');
+
+      if (!activeStoryId)
+        return;
+
+      this.props.getCurrentStory(activeStoryId);
+    }
+
     componentWillReceiveProps(nextProps){
       // Request active story only if it's available and it changed
       const nextActiveStoryId = _.get(nextProps,'currentUser.activeStoryId');
