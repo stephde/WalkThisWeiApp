@@ -6,7 +6,6 @@ import MapContainer from './map/MapContainer';
 import UserStoriesContainer from './UserStoriesContainer';
 import AllStoriesContainer from './AllStoriesContainer';
 import DetailedStoryContainer from './DetailedStoryContainer';
-import FilterView from './FilterView';
 import Profile from './profile/Profile';
 import LocationObserver from './LocationObserver';
 import {
