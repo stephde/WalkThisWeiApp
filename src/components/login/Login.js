@@ -57,7 +57,7 @@ class Login extends Component {
                 <PhoneInput
                   ref='phone'
                   style={{flex: 1, height: 50}} flagStyle={{height: 18, resizeMode: 'contain'}}
-                  textProps={{placeholder: 'Phone Number', placeholderTextColor: '#FFFFFF'}}
+                  textProps={{placeholder: 'Phone Number', placeholderTextColor: '#FFFFFF', keyboardType: "name-phone-pad"}}
                   textStyle={{flex: 1, color: '#FFFFFF'}}
                   onChangePhoneNumber={(number) => {this.onPhoneNumberChange(number);}}/>
               </Item>
