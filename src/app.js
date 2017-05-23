@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
 import AppNavigator from './components/AppNavigator';
+
 import Login from './components/login/Login';
 
 class App extends Component {

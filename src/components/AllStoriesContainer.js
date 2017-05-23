@@ -25,7 +25,9 @@ class AllStoriesContainer extends Component {
         key={story.id}
         story={story}
         isStartable={true}
-        setStoryActive={this.props.setStoryActive}
+        setStoryActive={
+          storyId => this.props.setStoryActive(this.props.activeUserId, storyId)
+        }
       />
     );
   }
@@ -44,20 +46,22 @@ class AllStoriesContainer extends Component {
 
 AllStoriesContainer.propTypes = {
   stories: React.PropTypes.object,
+  activeUserId: React.PropTypes.string,
   getStoriesAroundUser: React.PropTypes.func,
   setStoryActive: React.PropTypes.func,
 }
 
 function mapStateToProps(state) {
   return {
-    stories: state.stories.data
+    stories: state.stories.data,
+    activeUserId: state.activeUser.id
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getStoriesAroundUser: () => dispatch(getStoriesAroundCurrentLocation()),
-    setStoryActive: (storyId) => dispatch(setStoryActive(storyId))
+    setStoryActive: (userId, storyId) => dispatch(setStoryActive(userId, storyId))
   }
 }
 
