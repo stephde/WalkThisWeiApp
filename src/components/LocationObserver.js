@@ -32,6 +32,7 @@ class LocationObserver extends React.Component {
     const subChapterCount = _.get(activeStory, `chapters[${activeChapterIndex - 1}].subChapters.length`);
     const activeSubChapter = _.get(activeStory, `chapters[${activeChapterIndex - 1}].subChapters[${activeSubChapterIndex - 1}]`);
 
+    if (!activeSubChapter) return;
     if (this._userIsInRange(activeSubChapter.coordinates, userLocation)) {
       if (chapterCount === activeChapterIndex
         && subChapterCount === activeSubChapterIndex)
