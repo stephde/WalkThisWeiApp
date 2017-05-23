@@ -43,8 +43,8 @@ export function fetchStoriesByIds(storyIds) {
       }
     )
   }`;
-  const query = `/stories/${params}`;
-  console.log(query);
+  const query = `/stories?${params}`;
+
   return getApi(query);
 }
 

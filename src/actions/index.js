@@ -76,7 +76,7 @@ export function getStoriesByIds(storyIds) {
       }).catch((e) => {
         dispatch(getStoriesError(e));
       })
-  }  
+  }
 }
 
 export function getStoryById(storyId) {
@@ -156,6 +156,7 @@ export function login(deviceId, phoneNumber) {
         if (activeStoryId)
           dispatch(getStoryProgress(id, activeStoryId));
       }).catch((e) => {
+        debugger;
         dispatch(loginError(e));
       })
   }

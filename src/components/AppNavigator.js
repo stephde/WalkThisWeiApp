@@ -7,12 +7,13 @@ import UserStoriesContainer from './UserStoriesContainer';
 import AllStoriesContainer from './AllStoriesContainer';
 import DetailedStoryContainer from './DetailedStoryContainer';
 import FilterView from './FilterView';
-import LocationObserver from './LocationObserver';
 import Profile from './profile/Profile';
+import LocationObserver from './LocationObserver';
 import {
   setUserLocation,
   setRegion
 } from '../actions';
+import style from './styles';
 
 const getSceneStyle = (props, computedProps) => {
   const style = {
@@ -31,13 +32,12 @@ const getSceneStyle = (props, computedProps) => {
 };
 
 class TabIcon extends React.Component {
-    render(){
-        return (
-            <Text style={{color: 'black'}}>{this.props.title}</Text>
-        );
-    }
+  render(){
+    return (
+      <Text style={{color: 'black'}}>{this.props.title}</Text>
+    );
+  }
 }
-import style from './styles';
 
 class AppNavigator extends Component {
   componentDidMount() {

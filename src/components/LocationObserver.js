@@ -31,11 +31,14 @@ class LocationObserver extends React.Component {
     const chapterCount = _.get(activeStory, 'chapters.length');
     const subChapterCount = _.get(activeStory, `chapters[${activeChapterIndex - 1}].subChapters.length`);
     const activeSubChapter = _.get(activeStory, `chapters[${activeChapterIndex - 1}].subChapters[${activeSubChapterIndex - 1}]`);
+
     if (this._userIsInRange(activeSubChapter.coordinates, userLocation)) {
       if (chapterCount === activeChapterIndex
         && subChapterCount === activeSubChapterIndex)
+        // Story is finished, last subchapter in last chapter was reached
         this.props.finishedStory();
       else if (subChapterCount === activeSubChapterIndex)
+        // Chapter is finished, last subchapter in chapter was reached
         this.props.showNewChapterToggle({
           userId,
           storyId: activeStory.id,
@@ -45,6 +48,7 @@ class LocationObserver extends React.Component {
           }
         });
       else
+        // Some other subchapter was reached
         this.props.setStoryProgress(
           userId,
           activeStory.id,
@@ -75,6 +79,7 @@ LocationObserver.PropTypes = {
   progress: React.PropTypes.object,
   setStoryProgress: React.PropTypes.func,
   showNewChapterToggle: React.PropTypes.func,
+  finishedStory: React.PropTypes.func,
 }
 
 function mapStateToProps(state) {

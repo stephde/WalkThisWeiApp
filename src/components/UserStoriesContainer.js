@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import {
   Container,
   Content,
-  H3
+  H3,
+  Text
 } from 'native-base';
 import StoryCard from './StoryCard';
 import {
@@ -11,19 +12,6 @@ import {
   getStoriesByIds
 } from '../actions';
 import _ from 'lodash';
-
-const mockStory = {
-  _id: '59130080f1450662efcb0fa2',
-  id: 'story_hpi',
-  title: 'Lake HPI',
-  description: 'Dieser See hat Fische!',
-  picture: 'https://cloudstorage/storytitlepic.jpg',
-  authorId: 'author1',
-  categories: [
-    'nature'
-  ],
-  creationDate: '2017-04-13T14:23:52.409Z'
-};
 
 class UserStoriesContainer extends Component {
   componentDidMount() {

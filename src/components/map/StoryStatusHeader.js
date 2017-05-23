@@ -3,10 +3,11 @@ import { Dimensions } from 'react-native';
 import { connect} from 'react-redux';
 import { Button, Text, Content } from 'native-base';
 import { setStoryProgress } from '../../actions';
+import styles from './styles';
 
 const {height, width} = Dimensions.get('window');
 
-function NewChapterButton(props) {
+function StoryStatusHeader(props) {
   const {
     userId,
     storyId,
@@ -21,9 +22,9 @@ function NewChapterButton(props) {
         onPress={
           () => props.setStoryProgress(userId, storyId, progress)
         }
-        style={ props.style }
+        style={styles.newChapterButton}
       >
-        { props.children }
+        <Text>Change to new Chapter</Text>
       </Button>)
     : props.hasFinishedStory
       ? <Content>
@@ -41,7 +42,7 @@ function NewChapterButton(props) {
       : null;
 }
 
-NewChapterButton.propTypes = {
+StoryStatusHeader.propTypes = {
   showChapterButton: React.PropTypes.bool,
   isDisabled: React.PropTypes.bool,
   nextProgress: React.PropTypes.object,
@@ -59,4 +60,4 @@ function mapStateToProps(state) {
   }
 };
 
-export default connect(mapStateToProps, {setStoryProgress})(NewChapterButton);
+export default connect(mapStateToProps, {setStoryProgress})(StoryStatusHeader);
