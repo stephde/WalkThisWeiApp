@@ -40,19 +40,36 @@ class TabIcon extends React.Component {
 
 class AppNavigator extends Component {
   componentDidMount() {
-    this.watchID = navigator.geolocation.watchPosition((position) => {
-      // Create the object to update this.state.mapRegion through the onRegionChange function
-      const region = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta:  0.00922*1.5,
-        longitudeDelta: 0.00421*1.5,
-      }
-      this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
-      this.props.onRegionChange(region);
-    },
-    (error) => console.error(error),
-    {enableHighAccuracy: true, timeout: 20000, maximumAge: 5000, distanceFilter: 5});
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta:  0.00922*1.5,
+          longitudeDelta: 0.00421*1.5,
+        }
+        this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
+        this.props.onRegionChange(region);
+      },
+      (error) => console.log(error),
+      { enableHighAccuracy: true, timeout: 20000 },
+    );
+
+    this.watchID = navigator.geolocation.watchPosition(
+      (position) => {
+        // Create the object to update this.state.mapRegion through the onRegionChange function
+        const region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta:  0.00922*1.5,
+          longitudeDelta: 0.00421*1.5,
+        }
+        this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
+        this.props.onRegionChange(region);
+      },
+      (error) => console.log(error),
+      { enableHighAccuracy: true, timeout: 20000, distanceFilter: 5 }
+    );
   }
 
   componentWillUnmount() {
