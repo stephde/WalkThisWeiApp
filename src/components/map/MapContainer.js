@@ -45,6 +45,7 @@ function mapStateToProps(state) {
     annotations: getComposedAnnotations(annotations, state.position.userLocation),
     mapRegion: state.position.mapRegion,
     currentUser: state.activeUser,
+    isConnectedToDevice: state.ble.isConnectedToDevice
   };
 }
 

@@ -34,7 +34,8 @@ import {
   SHOW_NEW_CHAPTER_TOGGLE,
   FINISHED_STORY
   WRITE_CHARACTERISTIC,
-  COMPLETE_OPERATION
+  COMPLETE_OPERATION,
+  IS_CONNECTED_TO_DEVICE
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -219,5 +220,11 @@ export function writeCharacteristic(command) {
 export function completeOperation() {
   return {
     type: COMPLETE_OPERATION
+  }
+}
+
+export function isConnectedToDevice() {
+  return {
+    type: IS_CONNECTED_TO_DEVICE
   }
 }

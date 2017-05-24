@@ -72,9 +72,11 @@ export default class Map extends Component {
             onRegionChange={region => this.props.onRegionChange(region)}>
             { markers }
           </MapView>
-          <Button rounded onPress={() => {this.handleOnToggleBlePress()}} style={ styles.storiesButtonLeft }>
-            <Text>Toggle BLE</Text>
-          </Button>
+          { this.props.isConnectedToDevice &&
+            <Button rounded onPress={() => {this.handleOnToggleBlePress()}} style={ styles.storiesButtonLeft }>
+              <Text>Toggle BLE</Text>
+            </Button>
+          }
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>

@@ -34,6 +34,7 @@ export default class MapWrapper extends Component {
           mapRegion={this.props.mapRegion}
           onRegionChange={this.props.onRegionChange}
           writeCharacteristic={this.props.writeCharacteristic}
+          isConnectedToDevice={this.props.isConnectedToDevice}
         />
       );
     }
@@ -44,5 +45,6 @@ MapWrapper.propTypes = {
   annotations: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
   onRegionChange: React.PropTypes.func,
-  getCurrentStory: React.PropTypes.func
+  getCurrentStory: React.PropTypes.func,
+  isConnectedToDevice: React.PropTypes.bool
 }
