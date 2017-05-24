@@ -32,10 +32,11 @@ import {
   SET_USER_LOCATION,
   FILTER_CHANGED,
   SHOW_NEW_CHAPTER_TOGGLE,
-  FINISHED_STORY
+  FINISHED_STORY,
   WRITE_CHARACTERISTIC,
   COMPLETE_OPERATION,
-  IS_CONNECTED_TO_DEVICE
+  IS_CONNECTED_TO_DEVICE,
+  IS_NOT_CONNECTED_TO_DEVICE
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -206,6 +207,7 @@ export function finishedStory() {
   return {
     type: FINISHED_STORY
   };
+}
 
 export function writeCharacteristic(command) {
   return {
@@ -226,5 +228,11 @@ export function completeOperation() {
 export function isConnectedToDevice() {
   return {
     type: IS_CONNECTED_TO_DEVICE
+  }
+}
+
+export function isNotConnectedToDevice() {
+  return {
+    type: IS_NOT_CONNECTED_TO_DEVICE
   }
 }

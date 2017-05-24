@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
-import { completeOperation, isConnectedToDevice } from '../../actions';
+import { completeOperation, isConnectedToDevice, isNotConnectedToDevice } from '../../actions';
 import { connect } from 'react-redux';
 
 class BleComponent extends Component {
@@ -34,6 +34,7 @@ class BleComponent extends Component {
         });
         break;
       default:
+        console.log(newProps.operation.type);
         console.log("Operation not supported");
     }
   }
@@ -110,6 +111,10 @@ class BleComponent extends Component {
         this.connect(device)
           .then(() => {
             this.manager.stopDeviceScan();
+            this.manager.onDeviceDisconnected(this.device.id, (error, device) => {
+              console.log("Disconnected to Device");
+              this.props.isNotConnectedToDevice();
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -128,7 +133,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch){
   return {
     completeOperation: () => dispatch(completeOperation()),
-    isConnectedToDevice: () => dispatch(isConnectedToDevice())
+    isConnectedToDevice: () => dispatch(isConnectedToDevice()),
+    isNotConnectedToDevice: () => dispatch(isNotConnectedToDevice())
   };
 }
 

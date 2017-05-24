@@ -1,7 +1,8 @@
 import {
   WRITE_CHARACTERISTIC,
   COMPLETE_OPERATION,
-  IS_CONNECTED_TO_DEVICE
+  IS_CONNECTED_TO_DEVICE,
+  IS_NOT_CONNECTED_TO_DEVICE
 } from '../constants/actionTypes.js';
 
 const initialState = {
@@ -25,6 +26,11 @@ export default function ble(state = initialState, action) {
       return {
         ... state,
         isConnectedToDevice: true
+      }
+    case IS_NOT_CONNECTED_TO_DEVICE:
+      return {
+        ... state,
+        isConnectedToDevice: false
       }
     default:
       return state;
