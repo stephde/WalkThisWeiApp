@@ -33,8 +33,10 @@ export default class MapWrapper extends Component {
           annotations={this.props.annotations}
           mapRegion={this.props.mapRegion}
           onRegionChange={this.props.onRegionChange}
-          writeCharacteristic={this.props.writeCharacteristic}
+          turnLEDOn={this.props.turnLEDOn}
+          turnLEDOff={this.props.turnLEDOff}
           isConnectedToDevice={this.props.isConnectedToDevice}
+          isLEDOn={this.props.isLEDOn}
         />
       );
     }
@@ -46,5 +48,8 @@ MapWrapper.propTypes = {
   mapRegion: React.PropTypes.object,
   onRegionChange: React.PropTypes.func,
   getCurrentStory: React.PropTypes.func,
-  isConnectedToDevice: React.PropTypes.bool
+  isLEDOn: React.PropTypes.bool,
+  isConnectedToDevice: React.PropTypes.bool,
+  turnLEDOn: React.PropTypes.func,
+  turnLEDOff: React.PropTypes.func
 }

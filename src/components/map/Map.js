@@ -19,8 +19,7 @@ export default class Map extends Component {
     constructor() {
       super();
       this.state = {
-        selectedAnnotation: '',
-        isLEDOn: false
+        selectedAnnotation: ''
       };
     }
 
@@ -49,14 +48,12 @@ export default class Map extends Component {
     }
 
     handleOnToggleBlePress() {
-      if(this.state.isLEDOn) {
-        this.props.writeCharacteristic("T120");
+      if(this.props.isLEDOn) {
+        this.props.turnLEDOff();
       }
       else {
-        this.props.writeCharacteristic("T121");
+        this.props.turnLEDOn();
       }
-      this.setState({isLEDOn: !this.state.isLEDOn});
-
     }
 
     render() {

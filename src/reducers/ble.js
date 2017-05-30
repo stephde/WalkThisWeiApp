@@ -2,12 +2,14 @@ import {
   WRITE_CHARACTERISTIC,
   COMPLETE_OPERATION,
   IS_CONNECTED_TO_DEVICE,
-  IS_NOT_CONNECTED_TO_DEVICE
+  IS_NOT_CONNECTED_TO_DEVICE,
+  CHANGE_STATUS_OF_LED
 } from '../constants/actionTypes.js';
 
 const initialState = {
   operation: {},
-  isConnectedToDevice: false
+  isConnectedToDevice: false,
+  isLEDOn: false
 };
 
 export default function ble(state = initialState, action) {
@@ -31,6 +33,11 @@ export default function ble(state = initialState, action) {
       return {
         ... state,
         isConnectedToDevice: false
+      }
+    case CHANGE_STATUS_OF_LED:
+      return {
+        ... state,
+        isLEDOn: action.payload.isLEDOn
       }
     default:
       return state;

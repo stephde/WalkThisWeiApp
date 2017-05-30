@@ -36,7 +36,8 @@ import {
   WRITE_CHARACTERISTIC,
   COMPLETE_OPERATION,
   IS_CONNECTED_TO_DEVICE,
-  IS_NOT_CONNECTED_TO_DEVICE
+  IS_NOT_CONNECTED_TO_DEVICE,
+  CHANGE_STATUS_OF_LED
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -234,5 +235,27 @@ export function isConnectedToDevice() {
 export function isNotConnectedToDevice() {
   return {
     type: IS_NOT_CONNECTED_TO_DEVICE
+  }
+}
+
+export function turnLEDOn() {
+  return writeCharacteristic("T121");
+}
+
+export function turnLEDOff() {
+  return writeCharacteristic("T120");
+}
+
+export function storeNewStatus(command) {
+  switch(command.slice(1, 3)) {
+    case "12":
+      return {
+        type: CHANGE_STATUS_OF_LED,
+        payload: {
+          isLEDOn: command[command.length - 1] === "1"
+        }
+      };
+    default:
+      return {};
   }
 }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
-import { completeOperation, isConnectedToDevice, isNotConnectedToDevice } from '../../actions';
+import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, storeNewStatus } from '../../actions';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 class BleComponent extends Component {
   constructor(props) {
@@ -20,6 +21,12 @@ class BleComponent extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    if(!_.isEmpty(newProps.operation)) {
+      this._executeOperation(newProps);
+    }
+  }
+
+  _executeOperation(newProps) {
     switch (newProps.operation.type) {
       case 'write':
         this.manager.writeCharacteristicWithResponseForDevice(this.device.id,
@@ -27,6 +34,7 @@ class BleComponent extends Component {
                                                               this.characteristicId,
                                                               this.encode(newProps.operation.command))
         .then((characteristic) => {
+          newProps.storeNewStatus(newProps.operation.command);
           newProps.completeOperation();
         }, (rejected) => {
           console.log(rejected);
@@ -132,6 +140,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch){
   return {
+    storeNewStatus: (command) => dispatch(storeNewStatus(command)),
     completeOperation: () => dispatch(completeOperation()),
     isConnectedToDevice: () => dispatch(isConnectedToDevice()),
     isNotConnectedToDevice: () => dispatch(isNotConnectedToDevice())
