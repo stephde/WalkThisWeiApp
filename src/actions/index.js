@@ -38,7 +38,9 @@ import {
   IS_CONNECTED_TO_DEVICE,
   IS_NOT_CONNECTED_TO_DEVICE,
   CHANGE_STATUS_OF_LED,
-  SET_DEVICE_ID
+  SET_DEVICE_ID,
+  DISCONNECT_WEARABLE,
+  UNSET_DEVICE_ID
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -256,6 +258,15 @@ export function setDeviceId(deviceId) {
   }
 }
 
+export function disconnectWearable() {
+  return {
+    type: DISCONNECT_WEARABLE,
+    payload: {
+      type: 'disconnect',
+    }
+  }
+}
+
 export function storeNewStatus(command) {
   switch(command.slice(1, 3)) {
     case "12":
@@ -267,5 +278,11 @@ export function storeNewStatus(command) {
       };
     default:
       return {};
+  }
+}
+
+export function unsetDeviceId() {
+  return {
+    type: UNSET_DEVICE_ID
   }
 }

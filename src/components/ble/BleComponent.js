@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
-import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, storeNewStatus } from '../../actions';
+import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, storeNewStatus, unsetDeviceId} from '../../actions';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -38,12 +38,21 @@ class BleComponent extends Component {
   _executeOperation(newProps) {
     switch (newProps.operation.type) {
       case 'write':
-        this.manager.writeCharacteristicWithResponseForDevice(this.device.id,
+        this.manager.writeCharacteristicWithResponseForDevice(this.props.deviceId,
                                                               this.serviceId,
                                                               this.characteristicId,
                                                               this.encode(newProps.operation.command))
         .then((characteristic) => {
           newProps.storeNewStatus(newProps.operation.command);
+          newProps.completeOperation();
+        }, (rejected) => {
+          console.log(rejected);
+          newProps.completeOperation();
+        });
+      case 'disconnect':
+        this.manager.cancelDeviceConnection(this.props.deviceId)
+        .then(() => {
+          this.props.unsetDeviceId();
           newProps.completeOperation();
         }, (rejected) => {
           console.log(rejected);
@@ -107,7 +116,6 @@ class BleComponent extends Component {
         .then((device) => {
           console.log("Connected to device");
           this.props.isConnectedToDevice();
-          this.device = device;
           return device.discoverAllServicesAndCharacteristics();
         })
         .then((device) => {
@@ -140,7 +148,7 @@ class BleComponent extends Component {
         this.connect(device)
           .then(() => {
             this.manager.stopDeviceScan();
-            this.manager.onDeviceDisconnected(this.device.id, (error, device) => {
+            this.manager.onDeviceDisconnected(this.props.deviceId, (error, device) => {
               console.log("Disconnected to Device");
               this.props.isNotConnectedToDevice();
             });
@@ -165,7 +173,8 @@ function mapDispatchToProps(dispatch){
     storeNewStatus: (command) => dispatch(storeNewStatus(command)),
     completeOperation: () => dispatch(completeOperation()),
     isConnectedToDevice: () => dispatch(isConnectedToDevice()),
-    isNotConnectedToDevice: () => dispatch(isNotConnectedToDevice())
+    isNotConnectedToDevice: () => dispatch(isNotConnectedToDevice()),
+    unsetDeviceId: () => dispatch(unsetDeviceId())
   };
 }
 

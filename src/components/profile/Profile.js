@@ -8,7 +8,7 @@ import Camera from 'react-native-camera';
 import styles from './styles';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
-import { setDeviceId } from '../../actions';
+import { disconnectWearable, setDeviceId } from '../../actions';
 
 class Profile extends Component {
   constructor() {
@@ -53,6 +53,10 @@ class Profile extends Component {
     this.refs.cameraModal.open();
   }
 
+  onHandleRemoveWearable() {
+    this.props.disconnectWearable();
+  }
+
   onHandleBarCodeRead(event) {
     this.props.setDeviceId(event.data);
     this.refs.cameraModal.close();
@@ -78,6 +82,21 @@ class Profile extends Component {
           <Text style={styles.capture}>Scan device's QR code</Text>
         </Camera>
       </Modal>
+    );
+  }
+
+  _renderWearable() {
+    if(this.props.deviceId === '') {
+      return (
+        <Button style={styles.button} rounded transparent onPress={() => {this.onHandleAddWearable();}}>
+          <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>Add Wearable</Text>
+        </Button>
+      );
+    }
+    return (
+      <Button style={styles.button} rounded transparent onPress={() => {this.onHandleRemoveWearable();}}>
+        <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>Remove Wearable</Text>
+      </Button>
     );
   }
 
@@ -111,9 +130,7 @@ class Profile extends Component {
             { contacts }
           </View>
           <View style={{paddingTop: 16, paddingBottom: 20, flex: 1, alignItems: 'center'}}>
-            <Button style={styles.button} rounded transparent onPress={() => {this.onHandleAddWearable();}}>
-              <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>Add Wearable</Text>
-            </Button>
+            {this._renderWearable()}
           </View>
         </View>
         {this._renderCameraModal()}
@@ -123,17 +140,22 @@ class Profile extends Component {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    deviceId: state.ble.deviceId
+  };
 }
 
 function mapDispatchToProps(dispatch){
   return {
     setDeviceId: (deviceId) => dispatch(setDeviceId(deviceId)),
+    disconnectWearable: () => dispatch(disconnectWearable())
   };
 }
 
 Profile.propTypes = {
   setDeviceId: React.PropTypes.func,
+  deviceId: React.PropTypes.string,
+  disconnectWearable: React.PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
