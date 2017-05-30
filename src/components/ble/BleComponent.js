@@ -11,6 +11,7 @@ class BleComponent extends Component {
     this.manager = new BleManager();
   }
 
+  //Once bluetooth is turned on search for BLE device
   componentWillMount() {
     const subscription = this.manager.onStateChange((state) => {
       if (state === 'PoweredOn') {
@@ -26,6 +27,7 @@ class BleComponent extends Component {
     }
   }
 
+  // trigger a write or read operation for the BLE
   _executeOperation(newProps) {
     switch (newProps.operation.type) {
       case 'write':
@@ -51,6 +53,7 @@ class BleComponent extends Component {
     return null;
   }
 
+  // stores characteristics of a BLE service inside a map structure
   async fetchServicesAndCharacteristicsForDevice(device) {
     var servicesMap = {};
     var services = await device.services();
@@ -59,6 +62,7 @@ class BleComponent extends Component {
       var characteristicsMap = {};
       var characteristics = await service.characteristics();
 
+      // get properties of characteristics
       for (let characteristic of characteristics) {
         characteristicsMap[characteristic.uuid] = {
           uuid: characteristic.uuid,
@@ -72,20 +76,24 @@ class BleComponent extends Component {
 
       servicesMap[service.uuid] = {
         uuid: service.uuid,
-        isPrimary: service.isPrimary,
-        characteristicsCount: characteristics.length,
         characteristics: characteristicsMap
       };
     }
     return servicesMap;
   }
 
+  //encode command into the format the BLE expects. BLE expects base64, where
+  // letters are transformed to their respective ascii values
+  // command[0]: T for trigger a pin
+  // command.slice(1, 3): pin number
+  // command[3]: 1 for setting pin to HIGH 0 for LOW
   encode(command) {
     let commandOp = command[0].charCodeAt(0);
-    return Buffer.from([commandOp, command.slice(1, 3), command.slice(3)])
+    return Buffer.from([commandOp, command.slice(1, 3), command[3]])
     .toString('base64');
   }
 
+  //connect to BLE and fetch services upon successful connection
   connect(device) {
     return new Promise((resolve, reject) => {
       this.manager.connectToDevice(device.id)
@@ -99,7 +107,12 @@ class BleComponent extends Component {
           return this.fetchServicesAndCharacteristicsForDevice(device);
         })
         .then((services) => {
+          // services are not yet named on the BLE
+          // BLE code has to name the services to identify them better
+          // Currently only one service exists for the BLE
           this.serviceId = Object.keys(services)[0];
+          // BLE service has a writeable and readable characteristic
+          // Clear identification of characteristic has to be ensured by ble code
           this.characteristicId = Object.keys(services[this.serviceId].characteristics)
             .find(cId => services[this.serviceId].characteristics[cId].isWritable);
           return resolve();
@@ -110,11 +123,13 @@ class BleComponent extends Component {
     });
   }
 
+  //scan for bluetooth devices
   scanAndConnect() {
     this.manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         console.log(error);
       }
+      //deviceId has to be more generic
       if (device.id === 'A235E320-78C5-49FC-BEC2-24F2612B4D0E') {
         this.connect(device)
           .then(() => {
