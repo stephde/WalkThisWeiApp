@@ -5,7 +5,6 @@ import { View } from 'react-native';
 import { Button, Container, Form, Input, Item, Text, Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Col, Row, Grid } from "react-native-easy-grid";
-import PhoneInput from 'react-native-phone-input'
 import { connect } from 'react-redux';
 import { login } from '../../actions/';
 import DeviceInfo from 'react-native-device-info';
@@ -15,8 +14,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      phoneNumber: '',
-      isPhoneInputValid: true
+      nickName: ''
     }
   }
 
@@ -25,26 +23,20 @@ class Login extends Component {
   }
 
   onLogin() {
-    if(!this.state.isPhoneInputValid || !this.state.phoneNumber) {
+    if(!this.state.nickName || this.state.nickName.length < 4) {
       Toast.show({
              supportedOrientations: ['landscape', 'portrait'],
-             text: 'Wrong phone number!',
+             text: 'Please enter a nickname with at least 4 characters!',
              position: 'top',
              buttonText: 'Okay'
            });
       return;
     }
-    this.props.login(DeviceInfo.getUniqueID(),this.state.phoneNumber);
-  }
-  onPhoneNumberChange(number) {
-    this.setState({
-      isPhoneInputValid: this.refs.phone.isValidNumber(),
-      phoneNumber: number
-    });
+    this.props.login(DeviceInfo.getUniqueID(),this.state.nickName);
   }
 
   _renderLogin() {
-    const inputBorderColor = this.state.isPhoneInputValid ? '#FFFFFF' : 'red';
+    const inputBorderColor = '#FFFFFF';
     return (
       <Container style={{alignItems: 'center', justifyContent: 'center', backgroundColor: '#70C8BE', paddingTop: 20}}>
         <Grid>
@@ -53,20 +45,20 @@ class Login extends Component {
           </Row>
           <Row size={40} style={{justifyContent: 'center', alignItems: 'center'}}>
             <View style={{justifyContent: 'center', flex: 1}}>
-              <Item style={{borderColor: '#FFFFFF', borderBottomWidth: 2.5, borderBottomColor: inputBorderColor}}>
-                <PhoneInput
-                  ref='phone'
-                  style={{flex: 1, height: 50}} flagStyle={{height: 18, resizeMode: 'contain'}}
-                  textProps={{placeholder: 'Phone Number', placeholderTextColor: '#FFFFFF', keyboardType: "name-phone-pad"}}
-                  textStyle={{flex: 1, color: '#FFFFFF'}}
-                  onChangePhoneNumber={(number) => {this.onPhoneNumberChange(number);}}/>
-              </Item>
+              <Input
+                  placeholder="Username"
+                  value={this.state.nickName}
+                  onChangeText={(input) => this.setState({nickName: input})}
+                  style={{borderColor: '#FFFFFF', borderBottomWidth: 2.5, borderBottomColor: inputBorderColor}} />
             </View>
           </Row>
           <Row size={30} style={{alignItems: 'center', justifyContent: 'center'}}>
             <View>
-              <Button transparent style={{borderWidth: 3, borderColor: inputBorderColor, borderRadius: 99, height: 70, width: 170, justifyContent: 'center'}} onPress={() => {this.onLogin();}}>
-                <Text style={{lineHeight: 28, fontSize: 22, color: inputBorderColor}}>Login</Text>
+              <Button
+                  transparent
+                  style={{borderWidth: 3, borderColor: inputBorderColor, borderRadius: 99, height: 70, width: 170, justifyContent: 'center'}}
+                  onPress={() => {this.onLogin();}}>
+                <Text style={{lineHeight: 28, fontSize: 22, color: inputBorderColor}}>Sign Up!</Text>
               </Button>
             </View>
           </Row>
@@ -87,7 +79,7 @@ class Login extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    login: (deviceId, phone) => dispatch(login(deviceId, phone)),
+    login: (deviceId, nickName) => dispatch(login(deviceId, nickName)),
   };
 }
 

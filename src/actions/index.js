@@ -147,10 +147,10 @@ const loginStart = () => ({ type: LOGIN_START });
 const loginSuccess = (json) => ({ type: LOGIN_SUCCESS, payload: json });
 const loginError = (error) => ({ type: LOGIN_ERROR, payload: error });
 
-export function login(deviceId, phoneNumber) {
+export function login(deviceId, nickName) {
   return (dispatch) => {
     dispatch(loginStart());
-    return postLogin(deviceId, phoneNumber)
+    return postLogin(deviceId, nickName)
       .then(json => {
         dispatch(loginSuccess(json));
         const { activeStoryId, id } = json;
