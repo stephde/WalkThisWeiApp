@@ -24,6 +24,6 @@ export function postStoryProgress(userId, storyId, progressObject) {
   return postApi(`/users/${userId}/stories/${storyId}`, progressObject);
 }
 
-export function postLogin(deviceId, phoneNumber) {
-  return postApi('/login', {deviceId, phoneNumber});
+export function postLogin(deviceId, nickName) {
+  return postApi('/login', {deviceId, nickName});
 }
