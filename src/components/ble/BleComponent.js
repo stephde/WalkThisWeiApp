@@ -3,6 +3,7 @@ import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
 import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, storeNewStatus, unsetDeviceId} from '../../actions';
 import { connect } from 'react-redux';
+import { Toast } from 'native-base';
 import _ from 'lodash';
 
 class BleComponent extends Component {
@@ -49,6 +50,7 @@ class BleComponent extends Component {
           console.log(rejected);
           newProps.completeOperation();
         });
+        break;
       case 'disconnect':
         this.manager.cancelDeviceConnection(this.props.deviceId)
         .then(() => {
@@ -115,6 +117,11 @@ class BleComponent extends Component {
       this.manager.connectToDevice(device.id)
         .then((device) => {
           console.log("Connected to device");
+          Toast.show({
+            text: 'Connected to device!',
+            position: 'top',
+            buttonText: 'Okay'
+          });
           this.props.isConnectedToDevice();
           return device.discoverAllServicesAndCharacteristics();
         })
@@ -149,7 +156,12 @@ class BleComponent extends Component {
           .then(() => {
             this.manager.stopDeviceScan();
             this.manager.onDeviceDisconnected(this.props.deviceId, (error, device) => {
-              console.log("Disconnected to Device");
+              console.log("Disconnected Device");
+              Toast.show({
+                text: 'Disconnected device!',
+                position: 'top',
+                buttonText: 'Okay'
+              });
               this.props.isNotConnectedToDevice();
             });
           })

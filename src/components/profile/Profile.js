@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { Button, Content, Icon } from 'native-base';
+import { Button, Container, Content, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Camera from 'react-native-camera';
 import styles from './styles';
@@ -67,11 +67,8 @@ class Profile extends Component {
       <Modal
         style={styles.modal}
         ref={"cameraModal"}
-        animationDuration={700}
+        animationDuration={300}
         swipeToClose={false}>
-        <Button transparent onPress={() => {this.refs.cameraModal.close();}}>
-          <Icon name="close-circle" style={Object.assign(styles.modalTextColor, styles.modalClosingButton)}/>
-        </Button>
         <Camera
           ref={(cam) => {
             this.camera = cam;
@@ -79,7 +76,14 @@ class Profile extends Component {
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}
           onBarCodeRead={(event) => {this.onHandleBarCodeRead(event);}}>
-          <Text style={styles.capture}>Scan device's QR code</Text>
+          <View style={{flex: 1, paddingTop: 20}}>
+            <Button transparent onPress={() => {this.refs.cameraModal.close();}}>
+              <Icon name="close-circle" style={Object.assign(styles.modalTextColor, styles.modalClosingButton)}/>
+            </Button>
+          </View>
+          <View style={{flex: 1, justifyContent: 'flex-end'}}>
+            <Text style={styles.capture}>Scan device's QR code</Text>
+          </View>
         </Camera>
       </Modal>
     );
@@ -103,6 +107,7 @@ class Profile extends Component {
   render() {
     const contacts = this._getContacts();
     return (
+      <Container style={{flex: 1}}>
       <Content>
         <View style={Object.assign({paddingTop: 20}, styles.container)}>
           <Button transparent onPress={() => {Actions.pop();}}>
@@ -133,8 +138,9 @@ class Profile extends Component {
             {this._renderWearable()}
           </View>
         </View>
-        {this._renderCameraModal()}
       </Content>
+      {this._renderCameraModal()}
+    </Container>
     );
   }
 }
