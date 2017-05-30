@@ -7,8 +7,10 @@ import { Actions } from 'react-native-router-flux';
 import Camera from 'react-native-camera';
 import styles from './styles';
 import Modal from 'react-native-modalbox';
+import { connect } from 'react-redux';
+import { setDeviceId } from '../../actions';
 
-export default class Profile extends Component {
+class Profile extends Component {
   constructor() {
     super();
     this.state = {
@@ -52,8 +54,8 @@ export default class Profile extends Component {
   }
 
   onHandleBarCodeRead(event) {
-    console.log("QR code read");
-    console.log(event);
+    this.props.setDeviceId(event.data);
+    this.refs.cameraModal.close();
   }
 
   _renderCameraModal() {
@@ -119,3 +121,19 @@ export default class Profile extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    setDeviceId: (deviceId) => dispatch(setDeviceId(deviceId)),
+  };
+}
+
+Profile.propTypes = {
+  setDeviceId: React.PropTypes.func,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

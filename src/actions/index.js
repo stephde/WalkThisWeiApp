@@ -37,7 +37,8 @@ import {
   COMPLETE_OPERATION,
   IS_CONNECTED_TO_DEVICE,
   IS_NOT_CONNECTED_TO_DEVICE,
-  CHANGE_STATUS_OF_LED
+  CHANGE_STATUS_OF_LED,
+  SET_DEVICE_ID
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -244,6 +245,15 @@ export function turnLEDOn() {
 
 export function turnLEDOff() {
   return writeCharacteristic("T120");
+}
+
+export function setDeviceId(deviceId) {
+  return {
+    type: SET_DEVICE_ID,
+    payload: {
+      deviceId: deviceId
+    }
+  }
 }
 
 export function storeNewStatus(command) {

@@ -9,21 +9,28 @@ class BleComponent extends Component {
   constructor(props) {
     super(props);
     this.manager = new BleManager();
+    this.state = {
+      bluetooth: ''
+    }
   }
 
-  //Once bluetooth is turned on search for BLE device
   componentWillMount() {
     const subscription = this.manager.onStateChange((state) => {
-      if (state === 'PoweredOn') {
-          this.scanAndConnect();
-          subscription.remove();
-      }
+      this.setState({bluetooth: state});
     }, true);
   }
 
   componentWillReceiveProps(newProps) {
     if(!_.isEmpty(newProps.operation)) {
       this._executeOperation(newProps);
+    }
+
+    if(this.props.deviceId != newProps.deviceId) {
+      if(newProps.deviceId !== '') {
+        if (this.state.bluetooth === 'PoweredOn') {
+          this.scanAndConnect();
+        }
+      }
     }
   }
 
@@ -129,8 +136,7 @@ class BleComponent extends Component {
       if (error) {
         console.log(error);
       }
-      //deviceId has to be more generic
-      if (device.id === 'A235E320-78C5-49FC-BEC2-24F2612B4D0E') {
+      if (device.id === this.props.deviceId) {
         this.connect(device)
           .then(() => {
             this.manager.stopDeviceScan();
@@ -149,7 +155,8 @@ class BleComponent extends Component {
 
 function mapStateToProps(state) {
   return {
-    operation: state.ble.operation
+    operation: state.ble.operation,
+    deviceId: state.ble.deviceId
   };
 }
 
