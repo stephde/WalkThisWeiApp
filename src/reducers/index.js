@@ -5,7 +5,7 @@ import stories from './stories';
 import activeUser from './activeUser';
 import progress from './progress';
 import ui from './ui';
-
+import ble from './ble';
 
 export default combineReducers({
   stories,
@@ -13,5 +13,6 @@ export default combineReducers({
   progress,
   position,
   filter,
-  ui
+  ui,
+  ble
 });
