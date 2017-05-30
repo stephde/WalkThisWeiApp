@@ -51,6 +51,11 @@ export default class Profile extends Component {
     this.refs.cameraModal.open();
   }
 
+  onHandleBarCodeRead(event) {
+    console.log("QR code read");
+    console.log(event);
+  }
+
   _renderCameraModal() {
     return (
       <Modal
@@ -66,7 +71,8 @@ export default class Profile extends Component {
             this.camera = cam;
           }}
           style={styles.preview}
-          aspect={Camera.constants.Aspect.fill}>
+          aspect={Camera.constants.Aspect.fill}
+          onBarCodeRead={(event) => {this.onHandleBarCodeRead(event);}}>
           <Text style={styles.capture}>Scan device's QR code</Text>
         </Camera>
       </Modal>
