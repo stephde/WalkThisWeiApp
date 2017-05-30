@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Icon, Text } from 'native-base';
 import { Router, Scene, Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import MapContainer from './map/MapContainer';
+import MapChoser from './map/MapChoser';
 import UserStoriesContainer from './UserStoriesContainer';
 import AllStoriesContainer from './AllStoriesContainer';
 import DetailedStoryContainer from './DetailedStoryContainer';
@@ -94,7 +94,7 @@ class AppNavigator extends Component {
           >
             <Scene
               key="map"
-              component={MapContainer}
+              component={MapChoser}
               title="WalkThisWei"
               hideTabBar
               initial
