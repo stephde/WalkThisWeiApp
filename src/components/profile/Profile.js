@@ -2,10 +2,11 @@
 
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { Button, Icon } from 'native-base';
+import { Button, Content, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-
+import Camera from 'react-native-camera';
 import styles from './styles';
+import Modal from 'react-native-modalbox';
 
 export default class Profile extends Component {
   constructor() {
@@ -46,11 +47,37 @@ export default class Profile extends Component {
       });
   }
 
+  onHandleAddWearable() {
+    this.refs.cameraModal.open();
+  }
+
+  _renderCameraModal() {
+    return (
+      <Modal
+        style={styles.modal}
+        ref={"cameraModal"}
+        animationDuration={700}
+        swipeToClose={false}>
+        <Button transparent onPress={() => {this.refs.cameraModal.close();}}>
+          <Icon name="close-circle" style={Object.assign(styles.modalTextColor, styles.modalClosingButton)}/>
+        </Button>
+        <Camera
+          ref={(cam) => {
+            this.camera = cam;
+          }}
+          style={styles.preview}
+          aspect={Camera.constants.Aspect.fill}>
+          <Text style={styles.capture}>Scan device's QR code</Text>
+        </Camera>
+      </Modal>
+    );
+  }
+
   render() {
     const contacts = this._getContacts();
     return (
-      <View style={{paddingTop: 20, flex: 1}}>
-        <View style={styles.container}>
+      <Content>
+        <View style={Object.assign({paddingTop: 20}, styles.container)}>
           <Button transparent onPress={() => {Actions.pop();}}>
             <Icon name="ios-arrow-back" style={styles.backButton}/>
           </Button>
@@ -75,8 +102,14 @@ export default class Profile extends Component {
             <Text style={Object.assign({}, styles.titleFontSize, styles.textColor)}>Contacts</Text>
             { contacts }
           </View>
+          <View style={{paddingTop: 16, paddingBottom: 20, flex: 1, alignItems: 'center'}}>
+            <Button style={styles.button} rounded transparent onPress={() => {this.onHandleAddWearable();}}>
+              <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>Add Wearable</Text>
+            </Button>
+          </View>
         </View>
-      </View>
+        {this._renderCameraModal()}
+      </Content>
     );
   }
 }
