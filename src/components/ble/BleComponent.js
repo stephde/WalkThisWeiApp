@@ -88,6 +88,11 @@ class BleComponent extends Component {
     .toString('base64');
   }
 
+  decode(command) {
+    decoded = Buffer.from('RgM=', 'base64');
+    return String.fromCharCode(decoded[0]) + decoded[1];
+  }
+
   //connect to BLE and fetch services upon successful connection
   connect(device) {
     return new Promise((resolve, reject) => {
@@ -101,6 +106,17 @@ class BleComponent extends Component {
           });
           this.props.isConnectedToDevice();
           return device.discoverAllServicesAndCharacteristics();
+        })
+        .then(() => {
+          this.manager.monitorCharacteristicForDevice(this.props.deviceId,
+                                                    SERVICE_ID,
+                                                    READ_CHARACTERISTIC_ID,
+                                                    (err, characteristic) => {
+            if(err) {
+              console.log(err);
+            }
+            console.log(this.decode(characteristic.value));
+          })
         })
         .catch((error) => {
           return reject(error);
