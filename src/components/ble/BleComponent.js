@@ -5,6 +5,11 @@ import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, unsetDe
 import { connect } from 'react-redux';
 import { Toast } from 'native-base';
 import _ from 'lodash';
+import {
+  SERVICE_ID,
+  WRITE_CHARACTERISTIC_ID,
+  READ_CHARACTERISTIC_ID
+} from '../../constants/ble';
 
 class BleComponent extends Component {
   constructor(props) {
@@ -39,9 +44,11 @@ class BleComponent extends Component {
   _executeOperation(newProps) {
     switch (newProps.operation.type) {
       case 'write':
+        console.log(this.serviceId);
+        console.log(this.characteristicId);
         this.manager.writeCharacteristicWithResponseForDevice(this.props.deviceId,
-                                                              this.serviceId,
-                                                              this.characteristicId,
+                                                              SERVICE_ID,
+                                                              WRITE_CHARACTERISTIC_ID,
                                                               this.encode(newProps.operation.command))
         .then((characteristic) => {
           newProps.completeOperation();
@@ -70,35 +77,6 @@ class BleComponent extends Component {
     return null;
   }
 
-  // stores characteristics of a BLE service inside a map structure
-  async fetchServicesAndCharacteristicsForDevice(device) {
-    var servicesMap = {};
-    var services = await device.services();
-
-    for (let service of services) {
-      var characteristicsMap = {};
-      var characteristics = await service.characteristics();
-
-      // get properties of characteristics
-      for (let characteristic of characteristics) {
-        characteristicsMap[characteristic.uuid] = {
-          uuid: characteristic.uuid,
-          isReadable: characteristic.isReadable,
-          isWritable: characteristic.isWritableWithResponse,
-          isNotifiable: characteristic.isNotifiable,
-          isNotifying: characteristic.isNotifying,
-          value: characteristic.value
-        };
-      }
-
-      servicesMap[service.uuid] = {
-        uuid: service.uuid,
-        characteristics: characteristicsMap
-      };
-    }
-    return servicesMap;
-  }
-
   //encode command into the format the BLE expects. BLE expects base64, where
   // letters are transformed to their respective ascii values
   // command[0]: T for trigger a pin
@@ -123,20 +101,6 @@ class BleComponent extends Component {
           });
           this.props.isConnectedToDevice();
           return device.discoverAllServicesAndCharacteristics();
-        })
-        .then((device) => {
-          return this.fetchServicesAndCharacteristicsForDevice(device);
-        })
-        .then((services) => {
-          // services are not yet named on the BLE
-          // BLE code has to name the services to identify them better
-          // Currently only one service exists for the BLE
-          this.serviceId = Object.keys(services)[0];
-          // BLE service has a writeable and readable characteristic
-          // Clear identification of characteristic has to be ensured by ble code
-          this.characteristicId = Object.keys(services[this.serviceId].characteristics)
-            .find(cId => services[this.serviceId].characteristics[cId].isWritable);
-          return resolve();
         })
         .catch((error) => {
           return reject(error);
