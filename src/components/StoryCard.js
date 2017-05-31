@@ -32,7 +32,7 @@ const styles = {
 
 export default function StoryCard(props) {
   return (
-    <Card >
+    <Card>
       <CardItem
         cardBody
         style={styles.imageItem}

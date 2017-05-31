@@ -5,7 +5,7 @@ function getApi(path) {
   return fetch(API_URL + path)
     .then(response => {
       if (response.status < 200 || response.status >=300 )
-        return Promise.reject(new Error('Error! Response Status not 2xx'))
+        return Promise.reject(response);
       else return response;
     })
     .then(response => response.json())

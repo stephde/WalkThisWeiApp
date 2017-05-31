@@ -7,7 +7,7 @@ import styles from './styles';
 
 const {height, width} = Dimensions.get('window');
 
-function StoryStatusHeader(props) {
+function ActiveStoryStatusHeader(props) {
   const {
     userId,
     storyId,
@@ -40,7 +40,7 @@ function StoryStatusHeader(props) {
       : null;
 }
 
-StoryStatusHeader.propTypes = {
+ActiveStoryStatusHeader.propTypes = {
   showChapterButton: React.PropTypes.bool,
   isDisabled: React.PropTypes.bool,
   nextProgress: React.PropTypes.object,
@@ -58,4 +58,4 @@ function mapStateToProps(state) {
   }
 };
 
-export default connect(mapStateToProps, {setStoryProgress})(StoryStatusHeader);
+export default connect(mapStateToProps, {setStoryProgress})(ActiveStoryStatusHeader);

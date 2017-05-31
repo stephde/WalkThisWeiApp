@@ -3,19 +3,32 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
-    View
+    View,
+    Image
 } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import styles from './styles';
 import { Button, Text, Icon } from 'native-base';
-import StoryStatusHeader from './StoryStatusHeader';
+import ActiveStoryStatusHeader from './ActiveStoryStatusHeader';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
 import MarkerPlayer from '../player/player';
-const IN_DISTANCE_MARKER = require('../../../images/inDistanceMarker.png');
-const OUT_DISTANCE_MARKER = require('../../../images/outDistanceMarker.png');
+import {
+  IN_DISTANCE_MARKER,
+  NEXT_SUBCHAPTER_MARKER,
+  OUT_OF_DISTANCE_MARKER
+} from '../../constants/markerTypes';
+import markerTurquois from '../../../images/marker_turquois.png';
+import markerRed from '../../../images/marker_red.png';
+import markerGray from '../../../images/marker_gray.png';
 
-export default class Map extends Component {
+const markerMapper = {
+  [IN_DISTANCE_MARKER]: markerTurquois,
+  [NEXT_SUBCHAPTER_MARKER]: markerRed,
+  [OUT_OF_DISTANCE_MARKER]: markerGray
+};
+
+export default class ActiveStoryMap extends Component {
     constructor() {
       super();
       this.state = {
@@ -26,18 +39,28 @@ export default class Map extends Component {
     _getMarkers() {
       return Object.keys(this.props.annotations)
         .map((key) => {
-          const markerPicture = this.props.annotations[key].inDistance ? IN_DISTANCE_MARKER : OUT_DISTANCE_MARKER;
+          const markerPicture = markerMapper[this.props.annotations[key].markerType]
           return (
-            <MapView.Marker
+            <Marker
               key={this.props.annotations[key]._id}
               coordinate={{
                 longitude: this.props.annotations[key].coordinates[0],
                 latitude: this.props.annotations[key].coordinates[1],
               }}
-              image={markerPicture}
               onPress={() => {this.handleOnMarkerPress(key);}}
               onSelect={() => {this.handleOnMarkerPress(key);}}
-            />
+            >
+              <View>
+                <Image
+                  source={markerPicture}
+                  resizeMode={'contain'}
+                  style={{
+                    height: 30,
+                    width: 30,
+                  }}
+                />
+              </View>
+            </Marker>
           );
         });
     }
@@ -74,14 +97,14 @@ export default class Map extends Component {
             <MarkerPlayer annotation={this.state.selectedAnnotation}/>
           </Modal>
           <View style={styles.floatView}>
-            <StoryStatusHeader />
+            <ActiveStoryStatusHeader />
           </View>
         </View>
       );
     }
 }
 
-Map.propTypes = {
+ActiveStoryMap.propTypes = {
   annotations: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
   onRegionChange: React.PropTypes.func,

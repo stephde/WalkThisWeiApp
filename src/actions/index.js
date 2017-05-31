@@ -44,12 +44,12 @@ export function getStoriesAroundCurrentLocation() {
     dispatch(getStoriesStart());
     const { filter, position } = getState();
     const {longitude, latitude} = position.userLocation;
-
     return fetchStoriesByLocation(latitude, longitude, filter.categories)
       .then(json => {
         dispatch(getStoriesSuccess(json));
       }).catch((e) => {
-        dispatch(getStoriesError(e));
+        console.error(e);
+        dispatch(getStoriesError(e.message));
       })
   }
 }
@@ -62,7 +62,8 @@ export function getStoriesByLocation(latitude, longitude) {
       .then(json => {
         dispatch(getStoriesSuccess(json));
       }).catch((e) => {
-        dispatch(getStoriesError(e));
+        console.error(e);
+        dispatch(getStoriesError(e.message));
       })
   }
 }
@@ -74,8 +75,8 @@ export function getStoriesByIds(storyIds) {
       .then(json => {
         dispatch(getStoriesSuccess(json));
       }).catch((e) => {
-        debugger;
-        dispatch(getStoriesError(e));
+        console.error(e);
+        dispatch(getStoriesError(e.message));
       })
   }
 }
@@ -87,7 +88,8 @@ export function getStoryById(storyId) {
       .then(json => {
         dispatch(getStoriesSuccess(json));
       }).catch((e) => {
-        dispatch(getStoriesError(e));
+        console.error(e);
+        dispatch(getStoriesError(e.message));
       })
   }
 }
@@ -105,7 +107,8 @@ export function setStoryActive(userId, storyId) {
         Actions.map({type: ActionConst.RESET});
         dispatch(getStoryProgress(userId, storyId))
       }).catch((e) => {
-        dispatch(setStoryActiveError(e));
+        console.error(e);
+        dispatch(setStoryActiveError(e.message));
       })
   };
 }
@@ -122,7 +125,8 @@ export function setStoryProgress(userId, storyId, progress) {
       .then(json => {
         dispatch(setStoryProgressSuccess(json));
       }).catch((e) => {
-        dispatch(setStoryProgressError(e));
+        console.error(e);
+        dispatch(setStoryProgressError(e.message));
       })
   };
 }
@@ -138,7 +142,8 @@ export function getStoryProgress(userId, storyId) {
       .then(json => {
         dispatch(getStoryProgressSuccess(json));
       }).catch((e) => {
-        dispatch(getStoryProgressError(e));
+        console.error(e);
+        dispatch(getStoryProgressError(e.message));
       })
   };
 }
@@ -157,6 +162,7 @@ export function login(deviceId, nickName) {
         if (activeStoryId)
           dispatch(getStoryProgress(id, activeStoryId));
       }).catch((e) => {
+        console.error(e);
         dispatch(loginError(e));
       })
   }

@@ -42,12 +42,10 @@ const styles = {
 }
 
 class DetailedStoryContainer extends Component {
-
-
   _buildChapterTabs(){
     return _.map(this.props.story.chapters, chapter =>
         <ChapterCard
-            key={chapter.id}
+            key={chapter._id}
             chapter={chapter}
         />
     );
@@ -85,7 +83,12 @@ class DetailedStoryContainer extends Component {
           <Button
               rounded
               style={styles.button}
-              onPress={() => this.props.setStoryActive(this.props.story.id)}
+              onPress={
+                () => this.props.setStoryActive(
+                  this.props.activeUserId,
+                  this.props.story.id
+                )
+              }
           >
             <Text>Start</Text>
           </Button>
@@ -100,4 +103,10 @@ DetailedStoryContainer.propTypes = {
   setStoryActive: React.PropTypes.func
 }
 
-export default connect(null,{setStoryActive})(DetailedStoryContainer)
+function mapStateToProps(state) {
+  return {
+    activeUserId: state.activeUser.id
+  };
+}
+
+export default connect(mapStateToProps,{setStoryActive})(DetailedStoryContainer)

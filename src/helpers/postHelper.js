@@ -9,8 +9,9 @@ function postApi(path, body) {
       body: JSON.stringify(body)
     })
     .then(response => {
-      if (response.status < 200 || response.status >=300 )
-        return Promise.reject(new Error('Error! Response Status not 2xx'))
+      if (response.status < 200 || response.status >=300 ) {
+        return Promise.reject(response)
+      }
       else return response;
     })
     .then(response => response.json())
