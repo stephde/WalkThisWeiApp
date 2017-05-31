@@ -2,12 +2,15 @@
 
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { Button, Icon } from 'native-base';
+import { Button, Container, Content, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-
+import Camera from 'react-native-camera';
 import styles from './styles';
+import Modal from 'react-native-modalbox';
+import { connect } from 'react-redux';
+import { disconnectWearable, setDeviceId } from '../../actions';
 
-export default class Profile extends Component {
+class Profile extends Component {
   constructor() {
     super();
     this.state = {
@@ -46,11 +49,67 @@ export default class Profile extends Component {
       });
   }
 
+  onHandleAddWearable() {
+    this.refs.cameraModal.open();
+  }
+
+  onHandleRemoveWearable() {
+    this.props.disconnectWearable();
+  }
+
+  onHandleBarCodeRead(event) {
+    this.props.setDeviceId(event.data);
+    this.refs.cameraModal.close();
+  }
+
+  _renderCameraModal() {
+    return (
+      <Modal
+        style={styles.modal}
+        ref={"cameraModal"}
+        animationDuration={300}
+        swipeToClose={false}>
+        <Camera
+          ref={(cam) => {
+            this.camera = cam;
+          }}
+          style={styles.preview}
+          aspect={Camera.constants.Aspect.fill}
+          onBarCodeRead={(event) => {this.onHandleBarCodeRead(event);}}>
+          <View style={{flex: 1, paddingTop: 20}}>
+            <Button transparent onPress={() => {this.refs.cameraModal.close();}}>
+              <Icon name="close-circle" style={Object.assign(styles.modalTextColor, styles.modalClosingButton)}/>
+            </Button>
+          </View>
+          <View style={{flex: 1, justifyContent: 'flex-end'}}>
+            <Text style={styles.capture}>Scan device's QR code</Text>
+          </View>
+        </Camera>
+      </Modal>
+    );
+  }
+
+  _renderWearable() {
+    if(this.props.deviceId === '') {
+      return (
+        <Button style={styles.button} rounded transparent onPress={() => {this.onHandleAddWearable();}}>
+          <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>Add Wearable</Text>
+        </Button>
+      );
+    }
+    return (
+      <Button style={styles.button} rounded transparent onPress={() => {this.onHandleRemoveWearable();}}>
+        <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>Remove Wearable</Text>
+      </Button>
+    );
+  }
+
   render() {
     const contacts = this._getContacts();
     return (
-      <View style={{paddingTop: 20, flex: 1}}>
-        <View style={styles.container}>
+      <Container style={{flex: 1}}>
+      <Content>
+        <View style={Object.assign({paddingTop: 20}, styles.container)}>
           <Button transparent onPress={() => {Actions.pop();}}>
             <Icon name="ios-arrow-back" style={styles.backButton}/>
           </Button>
@@ -75,8 +134,34 @@ export default class Profile extends Component {
             <Text style={Object.assign({}, styles.titleFontSize, styles.textColor)}>Contacts</Text>
             { contacts }
           </View>
+          <View style={{paddingTop: 16, paddingBottom: 20, flex: 1, alignItems: 'center'}}>
+            {this._renderWearable()}
+          </View>
         </View>
-      </View>
+      </Content>
+      {this._renderCameraModal()}
+    </Container>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    deviceId: state.ble.deviceId
+  };
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    setDeviceId: (deviceId) => dispatch(setDeviceId(deviceId)),
+    disconnectWearable: () => dispatch(disconnectWearable())
+  };
+}
+
+Profile.propTypes = {
+  setDeviceId: React.PropTypes.func,
+  deviceId: React.PropTypes.string,
+  disconnectWearable: React.PropTypes.func
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
