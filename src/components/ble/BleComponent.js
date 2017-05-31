@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
-import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, storeNewStatus } from '../../actions';
+import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, storeNewStatus, unsetDeviceId} from '../../actions';
 import { connect } from 'react-redux';
+import { Toast } from 'native-base';
 import _ from 'lodash';
 
 class BleComponent extends Component {
   constructor(props) {
     super(props);
     this.manager = new BleManager();
+    this.state = {
+      bluetooth: ''
+    }
   }
 
-  //Once bluetooth is turned on search for BLE device
   componentWillMount() {
     const subscription = this.manager.onStateChange((state) => {
-      if (state === 'PoweredOn') {
-          this.scanAndConnect();
-          subscription.remove();
-      }
+      this.setState({bluetooth: state});
     }, true);
   }
 
@@ -25,18 +25,36 @@ class BleComponent extends Component {
     if(!_.isEmpty(newProps.operation)) {
       this._executeOperation(newProps);
     }
+
+    if(this.props.deviceId != newProps.deviceId) {
+      if(newProps.deviceId !== '') {
+        if (this.state.bluetooth === 'PoweredOn') {
+          this.scanAndConnect();
+        }
+      }
+    }
   }
 
   // trigger a write or read operation for the BLE
   _executeOperation(newProps) {
     switch (newProps.operation.type) {
       case 'write':
-        this.manager.writeCharacteristicWithResponseForDevice(this.device.id,
+        this.manager.writeCharacteristicWithResponseForDevice(this.props.deviceId,
                                                               this.serviceId,
                                                               this.characteristicId,
                                                               this.encode(newProps.operation.command))
         .then((characteristic) => {
           newProps.storeNewStatus(newProps.operation.command);
+          newProps.completeOperation();
+        }, (rejected) => {
+          console.log(rejected);
+          newProps.completeOperation();
+        });
+        break;
+      case 'disconnect':
+        this.manager.cancelDeviceConnection(this.props.deviceId)
+        .then(() => {
+          this.props.unsetDeviceId();
           newProps.completeOperation();
         }, (rejected) => {
           console.log(rejected);
@@ -99,8 +117,12 @@ class BleComponent extends Component {
       this.manager.connectToDevice(device.id)
         .then((device) => {
           console.log("Connected to device");
+          Toast.show({
+            text: 'Connected to device!',
+            position: 'top',
+            buttonText: 'Okay'
+          });
           this.props.isConnectedToDevice();
-          this.device = device;
           return device.discoverAllServicesAndCharacteristics();
         })
         .then((device) => {
@@ -129,13 +151,17 @@ class BleComponent extends Component {
       if (error) {
         console.log(error);
       }
-      //deviceId has to be more generic
-      if (device.id === 'A235E320-78C5-49FC-BEC2-24F2612B4D0E') {
+      if (device.id === this.props.deviceId) {
         this.connect(device)
           .then(() => {
             this.manager.stopDeviceScan();
-            this.manager.onDeviceDisconnected(this.device.id, (error, device) => {
-              console.log("Disconnected to Device");
+            this.manager.onDeviceDisconnected(this.props.deviceId, (error, device) => {
+              console.log("Disconnected Device");
+              Toast.show({
+                text: 'Disconnected device!',
+                position: 'top',
+                buttonText: 'Okay'
+              });
               this.props.isNotConnectedToDevice();
             });
           })
@@ -149,7 +175,8 @@ class BleComponent extends Component {
 
 function mapStateToProps(state) {
   return {
-    operation: state.ble.operation
+    operation: state.ble.operation,
+    deviceId: state.ble.deviceId
   };
 }
 
@@ -158,7 +185,8 @@ function mapDispatchToProps(dispatch){
     storeNewStatus: (command) => dispatch(storeNewStatus(command)),
     completeOperation: () => dispatch(completeOperation()),
     isConnectedToDevice: () => dispatch(isConnectedToDevice()),
-    isNotConnectedToDevice: () => dispatch(isNotConnectedToDevice())
+    isNotConnectedToDevice: () => dispatch(isNotConnectedToDevice()),
+    unsetDeviceId: () => dispatch(unsetDeviceId())
   };
 }
 
