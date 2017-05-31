@@ -38,10 +38,12 @@ var styles = {
     borderWidth: 3,
     backgroundColor: '#70C8BE',
     borderColor: '#FFFFFF',
-    borderRadius: 99,
-    height: 70,
-    width: 170,
-    justifyContent: 'center'
+    borderRadius: 15,
+    height: 50,
+    //width: 170,,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignSelf: 'stretch'
   },
   input: {
   },
@@ -61,6 +63,9 @@ var styles = {
     borderWidth: 1.5,
     borderRadius: 17,
     marginRight: 3
+  },
+  buttonView: {
+    flex: 1
   }
 };
 
@@ -116,7 +121,7 @@ class Login extends Component {
             </View>
           </Row>
           <Row size={30} style={styles.row}>
-            <View>
+            <View style={styles.buttonView}>
               <Button
                   transparent
                   style={styles.button}
