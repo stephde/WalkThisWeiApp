@@ -75,12 +75,11 @@ export default class ActiveStoryMap extends Component {
     }
 
     handleOnToggleBlePress() {
-      if(this.props.isLEDOn) {
-        this.props.turnLEDOff();
-      }
-      else {
-        this.props.turnLEDOn();
-      }
+      this.props.turnVibrationOn();
+    }
+
+    handleOnToggleBlePress2() {
+      this.props.turnVibrationAndLEDOn();
     }
 
     render() {
@@ -97,9 +96,14 @@ export default class ActiveStoryMap extends Component {
             { markers }
           </MapView>
           { this.props.isConnectedToDevice &&
-            <Button rounded onPress={() => {this.handleOnToggleBlePress()}} style={ styles.storiesButtonLeft }>
-              <Text>Toggle BLE</Text>
-            </Button>
+              <Button rounded onPress={() => {this.handleOnToggleBlePress()}} style={ styles.storiesButtonLeft }>
+                <Text>Vibration</Text>
+              </Button>
+          }
+          { this.props.isConnectedToDevice &&
+              <Button rounded onPress={() => {this.handleOnToggleBlePress2()}} style={Object.assign({left: 100}, styles.storiesButtonLeft)}>
+                <Text>LED</Text>
+              </Button>
           }
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>

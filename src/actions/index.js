@@ -248,12 +248,12 @@ export function isNotConnectedToDevice() {
   }
 }
 
-export function turnLEDOn() {
-  return writeCharacteristic("T121");
+export function turnVibrationOn() {
+  return writeCharacteristic("F01");
 }
 
-export function turnLEDOff() {
-  return writeCharacteristic("T120");
+export function turnVibrationAndLEDOn() {
+  return writeCharacteristic("F02");
 }
 
 export function setDeviceId(deviceId) {
@@ -271,20 +271,6 @@ export function disconnectWearable() {
     payload: {
       type: 'disconnect',
     }
-  }
-}
-
-export function storeNewStatus(command) {
-  switch(command.slice(1, 3)) {
-    case "12":
-      return {
-        type: CHANGE_STATUS_OF_LED,
-        payload: {
-          isLEDOn: command[command.length - 1] === "1"
-        }
-      };
-    default:
-      return {};
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
-import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, storeNewStatus, unsetDeviceId} from '../../actions';
+import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, unsetDeviceId} from '../../actions';
 import { connect } from 'react-redux';
 import { Toast } from 'native-base';
 import _ from 'lodash';
@@ -44,7 +44,6 @@ class BleComponent extends Component {
                                                               this.characteristicId,
                                                               this.encode(newProps.operation.command))
         .then((characteristic) => {
-          newProps.storeNewStatus(newProps.operation.command);
           newProps.completeOperation();
         }, (rejected) => {
           console.log(rejected);
@@ -107,7 +106,7 @@ class BleComponent extends Component {
   // command[3]: 1 for setting pin to HIGH 0 for LOW
   encode(command) {
     let commandOp = command[0].charCodeAt(0);
-    return Buffer.from([commandOp, command.slice(1, 3), command[3]])
+    return Buffer.from([commandOp, command.slice(1, 3)])
     .toString('base64');
   }
 
@@ -182,7 +181,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch){
   return {
-    storeNewStatus: (command) => dispatch(storeNewStatus(command)),
     completeOperation: () => dispatch(completeOperation()),
     isConnectedToDevice: () => dispatch(isConnectedToDevice()),
     isNotConnectedToDevice: () => dispatch(isNotConnectedToDevice()),
