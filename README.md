@@ -25,7 +25,6 @@ Also have a look at the waffle.io [IssueBoard](https://waffle.io/stephde/WalkThi
 
 ## Set Up for IOS on MacOS
 - install xcode
-- brew install carthage (needs to be installed before running npm install)
 - run `brew update && brew cask install react-native-debugger` to install the debugger
 - run `react-native link`
 - run `react-native run-ios` in WalkThisWeiApp directory to start

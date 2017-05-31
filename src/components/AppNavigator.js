@@ -136,6 +136,7 @@ class AppNavigator extends Component {
               component={Profile}
               hideNavBar={true}
               sceneStyle={{backgroundColor: '#70C8BE'}}
+              direction='vertical'
             />
           </Scene>
         </Router>

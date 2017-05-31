@@ -32,15 +32,7 @@ import {
   SET_USER_LOCATION,
   FILTER_CHANGED,
   SHOW_NEW_CHAPTER_TOGGLE,
-  FINISHED_STORY,
-  WRITE_CHARACTERISTIC,
-  COMPLETE_OPERATION,
-  IS_CONNECTED_TO_DEVICE,
-  IS_NOT_CONNECTED_TO_DEVICE,
-  CHANGE_STATUS_OF_LED,
-  SET_DEVICE_ID,
-  DISCONNECT_WEARABLE,
-  UNSET_DEVICE_ID
+  FINISHED_STORY
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -211,78 +203,4 @@ export function finishedStory() {
   return {
     type: FINISHED_STORY
   };
-}
-
-export function writeCharacteristic(command) {
-  return {
-    type: WRITE_CHARACTERISTIC,
-    payload: {
-      type: 'write',
-      command: command
-    }
-  }
-}
-
-export function completeOperation() {
-  return {
-    type: COMPLETE_OPERATION
-  }
-}
-
-export function isConnectedToDevice() {
-  return {
-    type: IS_CONNECTED_TO_DEVICE
-  }
-}
-
-export function isNotConnectedToDevice() {
-  return {
-    type: IS_NOT_CONNECTED_TO_DEVICE
-  }
-}
-
-export function turnLEDOn() {
-  return writeCharacteristic("T121");
-}
-
-export function turnLEDOff() {
-  return writeCharacteristic("T120");
-}
-
-export function setDeviceId(deviceId) {
-  return {
-    type: SET_DEVICE_ID,
-    payload: {
-      deviceId: deviceId
-    }
-  }
-}
-
-export function disconnectWearable() {
-  return {
-    type: DISCONNECT_WEARABLE,
-    payload: {
-      type: 'disconnect',
-    }
-  }
-}
-
-export function storeNewStatus(command) {
-  switch(command.slice(1, 3)) {
-    case "12":
-      return {
-        type: CHANGE_STATUS_OF_LED,
-        payload: {
-          isLEDOn: command[command.length - 1] === "1"
-        }
-      };
-    default:
-      return {};
-  }
-}
-
-export function unsetDeviceId() {
-  return {
-    type: UNSET_DEVICE_ID
-  }
 }
