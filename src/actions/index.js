@@ -40,7 +40,7 @@ import {
   CHANGE_STATUS_OF_LED,
   SET_DEVICE_ID,
   DISCONNECT_WEARABLE,
-  UNSET_DEVICE_ID
+  IS_BLUETOOTH_ON
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -274,8 +274,11 @@ export function disconnectWearable() {
   }
 }
 
-export function unsetDeviceId() {
+export function isBluetoothOn(isBluetoothOn) {
   return {
-    type: UNSET_DEVICE_ID
+    type: IS_BLUETOOTH_ON,
+    payload: {
+      isBluetoothOn: isBluetoothOn
+    }
   }
 }

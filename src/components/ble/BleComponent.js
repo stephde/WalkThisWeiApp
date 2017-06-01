@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
-import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, unsetDeviceId} from '../../actions';
+import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, isBluetoothOn} from '../../actions';
 import { connect } from 'react-redux';
 import { Toast } from 'native-base';
 import _ from 'lodash';
@@ -15,14 +15,11 @@ class BleComponent extends Component {
   constructor(props) {
     super(props);
     this.manager = new BleManager();
-    this.state = {
-      bluetooth: ''
-    }
   }
 
   componentWillMount() {
     const subscription = this.manager.onStateChange((state) => {
-      this.setState({bluetooth: state});
+      this.props.isBluetoothOn(state === 'PoweredOn');
     }, true);
   }
 
@@ -33,19 +30,26 @@ class BleComponent extends Component {
 
     if(this.props.deviceId != newProps.deviceId) {
       if(newProps.deviceId !== '') {
-        if (this.state.bluetooth === 'PoweredOn') {
+        if (this.props.isBluetoothOn) {
           this.scanAndConnect();
         }
       }
     }
   }
 
+  handleOnDisconnect() {
+    console.log("Disconnected Device");
+    Toast.show({
+      text: 'Disconnected device!',
+      position: 'top',
+      buttonText: 'Okay'
+    });
+    this.props.isNotConnectedToDevice();
+  }
   // trigger a write or read operation for the BLE
   _executeOperation(newProps) {
     switch (newProps.operation.type) {
       case 'write':
-        console.log(this.serviceId);
-        console.log(this.characteristicId);
         this.manager.writeCharacteristicWithResponseForDevice(this.props.deviceId,
                                                               SERVICE_ID,
                                                               WRITE_CHARACTERISTIC_ID,
@@ -58,14 +62,13 @@ class BleComponent extends Component {
         });
         break;
       case 'disconnect':
+        this.monitoring.remove();
         this.manager.cancelDeviceConnection(this.props.deviceId)
-        .then(() => {
-          this.props.unsetDeviceId();
-          newProps.completeOperation();
-        }, (rejected) => {
-          console.log(rejected);
-          newProps.completeOperation();
-        });
+          .then(() => {this.handleOnDisconnect()})
+          .catch((rejected) => {
+            console.log(rejected);
+            newProps.completeOperation();
+          });
         break;
       default:
         console.log(newProps.operation.type);
@@ -108,15 +111,18 @@ class BleComponent extends Component {
           return device.discoverAllServicesAndCharacteristics();
         })
         .then(() => {
-          this.manager.monitorCharacteristicForDevice(this.props.deviceId,
+          this.monitoring = this.manager.monitorCharacteristicForDevice(this.props.deviceId,
                                                     SERVICE_ID,
                                                     READ_CHARACTERISTIC_ID,
                                                     (err, characteristic) => {
             if(err) {
-              console.log(err);
+              return reject(err);
             }
-            console.log(this.decode(characteristic.value));
-          })
+            if(characteristic) {
+              console.log(this.decode(characteristic.value));
+            }
+          });
+          return resolve();
         })
         .catch((error) => {
           return reject(error);
@@ -129,20 +135,13 @@ class BleComponent extends Component {
     this.manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         console.log(error);
+        return;
       }
       if (device.id === this.props.deviceId) {
         this.connect(device)
           .then(() => {
             this.manager.stopDeviceScan();
-            this.manager.onDeviceDisconnected(this.props.deviceId, (error, device) => {
-              console.log("Disconnected Device");
-              Toast.show({
-                text: 'Disconnected device!',
-                position: 'top',
-                buttonText: 'Okay'
-              });
-              this.props.isNotConnectedToDevice();
-            });
+            this.manager.onDeviceDisconnected(this.props.deviceId, () => {this.handleOnDisconnect()});
           })
           .catch((error) => {
             console.log(error);
@@ -164,7 +163,7 @@ function mapDispatchToProps(dispatch){
     completeOperation: () => dispatch(completeOperation()),
     isConnectedToDevice: () => dispatch(isConnectedToDevice()),
     isNotConnectedToDevice: () => dispatch(isNotConnectedToDevice()),
-    unsetDeviceId: () => dispatch(unsetDeviceId())
+    isBluetoothOn: (isOn) => dispatch(isBluetoothOn(isOn))
   };
 }
 
