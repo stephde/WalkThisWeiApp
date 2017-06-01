@@ -70,6 +70,15 @@ export default class ActiveStoryMap extends Component {
       this.refs.modal1.open();
     }
 
+    handleOnToggleBlePress() {
+      if(this.props.isLEDOn) {
+        this.props.turnLEDOff();
+      }
+      else {
+        this.props.turnLEDOn();
+      }
+    }
+
     render() {
       const markers = this._getMarkers();
 
@@ -83,6 +92,11 @@ export default class ActiveStoryMap extends Component {
             onRegionChange={region => this.props.onRegionChange(region)}>
             { markers }
           </MapView>
+          { this.props.isConnectedToDevice &&
+            <Button rounded onPress={() => {this.handleOnToggleBlePress()}} style={ styles.storiesButtonLeft }>
+              <Text>Toggle BLE</Text>
+            </Button>
+          }
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>
