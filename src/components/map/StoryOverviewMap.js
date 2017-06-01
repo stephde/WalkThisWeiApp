@@ -5,7 +5,8 @@ import {
     StyleSheet,
     View,
     Image,
-    Dimensions
+    Dimensions,
+    Platform
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import styles from './styles';
@@ -20,7 +21,7 @@ import historyMarker from '../../../images/history.png';
 import natureMarker from '../../../images/nature.png';
 import religionMarker from '../../../images/religion.png';
 import scienceMarker from '../../../images/science.png';
-
+const isAndroid = (Platform.OS === 'android');
 const {height, width} = Dimensions.get('window');
 
 const categoryMapper = {
@@ -63,16 +64,19 @@ export default class StoryOverviewMap extends Component {
               }
               onPress={() => {this.handleOnMarkerPress(key);}}
               onSelect={() => {this.handleOnMarkerPress(key);}}
+              image={ isAndroid ? markerPicture : null }
             >
-              <View>
-                <Image
-                  source={markerPicture}
-                  style={{
-                    height: 30,
-                    width: 30
-                  }}
-                />
-              </View>
+              { isAndroid
+                ? null
+                : <Image
+                    source={markerPicture}
+                    resizeMode={'contain'}
+                    style={{
+                      height: 30,
+                      width: 30,
+                    }}
+                  />
+              }
             </Marker>
           );
         });
