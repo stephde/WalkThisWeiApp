@@ -74,14 +74,6 @@ export default class ActiveStoryMap extends Component {
       this.refs.modal1.open();
     }
 
-    handleOnToggleBlePress() {
-      this.props.turnVibrationOn();
-    }
-
-    handleOnToggleBlePress2() {
-      this.props.turnVibrationAndLEDOn();
-    }
-
     render() {
       const markers = this._getMarkers();
 
@@ -95,16 +87,6 @@ export default class ActiveStoryMap extends Component {
             onRegionChange={region => this.props.onRegionChange(region)}>
             { markers }
           </MapView>
-          { this.props.isConnectedToDevice &&
-              <Button rounded onPress={() => {this.handleOnToggleBlePress()}} style={ styles.storiesButtonLeft }>
-                <Text>Vibration</Text>
-              </Button>
-          }
-          { this.props.isConnectedToDevice &&
-              <Button rounded onPress={() => {this.handleOnToggleBlePress2()}} style={Object.assign({left: 100}, styles.storiesButtonLeft)}>
-                <Text>LED</Text>
-              </Button>
-          }
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>

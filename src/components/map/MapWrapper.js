@@ -33,9 +33,6 @@ export default class MapWrapper extends Component {
           annotations={this.props.annotations}
           mapRegion={this.props.mapRegion}
           onRegionChange={this.props.onRegionChange}
-          turnVibrationOn={this.props.turnVibrationOn}
-          turnVibrationAndLEDOn={this.props.turnVibrationAndLEDOn}
-          isConnectedToDevice={this.props.isConnectedToDevice}
         />
       );
     }
@@ -46,8 +43,5 @@ MapWrapper.propTypes = {
   annotations: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
   onRegionChange: React.PropTypes.func,
-  getCurrentStory: React.PropTypes.func,
-  isConnectedToDevice: React.PropTypes.bool,
-  turnVibrationOn: React.PropTypes.func,
-  turnVibrationAndLEDOn: React.PropTypes.func
+  getCurrentStory: React.PropTypes.func
 }

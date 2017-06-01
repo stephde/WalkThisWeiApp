@@ -4,8 +4,6 @@ import MapWrapper from './MapWrapper';
 import {
   setRegion,
   getStoryById,
-  turnVibrationOn,
-  turnVibrationAndLEDOn
 } from '../../actions';
 import { isInDistance } from '../../helpers/locationHelper';
 import { DISTANCE } from '../../constants/distance.js';
@@ -45,17 +43,14 @@ function mapStateToProps(state) {
   return {
     annotations: getComposedAnnotations(annotations, state.position.userLocation),
     mapRegion: state.position.mapRegion,
-    currentUser: state.activeUser,
-    isConnectedToDevice: state.ble.isConnectedToDevice
+    currentUser: state.activeUser
   };
 }
 
 function mapDispatchToProps(dispatch){
   return {
     onRegionChange: (region) => dispatch(setRegion(region)),
-    getCurrentStory: (storyId) => dispatch(getStoryById(storyId)),
-    turnVibrationOn: () => dispatch(turnVibrationOn()),
-    turnVibrationAndLEDOn: () => dispatch(turnVibrationAndLEDOn())
+    getCurrentStory: (storyId) => dispatch(getStoryById(storyId))
   };
 }
 
