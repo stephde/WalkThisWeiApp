@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     View,
-    Image
+    Image,
+    Platform
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import styles from './styles';
@@ -21,6 +22,7 @@ import {
 import markerTurquois from '../../../images/marker_turquois.png';
 import markerRed from '../../../images/marker_red.png';
 import markerGray from '../../../images/marker_gray.png';
+const isAndroid = (Platform.OS === 'android');
 
 const markerMapper = {
   [IN_DISTANCE_MARKER]: markerTurquois,
@@ -49,17 +51,19 @@ export default class ActiveStoryMap extends Component {
               }}
               onPress={() => {this.handleOnMarkerPress(key);}}
               onSelect={() => {this.handleOnMarkerPress(key);}}
+              image={ isAndroid ? markerPicture : null }
             >
-              <View>
-                <Image
-                  source={markerPicture}
-                  resizeMode={'contain'}
-                  style={{
-                    height: 30,
-                    width: 30,
-                  }}
-                />
-              </View>
+              { isAndroid
+                ? null
+                : <Image
+                    source={markerPicture}
+                    resizeMode={'contain'}
+                    style={{
+                      height: 30,
+                      width: 30,
+                    }}
+                  />
+              }
             </Marker>
           );
         });

@@ -57,7 +57,8 @@ function getComposedAnnotations(annotations, position, activeProgress){
         : OUT_OF_DISTANCE_MARKER;
     return {
       ...annotation,
-      markerType
+      markerType,
+      inDistance
     };
   });
 }
