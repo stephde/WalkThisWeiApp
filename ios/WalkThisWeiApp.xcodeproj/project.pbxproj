@@ -757,7 +757,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = J38KG5E9LG;
+						DevelopmentTeam = BJV9R95DSA;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1222,7 +1222,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = J38KG5E9LG;
+				DEVELOPMENT_TEAM = BJV9R95DSA;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-ble-plx/ios/BleClientManager/Carthage/Build/iOS/**";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1244,7 +1244,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.WalkThisWeiApp;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.WalkThisWeiApp6;
 				PRODUCT_NAME = WalkThisWeiApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1257,7 +1257,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J38KG5E9LG;
+				DEVELOPMENT_TEAM = BJV9R95DSA;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-ble-plx/ios/BleClientManager/Carthage/Build/iOS/**";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1279,7 +1279,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.WalkThisWeiApp;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.WalkThisWeiApp6;
 				PRODUCT_NAME = WalkThisWeiApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

@@ -58,8 +58,10 @@ class Profile extends Component {
   }
 
   onHandleBarCodeRead(event) {
-    this.props.setDeviceId(event.data);
-    this.refs.cameraModal.close();
+    if(this.props.deviceId !== event.data) {
+      this.props.setDeviceId(event.data);
+      this.refs.cameraModal.close();
+    }
   }
 
   _renderCameraModal() {
@@ -134,9 +136,11 @@ class Profile extends Component {
             <Text style={Object.assign({}, styles.titleFontSize, styles.textColor)}>Contacts</Text>
             { contacts }
           </View>
-          <View style={{paddingTop: 16, paddingBottom: 20, flex: 1, alignItems: 'center'}}>
-            {this._renderWearable()}
-          </View>
+          {this.props.isBluetoothOn &&
+            <View style={{paddingTop: 16, paddingBottom: 20, flex: 1, alignItems: 'center'}}>
+              {this._renderWearable()}
+            </View>
+          }
         </View>
       </Content>
       {this._renderCameraModal()}
@@ -147,7 +151,8 @@ class Profile extends Component {
 
 function mapStateToProps(state) {
   return {
-    deviceId: state.ble.deviceId
+    deviceId: state.ble.deviceId,
+    isBluetoothOn: state.ble.isBluetoothOn
   };
 }
 
@@ -161,7 +166,8 @@ function mapDispatchToProps(dispatch){
 Profile.propTypes = {
   setDeviceId: React.PropTypes.func,
   deviceId: React.PropTypes.string,
-  disconnectWearable: React.PropTypes.func
+  disconnectWearable: React.PropTypes.func,
+  isBluetoothOn: React.PropTypes.bool
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

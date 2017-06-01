@@ -40,7 +40,7 @@ import {
   CHANGE_STATUS_OF_LED,
   SET_DEVICE_ID,
   DISCONNECT_WEARABLE,
-  UNSET_DEVICE_ID
+  IS_BLUETOOTH_ON
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -248,12 +248,12 @@ export function isNotConnectedToDevice() {
   }
 }
 
-export function turnLEDOn() {
-  return writeCharacteristic("T121");
+export function turnVibrationOn() {
+  return writeCharacteristic("F01");
 }
 
-export function turnLEDOff() {
-  return writeCharacteristic("T120");
+export function turnVibrationAndLEDOn() {
+  return writeCharacteristic("F02");
 }
 
 export function setDeviceId(deviceId) {
@@ -274,22 +274,11 @@ export function disconnectWearable() {
   }
 }
 
-export function storeNewStatus(command) {
-  switch(command.slice(1, 3)) {
-    case "12":
-      return {
-        type: CHANGE_STATUS_OF_LED,
-        payload: {
-          isLEDOn: command[command.length - 1] === "1"
-        }
-      };
-    default:
-      return {};
-  }
-}
-
-export function unsetDeviceId() {
+export function isBluetoothOn(isBluetoothOn) {
   return {
-    type: UNSET_DEVICE_ID
+    type: IS_BLUETOOTH_ON,
+    payload: {
+      isBluetoothOn: isBluetoothOn
+    }
   }
 }
