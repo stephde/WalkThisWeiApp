@@ -58,8 +58,10 @@ class Profile extends Component {
   }
 
   onHandleBarCodeRead(event) {
-    this.props.setDeviceId(event.data);
-    this.refs.cameraModal.close();
+    if(this.props.deviceId !== event.data) {
+      this.props.setDeviceId(event.data);
+      this.refs.cameraModal.close();
+    }
   }
 
   _renderCameraModal() {
@@ -147,9 +149,11 @@ class Profile extends Component {
 
         </List>
 
-        <View style={styles.wearableButton}>
-          {this._renderWearable()}
-        </View>
+        {this.props.isBluetoothOn &&
+          <View style={styles.wearableButton}>
+            {this._renderWearable()}
+          </View>
+        }
 
       </Content>
       {this._renderCameraModal()}
@@ -158,36 +162,11 @@ class Profile extends Component {
   }
 }
 
-/*
-
-
- <View style={styles.profileContent}>
- <View>
- <Text style={Object.assign({}, styles.titleFontSize, styles.textColor)}>Earned Badges</Text>
- <View style={{paddingTop: 8}}>
- <Image source={require('../../../images/badge.png')}/>
- </View>
- </View>
- <View style={{paddingTop: 16}}>
- <Text style={Object.assign({paddingBottom: 16}, styles.titleFontSize, styles.textColor)}>Walking Stats</Text>
- <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>Today’s Distance: 5km (1 h)</Text>
- <Text style={Object.assign({}, styles.otherFontSize, styles.textColor)}>Weekly Distance: 12km (8:20h)</Text>
- </View>
- <View style={{paddingTop: 16}}>
- <Text style={Object.assign({}, styles.titleFontSize, styles.textColor)}>Contacts</Text>
- { contacts }
- </View>
- <View style={{paddingTop: 16, paddingBottom: 20, flex: 1, alignItems: 'center'}}>
- {this._renderWearable()}
- </View>
- </View>
-
- */
-
 function mapStateToProps(state) {
   return {
     deviceId: state.ble.deviceId,
     user: state.activeUser
+    isBluetoothOn: state.ble.isBluetoothOn
   };
 }
 
@@ -202,7 +181,8 @@ Profile.propTypes = {
   setDeviceId: React.PropTypes.func,
   deviceId: React.PropTypes.string,
   user: React.PropTypes.object,
-  disconnectWearable: React.PropTypes.func
+  disconnectWearable: React.PropTypes.func,
+  isBluetoothOn: React.PropTypes.bool
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
