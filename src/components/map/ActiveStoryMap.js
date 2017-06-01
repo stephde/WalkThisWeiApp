@@ -100,7 +100,10 @@ export default class ActiveStoryMap extends Component {
             region={ this.props.mapRegion }
             showsUserLocation={true}
             followUserLocation={true}
-            onRegionChange={region => this.props.onRegionChange(region)}>
+            onRegionChangeComplete={
+              region => this.props.onRegionChange(region)
+            }
+          >
             { coordinates.length > 1 &&
               <MapView.Polyline
                 coordinates={coordinates}
