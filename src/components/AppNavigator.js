@@ -38,8 +38,10 @@ class TabIcon extends React.Component {
   }
 }
 
+
 class AppNavigator extends Component {
-  componentDidMount() {
+
+  _getCurrentPosition(enableHighAccuracy) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const region = {
@@ -48,32 +50,56 @@ class AppNavigator extends Component {
           latitudeDelta:  0.00922*1.5,
           longitudeDelta: 0.00421*1.5,
         }
-        this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
+        this.props.onUserLocationChange(
+          position.coords.latitude,
+          position.coords.longitude,
+          {
+            type: enableHighAccuracy ? 'GPS' : 'NETWORK'
+          }
+        );
         this.props.onRegionChange(region);
       },
       (error) => console.log(error),
-      { enableHighAccuracy: true, timeout: 20000 },
+      { enableHighAccuracy, timeout: 20000 },
     );
+  }
 
-    this.watchID = navigator.geolocation.watchPosition(
+  _setUpLocationWatcher(enableHighAccuracy) {
+    return navigator.geolocation.watchPosition(
       (position) => {
         // Create the object to update this.state.mapRegion through the onRegionChange function
         const region = {
           latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          latitudeDelta:  0.00922*1.5,
-          longitudeDelta: 0.00421*1.5,
+          longitude: position.coords.longitude
         }
-        this.props.onUserLocationChange(position.coords.latitude, position.coords.longitude);
+        this.props.onUserLocationChange(
+          position.coords.latitude,
+          position.coords.longitude,
+          {
+            type: enableHighAccuracy ? 'GPS' : 'NETWORK'
+          }
+        );
         this.props.onRegionChange(region);
       },
       (error) => console.log(error),
-      { enableHighAccuracy: true, timeout: 20000, distanceFilter: 5 }
+      { enableHighAccuracy, timeout: 20000, distanceFilter: 5 }
     );
   }
 
+  componentDidMount() {
+    // low Accuracy
+    this._getCurrentPosition(false);
+    // high Accuracy
+    this._getCurrentPosition(true);
+
+    // listen to high accuracy and low accuracy
+    this.watchIDGPS = this._setUpLocationWatcher(true);
+    this.watchIDNetwork = this._setUpLocationWatcher(false);
+  }
+
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
+    navigator.geolocation.clearWatch(this.watchIDGPS);
+    navigator.geolocation.clearWatch(this.watchIDNetwork);
   }
 
   render() {
@@ -153,7 +179,7 @@ AppNavigator.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     onRegionChange: (region) => dispatch(setRegion(region)),
-    onUserLocationChange: (latitude, longitude) => dispatch(setUserLocation(latitude, longitude))
+    onUserLocationChange: (latitude, longitude, info) => dispatch(setUserLocation(latitude, longitude, info))
   };
 }
 

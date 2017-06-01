@@ -23,10 +23,8 @@ export default function position(state = initialState, action){
       return {
         ...state,
         mapRegion: {
-          latitude: mapRegion.latitude,
-          longitude: mapRegion.longitude,
-          latitudeDelta: mapRegion.latitudeDelta,
-          longitudeDelta: mapRegion.longitudeDelta,
+          ...state.mapRegion,
+          ...mapRegion
         }
       };
     case SET_USER_LOCATION:

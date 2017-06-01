@@ -162,7 +162,7 @@ export function login(deviceId, nickName) {
         if (activeStoryId)
           dispatch(getStoryProgress(id, activeStoryId));
       }).catch((e) => {
-        console.error(e);
+        console.log(e);
         dispatch(loginError(e));
       })
   }
@@ -177,12 +177,13 @@ export function setRegion(region) {
   };
 }
 
-export function setUserLocation(latitude, longitude) {
+export function setUserLocation(latitude, longitude, info) {
   return {
     type: SET_USER_LOCATION,
     payload: {
       latitude: latitude,
-      longitude: longitude
+      longitude: longitude,
+      info
     }
   };
 }
