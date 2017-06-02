@@ -53,6 +53,10 @@ export default class ActiveStoryMap extends Component {
               onPress={() => {this.handleOnMarkerPress(key);}}
               onSelect={() => {this.handleOnMarkerPress(key);}}
               image={ isAndroid ? markerPicture : null }
+              centerOffset={{
+                x: 0,
+                y: -10
+              }}
             >
               { isAndroid
                 ? null
