@@ -18,15 +18,6 @@ export default {
     right: 0,
     bottom: 0,
   },
-  modal: {
-    backgroundColor: 'rgba(155, 155, 155, 0.3)'
-  },
-  modalClosingButton: {
-     fontSize: 25
-  },
-  modalTextColor: {
-    color: '#FFFFFF'
-  },
   button: {
     borderColor: '#2222AA',
     borderWidth: 2,

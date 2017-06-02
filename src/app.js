@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 
-
 import AppNavigator from './components/AppNavigator';
 import Contact from './components/Contact';
 import BleComponent from './components/ble/BleComponent';
 import Login from './components/login/Login';
+import MarkerPlayer from './components/player/player';
 
 class App extends Component {
   render() {
@@ -16,6 +16,7 @@ class App extends Component {
         {view}
         <BleComponent/>
         <Contact/>
+        <MarkerPlayer/>
       </View>
     );
   }

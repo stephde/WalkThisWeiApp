@@ -45,7 +45,9 @@ import {
   USER_LOCATION_START,
   USER_LOCATION_SUCCESS,
   USER_LOCATION_ERROR,
-  CHANGE_STATUS_OF_LED
+  CHANGE_STATUS_OF_LED,
+  OPEN_PLAYER,
+  PLAYER_OPENED
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -327,3 +329,18 @@ export function storeNewStatus(command) {
      }
    };
  }
+
+ export function openPlayer(annotation) {
+    return {
+      type: OPEN_PLAYER,
+      payload: {
+        annotation: annotation
+      }
+    };
+  }
+
+  export function playerOpened() {
+    return {
+      type: PLAYER_OPENED
+    };
+  }

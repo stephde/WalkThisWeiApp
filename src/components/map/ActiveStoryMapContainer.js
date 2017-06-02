@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import ActiveStoryMapWrapper from './ActiveStoryMapWrapper';
 import {
   setRegion,
-  getStoryById
+  getStoryById,
+  openPlayer
 } from '../../actions';
 import { isInDistance } from '../../helpers/locationHelper';
 import {
@@ -69,7 +70,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch){
   return {
     onRegionChange: (region) => dispatch(setRegion(region)),
-    getCurrentStory: (storyId) => dispatch(getStoryById(storyId))
+    getCurrentStory: (storyId) => dispatch(getStoryById(storyId)),
+    openPlayer: (annotation) => dispatch(openPlayer(annotation))
   };
 }
 
