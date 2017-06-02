@@ -38,7 +38,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Please scan the QR code of your wearable</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

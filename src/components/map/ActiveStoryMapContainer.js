@@ -6,36 +6,17 @@ import {
   getStoryById
 } from '../../actions';
 import { isInDistance } from '../../helpers/locationHelper';
+import {
+  getActiveStory,
+  getActiveStoryProgress,
+  getActiveSubChapters
+} from '../../helpers/stateHelper';
 import { DISTANCE } from '../../constants/distance.js';
 import {
   IN_DISTANCE_MARKER,
   NEXT_SUBCHAPTER_MARKER,
   OUT_OF_DISTANCE_MARKER
 } from '../../constants/markerTypes.js';
-
-function getActiveStory(stories, user) {
-  if (!user || !stories) return null;
-  if (!user.activeStoryId) return null;
-
-  return stories[user.activeStoryId];
-}
-
-function getActiveStoryProgress(stories, user, progress) {
-  if (!user || !stories || !progress) return null;
-  if (!user.activeStoryId) return null;
-  return progress[user.activeStoryId]
-    ? progress[user.activeStoryId]
-    : null;
-}
-
-function getActiveSubChapter(activeStory, activeProgress) {
-  if (activeStory && activeProgress) {
-    const { activeChapterIndex } = activeProgress;
-    return activeStory.chapters
-      ? activeStory.chapters[activeChapterIndex-1].subChapters
-      : [];
-  } else return [];
-}
 
 function getComposedAnnotations(annotations, position, activeProgress){
   const nextSubChapterIndex = activeProgress
@@ -73,11 +54,11 @@ function mapStateToProps(state) {
     state.activeUser,
     state.progress.data
   );
-  const subChapter = getActiveSubChapter(activeStory, activeProgress);
+  const subChapters = getActiveSubChapters(activeStory, activeProgress);
 
   return {
     annotations: getComposedAnnotations(
-      subChapter,
+      subChapters,
       state.position.userLocation,
       activeProgress),
     mapRegion: state.position.mapRegion,
