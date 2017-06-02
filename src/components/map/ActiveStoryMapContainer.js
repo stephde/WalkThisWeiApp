@@ -4,8 +4,7 @@ import ActiveStoryMapWrapper from './ActiveStoryMapWrapper';
 import {
   setRegion,
   getStoryById,
-  openPlayer,
-  controlPlayer
+  openPlayer
 } from '../../actions';
 import { isInDistance } from '../../helpers/locationHelper';
 import {
@@ -72,8 +71,7 @@ function mapDispatchToProps(dispatch){
   return {
     onRegionChange: (region) => dispatch(setRegion(region)),
     getCurrentStory: (storyId) => dispatch(getStoryById(storyId)),
-    openPlayer: (annotation) => dispatch(openPlayer(annotation)),
-    controlPlayer: () => dispatch(controlPlayer())
+    openPlayer: (annotation) => dispatch(openPlayer(annotation))
   };
 }
 

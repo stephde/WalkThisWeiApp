@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
-import { completeOperation, connectToDevice, disconnectDevice, isBluetoothOn, storeNewStatus} from '../../actions';
+import {
+  completeOperation,
+  disconnectDevice,
+  connectToDevice,
+  isBluetoothOn,
+  storeNewStatus,
+  controlPlayer} from '../../actions';
 import { connect } from 'react-redux';
 import { Toast } from 'native-base';
 import _ from 'lodash';
@@ -129,7 +135,13 @@ class BleComponent extends Component {
               return reject(err);
             }
             if(characteristic) {
-              console.log(this.decode(characteristic.value));
+              switch(this.decode(characteristic.value)) {
+                case 'F3':
+                  this.props.controlPlayer();
+                  break;
+                default:
+                  console.log('Unknown value');
+              }
             }
           });
           return resolve();
@@ -175,7 +187,8 @@ function mapDispatchToProps(dispatch){
     storeNewStatus: (command) => dispatch(storeNewStatus(command)),
     connectToDevice: () => dispatch(connectToDevice()),
     disconnectDevice: () => dispatch(disconnectDevice()),
-    isBluetoothOn: (isOn) => dispatch(isBluetoothOn(isOn))
+    isBluetoothOn: (isOn) => dispatch(isBluetoothOn(isOn)),
+    controlPlayer: () => dispatch(controlPlayer())
   };
 }
 

@@ -33,7 +33,6 @@ export default class ActiveStoryMapWrapper extends Component {
         mapRegion={this.props.mapRegion}
         onRegionChange={this.props.onRegionChange}
         openPlayer={this.props.openPlayer}
-        controlPlayer={this.props.controlPlayer}
       />
     );
   }

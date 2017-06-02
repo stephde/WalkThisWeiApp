@@ -27,7 +27,7 @@ export function getActiveSubChapter(activeStory, activeProgress) {
     const { activeSubChapterIndex } = activeProgress;
     activeSubChapters = getActiveSubChapters(activeStory, activeProgress);
     if(activeSubChapters.length > 0) {
-      return activeSubChapters[activeSubChapterIndex - 2];
+      return activeSubChapters[activeSubChapterIndex - 1];
     }
     return {};
   }

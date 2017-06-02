@@ -108,9 +108,6 @@ export default class ActiveStoryMap extends Component {
             }
             { markers }
           </MapView>
-          <Button rounded onPress={() => {this.props.controlPlayer();}} style={ styles.storiesButtonLeft }>
-            <Text>Audio</Text>
-          </Button>
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>
