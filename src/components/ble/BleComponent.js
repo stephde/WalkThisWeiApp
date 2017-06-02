@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
-import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, isBluetoothOn} from '../../actions';
+import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, isBluetoothOn, storeNewStatus} from '../../actions';
 import { connect } from 'react-redux';
 import { Toast } from 'native-base';
 import _ from 'lodash';
@@ -55,6 +55,9 @@ class BleComponent extends Component {
                                                               WRITE_CHARACTERISTIC_ID,
                                                               this.encode(newProps.operation.command))
         .then((characteristic) => {
+          if(newProps.operation.command.length > 3) {
+            newProps.storeNewStatus(newProps.operation.command);
+          }
           newProps.completeOperation();
         }, (rejected) => {
           console.log(rejected);
@@ -87,8 +90,14 @@ class BleComponent extends Component {
   // command[3]: 1 for setting pin to HIGH 0 for LOW
   encode(command) {
     let commandOp = command[0].charCodeAt(0);
-    return Buffer.from([commandOp, command.slice(1, 3)])
-    .toString('base64');
+    let other = command.slice(1, command.length);
+    let chunk = 2;
+    tmp_array = [commandOp]
+    for (let i=0; i < other.length; i+=chunk) {
+      tmp_array.push(other.slice(i,i+chunk));
+    }
+    console.log(tmp_array);
+    return Buffer.from(tmp_array).toString('base64');
   }
 
   decode(command) {
@@ -163,7 +172,8 @@ function mapDispatchToProps(dispatch){
     completeOperation: () => dispatch(completeOperation()),
     isConnectedToDevice: () => dispatch(isConnectedToDevice()),
     isNotConnectedToDevice: () => dispatch(isNotConnectedToDevice()),
-    isBluetoothOn: (isOn) => dispatch(isBluetoothOn(isOn))
+    isBluetoothOn: (isOn) => dispatch(isBluetoothOn(isOn)),
+    storeNewStatus: (command) => dispatch(storeNewStatus(command))
   };
 }
 
