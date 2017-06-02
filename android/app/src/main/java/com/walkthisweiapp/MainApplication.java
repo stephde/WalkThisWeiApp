@@ -3,10 +3,10 @@ package com.walkthisweiapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.polidea.reactnativeble.BlePackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.audioStreaming.ReactNativeAudioStreamingPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -29,10 +29,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNDeviceInfo(),
             new MapsPackage(),
             new RCTCameraPackage(),
             new BlePackage(),
-            new RNDeviceInfo(),
             new ReactNativeAudioStreamingPackage(),
             new VectorIconsPackage()
       );
