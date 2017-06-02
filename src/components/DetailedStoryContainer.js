@@ -8,7 +8,8 @@ import {
   Tab,
   Tabs,
   TabHeading,
-  Icon
+  Icon,
+  View
 } from 'native-base';
 import {
   Image
@@ -20,8 +21,14 @@ import {
 import ChapterCard from './ChapterCard'
 
 const styles = {
+  content: {
+    flex: 1
+  },
   button: {
-    backgroundColor: '#70C8BE'
+    backgroundColor: '#70C8BE'/*,
+    position: 'absolute',
+    bottom: 10,
+    right: 10*/
   },
   image: {
     flex: 1,
@@ -36,10 +43,45 @@ const styles = {
     fontSize: 18
   },
   tab: {
+    padding: 15,
+    alignSelf: 'stretch'
+  },
+  tabs: {
+    width: "100%",
     flex: 1,
-    padding: 10
+    flexDirection: "column"
+  },
+  backdropView: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    padding: 8,
+    backgroundColor: 'rgba(0,0,0,30)',
+    opacity: 0.6,
+    borderRadius: 5
+  },
+  backdropViewBackground: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    padding: 8,
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderRadius: 5
+  },
+  headline: {
+    color: '#DDDDDD',
+    fontSize: 26,
+    fontWeight: '500'
   }
 }
+
+const myTheme = {
+  brandPrimary: '#FF0000',
+  brandInfo: '#00FF00',
+  tabBgColor: '#FF0000',
+  tabTextColor: '#FF0000'
+}
+
 
 class DetailedStoryContainer extends Component {
   _buildChapterTabs(){
@@ -56,16 +98,23 @@ class DetailedStoryContainer extends Component {
 
     return (
       <Container>
-        <Content>
+        <Content theme={myTheme}>
           <Image
               source={{uri: this.props.story.picture}}
               style={styles.image}
-              resizeMode='cover'
-          />
-          <Text style={styles.header}>
-            { this.props.story.title }
-          </Text>
-          <Tabs>
+              resizeMode='cover'>
+            </Image>
+          <View style={styles.backdropView}>
+            <Text style={styles.headline}>
+              { this.props.story.title }
+            </Text>
+          </View>
+          <View style={styles.backdropViewBackground}>
+            <Text style={styles.headline}>
+              { this.props.story.title }
+            </Text>
+          </View>
+          <Tabs style={styles.tabs}>
             <Tab
                 heading={ <TabHeading><Icon name="list" /><Text>Info</Text></TabHeading>}
                 style={styles.tab}>
