@@ -105,7 +105,7 @@ class Profile extends Component {
       </Button>
     );
   }
-
+  
   render() {
     const contacts = this._getContacts();
     return (
@@ -116,7 +116,7 @@ class Profile extends Component {
             <Icon name="ios-arrow-back" style={styles.backButton}/>
           </Button>
           <View>
-            <Image source={require('../../../images/userLarge.png')} style={styles.user} />
+            <Image source={require('../../../images/man-user.png')} style={styles.user} />
             <Text style={styles.profileText}>{this.props.user.nickName}</Text>
           </View>
         </View>
@@ -165,7 +165,7 @@ class Profile extends Component {
 function mapStateToProps(state) {
   return {
     deviceId: state.ble.deviceId,
-    user: state.activeUser
+    user: state.activeUser,
     isBluetoothOn: state.ble.isBluetoothOn
   };
 }

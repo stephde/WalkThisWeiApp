@@ -4,6 +4,7 @@ export default {
   },
   profileText: {
     color: '#FFFFFF',
+    fontWeight: '500',
     textAlign: 'center',
     fontSize: 30,
     padding: 10
@@ -51,7 +52,6 @@ export default {
     fontSize: 18,
     margin: 40
   },
-
   modalClosingButton: {
      fontSize: 25
   },
@@ -67,8 +67,7 @@ export default {
   },
   user: {
     width: 120,
-    height: 120,
-    borderRadius: 60
+    height: 120
   },
   textColor: {
     color: '#000000'
