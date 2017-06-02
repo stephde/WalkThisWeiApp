@@ -97,7 +97,10 @@ export default class StoryOverviewMap extends Component {
             region={ this.props.mapRegion }
             showsUserLocation={true}
             followUserLocation={true}
-            onRegionChange={region => this.props.onRegionChange(region)}>
+            onRegionChangeComplete={
+              region => this.props.onRegionChange(region)
+            }
+          >
             { markers }
           </MapView>
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>

@@ -8,6 +8,7 @@ import {
     Platform
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import _ from 'lodash';
 import styles from './styles';
 import { Button, Text, Icon } from 'native-base';
 import ActiveStoryStatusHeader from './ActiveStoryStatusHeader';
@@ -52,6 +53,10 @@ export default class ActiveStoryMap extends Component {
               onPress={() => {this.handleOnMarkerPress(key);}}
               onSelect={() => {this.handleOnMarkerPress(key);}}
               image={ isAndroid ? markerPicture : null }
+              centerOffset={{
+                x: 0,
+                y: -10
+              }}
             >
               { isAndroid
                 ? null
@@ -75,6 +80,12 @@ export default class ActiveStoryMap extends Component {
     }
 
     render() {
+      const coordinates = _.map(this.props.annotations, annotation => {
+        return {
+          longitude: annotation.coordinates[0],
+          latitude: annotation.coordinates[1],
+        };
+      });
       const markers = this._getMarkers();
 
       return (
@@ -84,7 +95,17 @@ export default class ActiveStoryMap extends Component {
             region={ this.props.mapRegion }
             showsUserLocation={true}
             followUserLocation={true}
-            onRegionChange={region => this.props.onRegionChange(region)}>
+            onRegionChangeComplete={
+              region => this.props.onRegionChange(region)
+            }
+          >
+            { coordinates.length > 1 &&
+              <MapView.Polyline
+                coordinates={coordinates}
+                strokeWidth={3}
+                strokeColor={"#70C8BE"}
+              />
+            }
             { markers }
           </MapView>
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>

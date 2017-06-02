@@ -32,7 +32,15 @@ import {
   SET_USER_LOCATION,
   FILTER_CHANGED,
   SHOW_NEW_CHAPTER_TOGGLE,
-  FINISHED_STORY
+  FINISHED_STORY,
+  WRITE_CHARACTERISTIC,
+  COMPLETE_OPERATION,
+  IS_CONNECTED_TO_DEVICE,
+  IS_NOT_CONNECTED_TO_DEVICE,
+  CHANGE_STATUS_OF_LED,
+  SET_DEVICE_ID,
+  DISCONNECT_WEARABLE,
+  IS_BLUETOOTH_ON
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -210,4 +218,67 @@ export function finishedStory() {
   return {
     type: FINISHED_STORY
   };
+}
+
+export function writeCharacteristic(command) {
+  return {
+    type: WRITE_CHARACTERISTIC,
+    payload: {
+      type: 'write',
+      command: command
+    }
+  }
+}
+
+export function completeOperation() {
+  return {
+    type: COMPLETE_OPERATION
+  }
+}
+
+export function isConnectedToDevice() {
+  return {
+    type: IS_CONNECTED_TO_DEVICE
+  }
+}
+
+export function isNotConnectedToDevice() {
+  return {
+    type: IS_NOT_CONNECTED_TO_DEVICE
+  }
+}
+
+export function turnVibrationOn() {
+  return writeCharacteristic("F01");
+}
+
+export function turnVibrationAndLEDOn() {
+  return writeCharacteristic("F02");
+}
+
+export function setDeviceId(deviceId) {
+  return {
+    type: SET_DEVICE_ID,
+    payload: {
+      deviceId: deviceId
+    }
+  }
+}
+
+export function disconnectWearable() {
+  return {
+    type: DISCONNECT_WEARABLE,
+    payload: {
+      type: 'disconnect',
+    }
+  }
+}
+
+export function isBluetoothOn(isBluetoothOn) {
+  return {
+    type: IS_BLUETOOTH_ON,
+    payload: {
+      isBluetoothOn: isBluetoothOn
+    }
+  }
 }

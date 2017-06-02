@@ -35,6 +35,7 @@ class UserStoriesContainer extends Component {
             setStoryActive={
               storyId => this.props.setStoryActive(this.props.activeUserId, storyId)
             }
+            storyProgress={this.props.progress[story.id]}
           />
         )
       );
@@ -92,7 +93,8 @@ UserStoriesContainer.propTypes = {
   activeStory: React.PropTypes.object,
   progressedStories: React.PropTypes.array,
   completedStories: React.PropTypes.array,
-  setStoryActive: React.PropTypes.func
+  setStoryActive: React.PropTypes.func,
+  progress: React.PropTypes.object
 }
 
 function mapStateToProps(state) {
@@ -118,7 +120,8 @@ function mapStateToProps(state) {
     activeStory: stories[`${activeStoryId}`],
     progressedStories,
     completedStories,
-    fetchStoryIds: _.union(storiesInProgressIds, completedStoriesIds)
+    fetchStoryIds: _.union(storiesInProgressIds, completedStoriesIds),
+    progress: state.progress.data
   }
 }
 

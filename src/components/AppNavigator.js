@@ -47,8 +47,6 @@ class AppNavigator extends Component {
         const region = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          latitudeDelta:  0.00922*1.5,
-          longitudeDelta: 0.00421*1.5,
         }
         this.props.onUserLocationChange(
           position.coords.latitude,
@@ -162,7 +160,6 @@ class AppNavigator extends Component {
               component={Profile}
               hideNavBar={true}
               sceneStyle={{backgroundColor: '#70C8BE'}}
-              direction='vertical'
             />
           </Scene>
         </Router>

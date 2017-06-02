@@ -44,6 +44,11 @@ export default {
     top: 10,
     backgroundColor: '#70C8BE'
   },
+  storiesButtonLeft: {
+    position: 'absolute',
+    bottom: 20,
+    backgroundColor: '#70C8BE'
+  },
   profileButton: {
     position: 'absolute',
     bottom: 20,
