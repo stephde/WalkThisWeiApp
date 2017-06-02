@@ -172,10 +172,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch){
   return {
     completeOperation: () => dispatch(completeOperation()),
-    isBluetoothOn: (isOn) => dispatch(isBluetoothOn(isOn)),
     storeNewStatus: (command) => dispatch(storeNewStatus(command)),
     connectToDevice: () => dispatch(connectToDevice()),
-    disconnectDevice: () => dispatch(disconnectDevice())
+    disconnectDevice: () => dispatch(disconnectDevice()),
+    isBluetoothOn: (isOn) => dispatch(isBluetoothOn(isOn))
   };
 }
 
