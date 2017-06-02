@@ -30,6 +30,12 @@ export default {
     right: 20,
     backgroundColor: '#70C8BE'
   },
+  storiesButtonLeft: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    backgroundColor: '#70C8BE'
+  },
   newChapterButton: {
     position: 'absolute',
     top: 10,

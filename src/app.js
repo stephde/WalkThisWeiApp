@@ -6,7 +6,7 @@ import AppNavigator from './components/AppNavigator';
 import Contact from './components/Contact';
 import BleComponent from './components/ble/BleComponent';
 import Login from './components/login/Login';
-import MarkerPlayer from './components/player/player';
+import MarkerPlayerContainer from './components/player/PlayerContainer';
 
 class App extends Component {
   render() {
@@ -16,7 +16,7 @@ class App extends Component {
         {view}
         <BleComponent/>
         <Contact/>
-        <MarkerPlayer/>
+        <MarkerPlayerContainer/>
       </View>
     );
   }

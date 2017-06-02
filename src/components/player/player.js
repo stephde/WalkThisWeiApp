@@ -6,10 +6,9 @@ import { ReactNativeAudioStreaming } from 'react-native-audio-streaming';
 import { Button, Icon, Text} from 'native-base';
 import Modal from 'react-native-modalbox';
 import styles from './styles';
-import { connect } from 'react-redux';
-import { playerOpened } from '../../actions';
+import _ from 'lodash';
 
-class MarkerPlayer extends Component {
+export default class MarkerPlayer extends Component {
   constructor () {
     super();
     this.state = {
@@ -29,22 +28,30 @@ class MarkerPlayer extends Component {
         this.props.playerOpened();
       }
     }
+    if(newProps.controlButtonPressed) {
+      this._onPlayerControllButtonPress();
+      this.props.handledPlayerButtonPress();
+    }
   }
 
   _onPlayerControllButtonPress () {
       if(this.state.isPlaying) {
         ReactNativeAudioStreaming.pause();
+        this.setState({isPlaying: false});
       }
       else {
         if(this.state.hasBeenStarted) {
           ReactNativeAudioStreaming.resume();
+          this.setState({isPlaying: true});
         }
         else {
-          ReactNativeAudioStreaming.play(this.props.annotation.url, {});
-          this.setState({hasBeenStarted: true});
+          if(this.props.annotation.inDistance) {
+            ReactNativeAudioStreaming.play(this.props.annotation.url, {});
+            this.setState({hasBeenStarted: true});
+            this.setState({isPlaying: true});
+          }
         }
       }
-      this.setState({isPlaying: !this.state.isPlaying});
   }
 
   _getPlayerControlButton () {
@@ -63,17 +70,20 @@ class MarkerPlayer extends Component {
   }
 
   _renderModalContent() {
-    return (
-      <View style={styles.container}>
-        <View style={{flex:0.5, alignItems:'center', justifyContent: 'flex-end'}}>
-          <Text style={styles.playerTextColor}>{this.props.annotation.title}</Text>
-          <Text style={styles.playerTextColor}>{this.props.annotation.description}</Text>
+    if(!_.isEmpty(this.props.annotation)) {
+      return (
+        <View style={styles.container}>
+          <View style={{flex:0.5, alignItems:'center', justifyContent: 'flex-end'}}>
+            <Text style={styles.playerTextColor}>{this.props.annotation.title}</Text>
+            <Text style={styles.playerTextColor}>{this.props.annotation.description}</Text>
+          </View>
+          <View style={{flex:0.5, alignItems:'flex-start', paddingTop: 18}}>
+            {this._renderPlayerControls()}
+          </View>
         </View>
-        <View style={{flex:0.5, alignItems:'flex-start', paddingTop: 18}}>
-          {this._renderPlayerControls()}
-        </View>
-      </View>
-    );
+      );
+    }
+    return null;
   }
 
   render() {
@@ -82,6 +92,7 @@ class MarkerPlayer extends Component {
         style={styles.modal}
         ref={"modal1"}
         animationDuration={700}
+        onClosed={() => {this.props.closedPlayer();}}
         swipeToClose={true}>
         <Button transparent onPress={() => {this.refs.modal1.close();}}>
           <Icon name="close-circle" style={Object.assign(styles.modalTextColor, styles.modalClosingButton)}/>
@@ -91,18 +102,3 @@ class MarkerPlayer extends Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    openPlayer: state.player.openPlayer,
-    annotation: state.player.annotation
-  };
-}
-
-function mapDispatchToProps(dispatch){
-  return {
-    playerOpened: () => dispatch(playerOpened())
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MarkerPlayer);

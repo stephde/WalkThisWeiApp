@@ -6,7 +6,6 @@ export default class ActiveStoryMapWrapper extends Component {
   componentDidMount() {
     // Request active story on start up
     const activeStoryId = _.get(this.props,'currentUser.activeStoryId');
-
     if (!activeStoryId)
       return;
 
@@ -34,6 +33,7 @@ export default class ActiveStoryMapWrapper extends Component {
         mapRegion={this.props.mapRegion}
         onRegionChange={this.props.onRegionChange}
         openPlayer={this.props.openPlayer}
+        controlPlayer={this.props.controlPlayer}
       />
     );
   }

@@ -1,11 +1,15 @@
-import { OPEN_PLAYER, PLAYER_OPENED } from '../constants/actionTypes.js';
+import {
+  OPEN_PLAYER,
+  PLAYER_OPENED,
+  CONTROL_PLAYER,
+  HANDLED_PLAYER_PRESS,
+  CLOSE_PLAYER
+} from '../constants/actionTypes.js';
 
 const initialState = {
   openPlayer: false,
-  annotation: {
-    title: '',
-    description: ''
-  }
+  annotationIndex: -1,
+  controlButtonPressed: false
 };
 
 export default function ble(state = initialState, action) {
@@ -16,10 +20,25 @@ export default function ble(state = initialState, action) {
         openPlayer: true,
         ...action.payload
       };
+    case CLOSE_PLAYER:
+      return {
+        ...state,
+        annotationIndex: initialState.annotationIndex
+      };
     case PLAYER_OPENED:
       return {
         ...state,
         openPlayer: false
+      }
+    case CONTROL_PLAYER:
+      return {
+        ...state,
+        controlButtonPressed: true
+      }
+    case HANDLED_PLAYER_PRESS:
+      return {
+        ...state,
+        controlButtonPressed: initialState.controlButtonPressed
       }
     default:
       return state;
