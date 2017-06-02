@@ -100,12 +100,14 @@ class DetailedStoryContainer extends Component {
 
 DetailedStoryContainer.propTypes = {
   story: React.PropTypes.object.isRequired,
-  setStoryActive: React.PropTypes.func
+  setStoryActive: React.PropTypes.func,
+  progresses: React.PropTypes.object
 }
 
 function mapStateToProps(state) {
   return {
-    activeUserId: state.activeUser.id
+    activeUserId: state.activeUser.id,
+    progresses: state.progress
   };
 }
 

@@ -28,6 +28,7 @@ class AllStoriesContainer extends Component {
         setStoryActive={
           storyId => this.props.setStoryActive(this.props.activeUserId, storyId)
         }
+        storyProgress={this.props.progress[story.id]}
       />
     );
   }
@@ -49,12 +50,14 @@ AllStoriesContainer.propTypes = {
   activeUserId: React.PropTypes.string,
   getStoriesAroundUser: React.PropTypes.func,
   setStoryActive: React.PropTypes.func,
+  progress: React.PropTypes.object
 }
 
 function mapStateToProps(state) {
   return {
     stories: state.stories.data,
-    activeUserId: state.activeUser.id
+    activeUserId: state.activeUser.id,
+    progress: state.progress.data
   }
 }
 

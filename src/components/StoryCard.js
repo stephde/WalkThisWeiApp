@@ -30,6 +30,24 @@ const styles = {
   }
 }
 
+function chapterProgressText(progress, story) {
+  let text = "Chapter: ";
+  text += progress ? progress.maxChapterIndex : '0';
+  text += ' of ';
+  text += story.chapters.length;
+  return text;
+}
+
+function percentageProgress(progress, story) {
+  if(progress) {
+    let percentage =  progress.maxSubChapterIndex / story.chapters[progress.activeChapterIndex - 1].subChapters.length * 100
+
+    return 'Progress: ' + percentage + '%'
+  }
+
+  return 'Not yet started'
+}
+
 export default function StoryCard(props) {
   return (
     <Card>
@@ -51,8 +69,8 @@ export default function StoryCard(props) {
         <Left>
           <Body>
             <Text>{props.story.title}</Text>
-            <Text note>Chapter: 12 of 15</Text>
-            <Text note>Progress: 73%</Text>
+            <Text note>{chapterProgressText(props.storyProgress, props.story)}</Text>
+            <Text note>{percentageProgress(props.storyProgress, props.story)}</Text>
           </Body>
         </Left>
         { props.isStartable &&
@@ -76,7 +94,8 @@ export default function StoryCard(props) {
 StoryCard.propTypes =  {
   story: React.PropTypes.object.isRequired,
   isStartable: React.PropTypes.bool.isRequired,
-  setStoryActive: React.PropTypes.func
+  setStoryActive: React.PropTypes.func,
+  storyProgress: React.PropTypes.object,
 };
 
 
