@@ -15,9 +15,9 @@ export function getActiveStoryProgress(stories, user, progress) {
 
 export function getActiveSubChapters(activeStory, activeProgress) {
   if (activeStory && activeProgress) {
-    const { activeChapterIndex } = activeProgress;
+    const { nextChapterIndex } = activeProgress;
     return activeStory.chapters
-      ? activeStory.chapters[activeChapterIndex-1].subChapters
+      ? activeStory.chapters[nextChapterIndex-1].subChapters
       : [];
   } else return [];
 };

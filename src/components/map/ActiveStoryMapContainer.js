@@ -20,7 +20,7 @@ import {
 
 function getComposedAnnotations(annotations, position, activeProgress){
   const nextSubChapterIndex = activeProgress
-    ? activeProgress.activeSubChapterIndex
+    ? activeProgress.nextSubChapterIndex
     : -1;
   return annotations.map((annotation, i) => {
     const inDistance = isInDistance(

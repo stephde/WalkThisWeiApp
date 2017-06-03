@@ -13,7 +13,7 @@ const initialState = {
   data: {}
 }
 
-export default function progress(state = {}, action) {
+export default function progress(state = initialState, action) {
   switch (action.type) {
     case GET_STORY_PROGRESS_START:
     case SET_STORY_PROGRESS_START:

@@ -57,6 +57,7 @@ class UserStoriesContainer extends Component {
             key={`completed-${story.id}`}
             story={story}
             isStartable={false}
+            storyProgress={this.props.progress[story.id]}
           />
         )
       );
@@ -75,6 +76,7 @@ class UserStoriesContainer extends Component {
             ? <StoryCard
                 story={ this.props.activeStory }
                 isStartable={false}
+                storyProgress={this.props.progress[this.props.activeStory.id]}
               />
             : <Text>
                 You do not have an active story :(
