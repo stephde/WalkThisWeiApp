@@ -8,7 +8,8 @@ import {
   Tab,
   Tabs,
   TabHeading,
-  Icon
+  Icon,
+  View
 } from 'native-base';
 import {
   Image
@@ -20,8 +21,15 @@ import {
 import ChapterCard from './ChapterCard'
 
 const styles = {
+  content: {
+    flex: 1
+  },
   button: {
-    backgroundColor: '#70C8BE'
+    backgroundColor: '#70C8BE',
+    margin: 20/*,
+    position: 'absolute',
+    bottom: 10,
+    right: 10*/
   },
   image: {
     flex: 1,
@@ -35,11 +43,48 @@ const styles = {
     padding: 10,
     fontSize: 18
   },
+  subHeader: {
+    padding: 10,
+    paddingLeft: 0,
+    fontSize: 18,
+    fontWeight: '500'
+  },
+  descText: {
+    paddingBottom: 25
+  },
   tab: {
+    padding: 15,
+    alignSelf: 'stretch'
+  },
+  tabs: {
+    width: "100%",
     flex: 1,
-    padding: 10
+    flexDirection: "column"
+  },
+  backdropView: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    padding: 8,
+    backgroundColor: 'rgba(0,0,0,30)',
+    opacity: 0.6,
+    borderRadius: 5
+  },
+  backdropViewBackground: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    padding: 8,
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderRadius: 5
+  },
+  headline: {
+    color: '#DDDDDD',
+    fontSize: 26,
+    fontWeight: '500'
   }
 }
+
 
 class DetailedStoryContainer extends Component {
   _buildChapterTabs(){
@@ -51,6 +96,21 @@ class DetailedStoryContainer extends Component {
     );
   }
 
+  _getDescHeaderText() {
+    let length = this.props.story.chapters.length;
+    let miles = this.props.story.miles ? this.props.story.miles : '15';
+    return length + (length > 1 ? ' Chapters' : ' Chapter') + ' | ' + miles + ' miles';
+  }
+
+  _getProgressText() {
+    let progress = this.props.progress
+    if (progress) {
+      return 'Chapter ' + (progress.maxChapterIndex || 0) + ' of ' + this.props.story.chapters.length;
+    }
+
+    return 'Not yet started'
+  }
+
   render() {
     const chapterTabs = this._buildChapterTabs()
 
@@ -60,20 +120,31 @@ class DetailedStoryContainer extends Component {
           <Image
               source={{uri: this.props.story.picture}}
               style={styles.image}
-              resizeMode='cover'
-          />
-          <Text style={styles.header}>
-            { this.props.story.title }
-          </Text>
+              resizeMode='cover'>
+          </Image>
+          <View style={styles.backdropView}>
+            <Text style={styles.headline}>
+              { this.props.story.title }
+            </Text>
+          </View>
+          <View style={styles.backdropViewBackground}>
+            <Text style={styles.headline}>
+              { this.props.story.title }
+            </Text>
+          </View>
+
           <Tabs>
             <Tab
                 heading={ <TabHeading><Icon name="list" /><Text>Info</Text></TabHeading>}
                 style={styles.tab}>
-              <Text>
-                { this.props.story.description }
-              </Text>
+              <Text style={styles.subHeader}>{ this._getDescHeaderText() }</Text>
+              <Text style={styles.descText}>{ this.props.story.description }</Text>
+
+              <Text style={styles.subHeader}>Progress</Text>
+              <Text style={styles.descText}>{ this._getProgressText() }</Text>
             </Tab>
             <Tab
+                textStyle={{color: '#70c8be'}}
                 heading={ <TabHeading><Icon name="book" /><Text>Chapters</Text></TabHeading>}
                 style={styles.tab}>
               { chapterTabs }
@@ -101,13 +172,13 @@ class DetailedStoryContainer extends Component {
 DetailedStoryContainer.propTypes = {
   story: React.PropTypes.object.isRequired,
   setStoryActive: React.PropTypes.func,
-  progresses: React.PropTypes.object
+  progress: React.PropTypes.object
 }
 
 function mapStateToProps(state) {
   return {
     activeUserId: state.activeUser.id,
-    progresses: state.progress
+    progress: state.progress.data
   };
 }
 
