@@ -27,25 +27,40 @@ class LocationObserver extends React.Component {
     if (!activeStory || !progress || !userLocation)
       return;
 
-    const { activeChapterIndex, activeSubChapterIndex } = progress;
+    const { nextChapterIndex, nextSubChapterIndex } = progress;
     const chapterCount = _.get(activeStory, 'chapters.length');
-    const subChapterCount = _.get(activeStory, `chapters[${activeChapterIndex - 1}].subChapters.length`);
-    const activeSubChapter = _.get(activeStory, `chapters[${activeChapterIndex - 1}].subChapters[${activeSubChapterIndex - 1}]`);
+    const subChapterCount = _.get(activeStory, `chapters[${nextChapterIndex - 1}].subChapters.length`);
+    const nextSubChapter = _.get(activeStory, `chapters[${nextChapterIndex - 1}].subChapters[${nextSubChapterIndex - 1}]`);
 
-    if (!activeSubChapter) return;
-    if (this._userIsInRange(activeSubChapter.coordinates, userLocation)) {
-      if (chapterCount === activeChapterIndex
-        && subChapterCount === activeSubChapterIndex)
+    if (!nextSubChapter) return;
+
+    if (this._userIsInRange(nextSubChapter.coordinates, userLocation)) {
+      if (chapterCount === nextChapterIndex
+        && subChapterCount === nextSubChapterIndex) {
         // Story is finished, last subchapter in last chapter was reached
+        const { maxChapterIndex, maxSubChapterIndex } = progress;
+        if ( maxChapterIndex === nextChapterIndex
+          && maxSubChapterIndex === nextSubChapterIndex)
+          // Story end was reached before
+          return;
         this.props.finishedStory();
-      else if (subChapterCount === activeSubChapterIndex)
+        this.props.setStoryProgress(
+          userId,
+          activeStory.id,
+          {
+            reachedChapterIndex: nextChapterIndex,
+            reachedSubChapterIndex: nextSubChapterIndex
+          }
+        );
+      }
+      else if (subChapterCount === nextSubChapterIndex)
         // Chapter is finished, last subchapter in chapter was reached
         this.props.showNewChapterToggle({
           userId,
           storyId: activeStory.id,
           progress: {
-            activeChapterIndex: activeChapterIndex + 1,
-            activeSubChapterIndex: 1
+            reachedChapterIndex: nextChapterIndex,
+            reachedSubChapterIndex: nextSubChapterIndex
           }
         });
       else
@@ -54,8 +69,8 @@ class LocationObserver extends React.Component {
           userId,
           activeStory.id,
           {
-            activeChapterIndex: activeChapterIndex,
-            activeSubChapterIndex: activeSubChapterIndex + 1
+            reachedChapterIndex: nextChapterIndex,
+            reachedSubChapterIndex: nextSubChapterIndex
           }
         );
     }

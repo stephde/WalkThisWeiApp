@@ -9,18 +9,21 @@ const {height, width} = Dimensions.get('window');
 
 function ActiveStoryStatusHeader(props) {
   const {
-    userId,
-    storyId,
-    progress,
+    showChapterButton,
+    newChapterProgress,
     isDisabled
-  } = props.nextProgress;
+  } = props;
 
   return props.showChapterButton
     ? (<Button
         rounded
         disabled={ isDisabled }
         onPress={
-          () => props.setStoryProgress(userId, storyId, progress)
+          () => props.setStoryProgress(
+            newChapterProgress.userId,
+            newChapterProgress.storyId,
+            newChapterProgress.progress,
+          )
         }
         style={styles.newChapterButton}
       >
@@ -43,16 +46,15 @@ function ActiveStoryStatusHeader(props) {
 ActiveStoryStatusHeader.propTypes = {
   showChapterButton: React.PropTypes.bool,
   isDisabled: React.PropTypes.bool,
-  nextProgress: React.PropTypes.object,
+  newChapterProgress: React.PropTypes.object,
   hasFinishedStory: React.PropTypes.bool,
-  style: React.PropTypes.object,
   setStoryProgress: React.PropTypes.func
 }
 
 function mapStateToProps(state) {
   return {
     showChapterButton: state.ui.showChapterButton,
-    nextProgress: state.ui.nextProgress,
+    newChapterProgress: state.ui.newChapterProgress,
     hasFinishedStory: state.ui.hasFinishedStory,
     isDisabled: state.progress.loading
   }

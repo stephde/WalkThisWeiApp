@@ -3,6 +3,7 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
+import _ from 'lodash';
 import { Actions } from 'react-native-router-flux';
 import {
   Card,
@@ -32,17 +33,43 @@ const styles = {
 
 function chapterProgressText(progress, story) {
   let text = "Chapter: ";
-  text += progress ? progress.maxChapterIndex : '0';
+  text += (progress && progress.maxChapterIndex >= 0)
+    ? progress.maxChapterIndex
+    : '0';
   text += ' of ';
   text += story.chapters.length;
   return text;
 }
 
 function percentageProgress(progress, story) {
-  if(progress) {
-    let percentage =  progress.maxSubChapterIndex / story.chapters[progress.activeChapterIndex - 1].subChapters.length * 100
+  if (progress) {
+    const { maxChapterIndex, maxSubChapterIndex } = progress;
+    if (maxSubChapterIndex > 0 && maxChapterIndex > 0) {
+      const totalSubChapterCount = _.reduce(
+        story.chapters,
+        (acc, chapter) => {
+          return chapter.subChapters
+            ? acc + chapter.subChapters.length
+            : 0;
+        },
+        0
+      );
+      const subChapterCount = _.reduce(
+        story.chapters,
+        (acc, chapter, index) => {
+          if (index < maxChapterIndex-1)
+            return acc + chapter.subChapters.length;
+          else if (index === maxChapterIndex-1)
+            return acc + maxSubChapterIndex;
+          else
+            return acc;
+        },
+        0
+      );
+      let percentage = Math.round(subChapterCount / totalSubChapterCount * 100);
 
-    return 'Progress: ' + percentage + '%'
+      return `Progress: ${percentage}%`
+    }
   }
 
   return 'Not yet started'

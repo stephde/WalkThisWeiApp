@@ -7,8 +7,8 @@ import {
 
 const initialState = {
   showChapterButton: false,
-  nextProgress: {},
-  hasFinishedStory: false
+  hasFinishedStory: false,
+  newChapterProgress: {},
 };
 
 export default function ui(state = initialState, action) {
@@ -17,7 +17,8 @@ export default function ui(state = initialState, action) {
       return {
         ...state,
         showChapterButton: true,
-        nextProgress: action.payload.nextProgress
+        onNewChapterButtonClick: action.payload.onClick,
+        newChapterProgress: action.payload.nextProgress
       };
     case FINISHED_STORY:
       return {
@@ -26,7 +27,6 @@ export default function ui(state = initialState, action) {
         hasFinishedStory: true
       }
     case SET_STORY_ACTIVE_START:
-    case SET_STORY_PROGRESS_SUCCESS:
       return {
         ...state,
         showChapterButton: false,
