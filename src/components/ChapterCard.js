@@ -14,7 +14,14 @@ import {
     Body
 } from 'native-base';
 
-const styles = {}
+const styles = {
+    subHeader: {
+        padding: 10,
+        paddingLeft: 0,
+        fontSize: 18,
+        fontWeight: '500'
+    }
+}
 
 export default function ChapterCard(props) {
     return (
@@ -22,7 +29,7 @@ export default function ChapterCard(props) {
             <CardItem>
                 <Left>
                     <Body>
-                        <Text>
+                        <Text style={styles.subHeader}>
                             {`Chapter ${props.chapter.index} - ${props.chapter.title}`}
                         </Text>
                         <Text>
