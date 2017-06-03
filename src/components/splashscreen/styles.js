@@ -1,11 +1,7 @@
 export default {
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#70C8BE'
-  },
-  text: {
-    color: '#FFFFFF',
-    fontSize: 36
+  backgroundImage: {
+    flex: 1,
+    alignSelf: 'stretch',
+    width: null,
   }
 }
