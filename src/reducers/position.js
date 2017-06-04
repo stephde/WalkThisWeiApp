@@ -18,7 +18,8 @@ const initialState = {
     latitude: 0
   },
   loading: false,
-  error: null
+  error: null,
+  contacts: []
 }
 
 export default function position(state = initialState, action){

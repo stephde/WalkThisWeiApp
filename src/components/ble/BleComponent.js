@@ -77,7 +77,6 @@ class BleComponent extends Component {
           });
         break;
       default:
-        console.log(newProps.operation.type);
         console.log("Operation not supported");
     }
   }
@@ -99,7 +98,6 @@ class BleComponent extends Component {
     for (let i=0; i < other.length; i+=chunk) {
       tmp_array.push(other.slice(i,i+chunk));
     }
-    console.log(tmp_array);
     return Buffer.from(tmp_array).toString('base64');
   }
 
@@ -119,10 +117,10 @@ class BleComponent extends Component {
             position: 'top',
             buttonText: 'Okay'
           });
-          this.props.isConnectedToDevice();
           return device.discoverAllServicesAndCharacteristics();
         })
         .then(() => {
+          this.props.isConnectedToDevice();
           this.monitoring = this.manager.monitorCharacteristicForDevice(this.props.deviceId,
                                                     SERVICE_ID,
                                                     READ_CHARACTERISTIC_ID,
