@@ -48,6 +48,9 @@ class BleComponent extends Component {
   }
   // trigger a write or read operation for the BLE
   _executeOperation(newProps) {
+    if(!newProps.isConnectedToDevice) {
+      return;
+    }
     switch (newProps.operation.type) {
       case 'write':
         this.manager.writeCharacteristicWithResponseForDevice(this.props.deviceId,

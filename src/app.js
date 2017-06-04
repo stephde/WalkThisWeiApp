@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 
 import AppNavigator from './components/AppNavigator';
+import Contact from './components/Contact';
 import BleComponent from './components/ble/BleComponent';
 import Login from './components/login/Login';
 
@@ -14,6 +15,7 @@ class App extends Component {
       <View style={{flex: 1}}>
         {view}
         <BleComponent/>
+        <Contact/>
       </View>
     );
   }
