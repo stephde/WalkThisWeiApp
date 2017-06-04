@@ -24,6 +24,8 @@ import scienceMarker from '../../../images/science.png';
 const isAndroid = (Platform.OS === 'android');
 const {height, width} = Dimensions.get('window');
 
+import mapStyle from './mapStyle'
+
 const categoryMapper = {
   culture: cultureMarker,
   edu: eduMarker,
@@ -94,6 +96,7 @@ export default class StoryOverviewMap extends Component {
         <View style={styles.container}>
           <MapView
             style={ styles.map }
+            customMapStyle={ mapStyle }
             region={ this.props.mapRegion }
             showsUserLocation={true}
             followUserLocation={true}

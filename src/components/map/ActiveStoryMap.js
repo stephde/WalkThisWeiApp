@@ -25,6 +25,8 @@ import markerRed from '../../../images/marker_red.png';
 import markerGray from '../../../images/marker_gray.png';
 const isAndroid = (Platform.OS === 'android');
 
+import mapStyle from './mapStyle'
+
 const markerMapper = {
   [IN_DISTANCE_MARKER]: markerTurquois,
   [NEXT_SUBCHAPTER_MARKER]: markerRed,
@@ -92,6 +94,7 @@ export default class ActiveStoryMap extends Component {
         <View style={styles.container}>
           <MapView
             style={ styles.map }
+            customMapStyle={ mapStyle }
             region={ this.props.mapRegion }
             showsUserLocation={true}
             followUserLocation={true}
