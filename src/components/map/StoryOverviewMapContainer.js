@@ -7,6 +7,7 @@ import {
 } from '../../actions';
 import { isInDistance } from '../../helpers/locationHelper';
 import _ from 'lodash';
+import { push } from 'react-router-redux';
 
 function getVisibleStories(stories, position) {
   const result = _.filter(stories, story => {
@@ -34,6 +35,7 @@ function mapDispatchToProps(dispatch){
   return {
     getStoriesAroundUser: () => dispatch(getStoriesAroundCurrentLocation()),
     onRegionChange: (region) => dispatch(setRegion(region)),
+    goToDetailedStory: (detailedStoryId) => dispatch(push(`/detailedStory/${detailedStoryId}`))
   };
 }
 

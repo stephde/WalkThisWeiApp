@@ -11,7 +11,7 @@ import {
   postStoryProgress,
 } from '../helpers/postHelper.js';
 import { API_URL } from '../constants/url.js';
-import { Actions, ActionConst } from 'react-native-router-flux';
+import { push } from 'react-router-redux';
 import {
   GET_STORIES_START,
   GET_STORIES_ERROR,
@@ -112,7 +112,7 @@ export function setStoryActive(userId, storyId) {
     return postActiveStory(userId, storyId)
       .then(json => {
         dispatch(setStoryActiveSuccess(json));
-        Actions.map({type: ActionConst.RESET});
+        dispatch(push('/workaround'));
         dispatch(getStoryProgress(userId, storyId))
       }).catch((e) => {
         console.error(e);

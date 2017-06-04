@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux'
 import position from './position';
 import filter from './filter';
 import stories from './stories';
@@ -14,5 +15,6 @@ export default combineReducers({
   position,
   filter,
   ui,
-  ble
+  ble,
+  router: routerReducer
 });

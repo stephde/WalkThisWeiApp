@@ -9,7 +9,8 @@ import {
   Content,
   Text
 } from 'native-base';
-import { Actions } from 'react-native-router-flux';
+import { push } from 'react-router-redux';
+
 import _ from 'lodash';
 import StoryCard from './StoryCard';
 
@@ -29,6 +30,7 @@ class AllStoriesContainer extends Component {
           storyId => this.props.setStoryActive(this.props.activeUserId, storyId)
         }
         storyProgress={this.props.progress[story.id]}
+        onImageClick={() => this.props.goToDetailedStory(story.id)}
       />
     );
   }
@@ -50,7 +52,8 @@ AllStoriesContainer.propTypes = {
   activeUserId: React.PropTypes.string,
   getStoriesAroundUser: React.PropTypes.func,
   setStoryActive: React.PropTypes.func,
-  progress: React.PropTypes.object
+  progress: React.PropTypes.object,
+  goToDetailedStory: React.PropTypes.func
 }
 
 function mapStateToProps(state) {
@@ -64,7 +67,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getStoriesAroundUser: () => dispatch(getStoriesAroundCurrentLocation()),
-    setStoryActive: (userId, storyId) => dispatch(setStoryActive(userId, storyId))
+    setStoryActive: (userId, storyId) => dispatch(setStoryActive(userId, storyId)),
+    goToDetailedStory: (detailedStoryId) => dispatch(push(`/detailedStory/${detailedStoryId}`))
   }
 }
 

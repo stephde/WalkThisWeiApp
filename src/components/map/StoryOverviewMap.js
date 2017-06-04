@@ -119,6 +119,7 @@ export default class StoryOverviewMap extends Component {
                   <StoryCard
                     story={this.state.selectedAnnotation}
                     isStartable={false}
+                    onImageClick={() => goToDetailedStory(this.state.selectedAnnotation.id)}
                   />
                 </Content>
               </Container>
@@ -132,4 +133,5 @@ StoryOverviewMap.propTypes = {
   stories: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
   onRegionChange: React.PropTypes.func,
+  goToDetailedStory: React.PropTypes.func
 }

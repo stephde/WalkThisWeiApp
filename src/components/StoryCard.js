@@ -83,7 +83,7 @@ export default function StoryCard(props) {
         style={styles.imageItem}
       >
         <TouchableOpacity
-          onPress={() => Actions.detailedStory({story: props.story})}
+          onPress={() => props.onImageClick()}
         >
           <Image
             source={{uri: props.story.picture}}
@@ -123,6 +123,7 @@ StoryCard.propTypes =  {
   isStartable: React.PropTypes.bool.isRequired,
   setStoryActive: React.PropTypes.func,
   storyProgress: React.PropTypes.object,
+  onImageClick: React.PropTypes.func
 };
 
 

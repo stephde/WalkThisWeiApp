@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import {
   Container,
   Content,
@@ -36,6 +37,7 @@ class UserStoriesContainer extends Component {
               storyId => this.props.setStoryActive(this.props.activeUserId, storyId)
             }
             storyProgress={this.props.progress[story.id]}
+            onImageClick={() => this.props.goToDetailedStory(story.id)}
           />
         )
       );
@@ -58,6 +60,7 @@ class UserStoriesContainer extends Component {
             story={story}
             isStartable={false}
             storyProgress={this.props.progress[story.id]}
+            onImageClick={() => this.props.goToDetailedStory(story.id)}
           />
         )
       );
@@ -77,6 +80,7 @@ class UserStoriesContainer extends Component {
                 story={ this.props.activeStory }
                 isStartable={false}
                 storyProgress={this.props.progress[this.props.activeStory.id]}
+                onImageClick={() => this.props.goToDetailedStory(this.props.activeStory.id)}
               />
             : <Text>
                 You do not have an active story :(
@@ -96,7 +100,8 @@ UserStoriesContainer.propTypes = {
   progressedStories: React.PropTypes.array,
   completedStories: React.PropTypes.array,
   setStoryActive: React.PropTypes.func,
-  progress: React.PropTypes.object
+  progress: React.PropTypes.object,
+  goToDetailedStory: React.PropTypes.func
 }
 
 function mapStateToProps(state) {
@@ -130,7 +135,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setStoryActive: (userId, storyId) => dispatch(setStoryActive(userId, storyId)),
-    getStoriesByIds: (storyIds) => dispatch(getStoriesByIds(storyIds))
+    getStoriesByIds: (storyIds) => dispatch(getStoriesByIds(storyIds)),
+    goToDetailedStory: (detailedStoryId) => dispatch(push(`/detailedStory/${detailedStoryId}`))
   }
 }
 

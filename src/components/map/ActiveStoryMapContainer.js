@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux'
 import ActiveStoryMapWrapper from './ActiveStoryMapWrapper';
 import {
   setRegion,
@@ -69,7 +70,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch){
   return {
     onRegionChange: (region) => dispatch(setRegion(region)),
-    getCurrentStory: (storyId) => dispatch(getStoryById(storyId))
+    getCurrentStory: (storyId) => dispatch(getStoryById(storyId)),
+    goToStoriesTab: () => dispatch(push('/stories/userStories'))
   };
 }
 

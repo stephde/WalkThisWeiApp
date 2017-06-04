@@ -108,7 +108,7 @@ export default class ActiveStoryMap extends Component {
             }
             { markers }
           </MapView>
-          <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
+          <Button rounded onPress={() => this.props.goToStoriesTab()} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>
           <Modal
@@ -133,4 +133,5 @@ ActiveStoryMap.propTypes = {
   annotations: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
   onRegionChange: React.PropTypes.func,
+  goToStoriesTab: React.PropTypes.func
 }

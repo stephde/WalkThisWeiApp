@@ -175,8 +175,10 @@ DetailedStoryContainer.propTypes = {
   progress: React.PropTypes.object
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+  const storyId = ownProps.match.params.id;
   return {
+    story: state.stories.data[storyId],
     activeUserId: state.activeUser.id,
     progress: state.progress.data
   };

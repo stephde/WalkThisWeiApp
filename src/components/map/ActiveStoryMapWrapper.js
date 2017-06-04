@@ -33,6 +33,7 @@ export default class ActiveStoryMapWrapper extends Component {
         annotations={this.props.annotations}
         mapRegion={this.props.mapRegion}
         onRegionChange={this.props.onRegionChange}
+        goToStoriesTab={this.props.goToStoriesTab}
       />
     );
   }
@@ -43,5 +44,6 @@ ActiveStoryMapWrapper.propTypes = {
   annotations: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
   onRegionChange: React.PropTypes.func,
-  getCurrentStory: React.PropTypes.func
+  getCurrentStory: React.PropTypes.func,
+  goToStoriesTab: React.PropTypes.func
 }

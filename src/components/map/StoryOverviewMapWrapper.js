@@ -24,6 +24,7 @@ export default class StoryOverviewMapWrapper extends Component {
         stories={this.props.stories}
         mapRegion={this.props.mapRegion}
         onRegionChange={this.props.onRegionChange}
+        goToDetailedStory={this.props.goToDetailedStory}
       />
     );
   }
@@ -34,5 +35,6 @@ StoryOverviewMapWrapper.propTypes = {
   stories: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
   onRegionChange: React.PropTypes.func,
-  getStoriesAroundUser: React.PropTypes.func
+  getStoriesAroundUser: React.PropTypes.func,
+  goToDetailedStory: React.PropTypes.func,
 }

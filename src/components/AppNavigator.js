@@ -1,11 +1,13 @@
-import React, {Component} from 'react';
-import { Icon, Text } from 'native-base';
+import React, { Component } from 'react';
+import { Image, TouchableOpacity } from 'react-native';
+import { Icon, Text, Button } from 'native-base';
 
-import { Router, Scene, Actions } from 'react-native-router-flux';
+import { Route, Switch, Redirect } from 'react-router';
 import { NativeRouter, Link } from 'react-router-native'
-import { Navigation, Card } from 'react-router-navigation'
-
+import { Navigation, Card, Tabs, Tab } from 'react-router-navigation'
+import { ConnectedRouter, push } from 'react-router-redux';
 import { connect } from 'react-redux';
+
 import MapChoser from './map/MapChoser';
 import UserStoriesContainer from './UserStoriesContainer';
 import AllStoriesContainer from './AllStoriesContainer';
@@ -107,28 +109,117 @@ class AppNavigator extends Component {
   render() {
     return (
       <LocationObserver>
-        <NativeRouter>
-          <Navigation>
+        <ConnectedRouter history={this.props.history}>
+          <Navigation
+            backButtonTitle=' '
+            backButtonTintColor='#FFFFFF'
+            titleStyle={{
+              color: '#FFFFFF'
+            }}
+            navBarStyle={{
+              backgroundColor: '#70C8BE'
+            }}
+            cardStyle={{
+              backgroundColor: 'white'
+            }}
+          >
+            <Card
+              path="/workaround"
+              hideBackButton={true}
+              render={() =>
+                <Redirect to='/' />
+              }
+            />
             <Card
               exact
               path="/"
               component={MapChoser}
               title="WalkThisWei"
+              hideBackButton={true}
+              renderRightButton={() =>
+                <TouchableOpacity
+                  onPress={() => this.props.navigateToProfile()}
+                >
+                  <Image
+                    source={require('../../images/user.png')}
+                    style={style.user}
+                    resizeMode='cover'
+                  />
+                </TouchableOpacity>
+              }
             />
-            <Scene
-              key="root"
-            >
-              <Scene
-                key="map"
-                component={MapChoser}
-                title="WalkThisWei"
-                hideTabBar
-                initial
-                rightButtonImage={require('../../images/user.png')}
-                rightButtonIconStyle={style.user}
-                onRight={() => Actions.profile()}
-              />
-              <Scene
+            <Card
+              path="/profile"
+              component={Profile}
+              backButtonTitle=' '
+              title="Profile"
+            />
+            <Card
+              path="/detailedStory/:id"
+              component={DetailedStoryContainer}
+              backButtonTitle=' '
+              title="Story Details"
+            />
+            <Card
+              path="/stories"
+              title="Stories"
+              backButtonTitle=' '
+              render={({ match, location }) => (
+                <Switch location={location}>
+                  <Route
+                    exact
+                    path={match.url}
+                    render={
+                      () => <Redirect to={`${match.url}/userStories`} />
+                    }
+                  />
+                  <Route
+                    render={() => (
+                      <Tabs
+                        label="WalkThisWei"
+                        labelStyle={{ color: 'white' }}
+                        tabBarStyle={{ backgroundColor: '#70C8BE' }}
+                        tabBarIndicatorStyle={{ backgroundColor: 'white' }}
+                      >
+                        <Tab
+                          path={`${match.url}/userStories`}
+                          component={UserStoriesContainer}
+                          label="My Stories"
+                        />
+                        <Tab
+                          path={`${match.url}/allStories`}
+                          component={AllStoriesContainer}
+                          label="All Stories"
+                        />
+                      </Tabs>
+                    )}
+                  />
+                </Switch>
+              )}
+            />
+
+          </Navigation>
+        </ConnectedRouter>
+      </LocationObserver>
+    );
+  }
+}
+
+AppNavigator.propTypes = {
+  onRegionChange: React.PropTypes.func,
+  onUserLocationChange: React.PropTypes.func,
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onRegionChange: (region) => dispatch(setRegion(region)),
+    onUserLocationChange: (latitude, longitude, info) => dispatch(setUserLocation(latitude, longitude, info)),
+    navigateToProfile: () => dispatch(push('/profile'))
+  };
+}
+
+export default connect(null,mapDispatchToProps)(AppNavigator);
+       /*       <Scene
                 key="storyTabs"
                 tabBarStyle={{
                   backgroundColor: '#70C8BE',
@@ -150,37 +241,4 @@ class AppNavigator extends Component {
                   component={AllStoriesContainer}
                   icon={TabIcon}
                 />
-              </Scene>
-              <Scene
-                key="detailedStory"
-                title="Detailed Story"
-                component={DetailedStoryContainer}
-                hideNavBar={false}
-              />
-              <Scene
-                key="profile"
-                component={Profile}
-                hideNavBar={true}
-                sceneStyle={{backgroundColor: '#70C8BE'}}
-              />
-            </Scene>
-          </Navigation>
-        </NativeRouter>
-      </LocationObserver>
-    );
-  }
-}
-
-AppNavigator.propTypes = {
-  onRegionChange: React.PropTypes.func,
-  onUserLocationChange: React.PropTypes.func,
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    onRegionChange: (region) => dispatch(setRegion(region)),
-    onUserLocationChange: (latitude, longitude, info) => dispatch(setUserLocation(latitude, longitude, info))
-  };
-}
-
-export default connect(null,mapDispatchToProps)(AppNavigator);
+              </Scene> */

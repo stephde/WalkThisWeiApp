@@ -9,7 +9,7 @@ import Login from './components/login/Login';
 
 class App extends Component {
   render() {
-    const view = !this.props.currentUser ? <Login/> : <AppNavigator/>;
+    const view = !this.props.currentUser ? <Login/> : <AppNavigator history={this.props.history}/>;
     return (
       <View style={{flex: 1}}>
         {view}
