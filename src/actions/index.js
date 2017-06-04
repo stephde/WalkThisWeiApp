@@ -32,6 +32,7 @@ import {
   SET_REGION,
   SET_USER_LOCATION,
   FILTER_CHANGED,
+  REACHED_SUBCHAPTER,
   SHOW_NEW_CHAPTER_TOGGLE,
   FINISHED_STORY,
   WRITE_CHARACTERISTIC,
@@ -215,6 +216,16 @@ export function setUserLocation(latitude, longitude, info) {
       info
     }
   };
+}
+
+export function reachedSubChapter(chapterIndex, subChapterIndex) {
+  return {
+    type: REACHED_SUBCHAPTER,
+    payload: {
+      chapterIndex,
+      subChapterIndex
+    }
+  }
 }
 
 export function filterChanged(filterKey) {

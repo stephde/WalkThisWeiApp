@@ -5,7 +5,8 @@ import { isInDistance } from '../helpers/locationHelper';
 import {
   showNewChapterToggle,
   setStoryProgress,
-  finishedStory
+  finishedStory,
+  reachedSubChapter
 } from '../actions';
 import { DISTANCE } from '../constants/distance';
 
@@ -43,6 +44,7 @@ class LocationObserver extends React.Component {
           && maxSubChapterIndex === nextSubChapterIndex)
           // Story end was reached before
           return;
+        this.props.reachedSubChapter(nextChapterIndex, nextSubChapterIndex);
         this.props.finishedStory();
         this.props.setStoryProgress(
           userId,
@@ -52,8 +54,8 @@ class LocationObserver extends React.Component {
             reachedSubChapterIndex: nextSubChapterIndex
           }
         );
-      }
-      else if (subChapterCount === nextSubChapterIndex)
+      } else if (subChapterCount === nextSubChapterIndex) {
+        this.props.reachedSubChapter(nextChapterIndex, nextSubChapterIndex);
         // Chapter is finished, last subchapter in chapter was reached
         this.props.showNewChapterToggle({
           userId,
@@ -63,8 +65,9 @@ class LocationObserver extends React.Component {
             reachedSubChapterIndex: nextSubChapterIndex
           }
         });
-      else
+      } else {
         // Some other subchapter was reached
+        this.props.reachedSubChapter(nextChapterIndex, nextSubChapterIndex);
         this.props.setStoryProgress(
           userId,
           activeStory.id,
@@ -73,6 +76,7 @@ class LocationObserver extends React.Component {
             reachedSubChapterIndex: nextSubChapterIndex
           }
         );
+      }
     }
   }
   componentDidMount() {
@@ -96,6 +100,7 @@ LocationObserver.PropTypes = {
   setStoryProgress: React.PropTypes.func,
   showNewChapterToggle: React.PropTypes.func,
   finishedStory: React.PropTypes.func,
+  reachedSubChapter: React.PropTypes.func
 }
 
 function mapStateToProps(state) {
@@ -115,6 +120,7 @@ export default connect(
   mapStateToProps, {
     setStoryProgress,
     finishedStory,
-    showNewChapterToggle
+    showNewChapterToggle,
+    reachedSubChapter
   }
 )(LocationObserver)
