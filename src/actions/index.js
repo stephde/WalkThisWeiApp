@@ -9,6 +9,7 @@ import {
   postLogin,
   postActiveStory,
   postStoryProgress,
+  postUserLocation
 } from '../helpers/postHelper.js';
 import { API_URL } from '../constants/url.js';
 import { Actions, ActionConst } from 'react-native-router-flux';
@@ -40,7 +41,10 @@ import {
   CHANGE_STATUS_OF_LED,
   SET_DEVICE_ID,
   DISCONNECT_WEARABLE,
-  IS_BLUETOOTH_ON
+  IS_BLUETOOTH_ON,
+  USER_LOCATION_START,
+  USER_LOCATION_SUCCESS,
+  USER_LOCATION_ERROR
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -183,6 +187,23 @@ export function setRegion(region) {
       mapRegion: region
     }
   };
+}
+
+const sendUserLocationStart = () => ({ type: USER_LOCATION_START });
+const sendUserLocationSuccess = (json) => ({ type: USER_LOCATION_SUCCESS, payload: json });
+const sendUserLocationError = (error) => ({ type: USER_LOCATION_ERROR, payload: error });
+
+export function sendUserLocation(user, longitude, latitude, info) {
+  return (dispatch) => {
+      dispatch(sendUserLocationStart());
+      return postUserLocation(user, latitude, longitude)
+        .then(json => {
+          dispatch(sendUserLocationSuccess(json));
+        }).catch((e) => {
+          console.log(e);
+          dispatch(sendUserLocationError(e));
+        });
+    }
 }
 
 export function setUserLocation(latitude, longitude, info) {

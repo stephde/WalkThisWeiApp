@@ -8,9 +8,12 @@ import AllStoriesContainer from './AllStoriesContainer';
 import DetailedStoryContainer from './DetailedStoryContainer';
 import Profile from './profile/Profile';
 import LocationObserver from './LocationObserver';
+import { TIME_BETWEEN_LOCATIONS } from '../constants/position';
+
 import {
   setUserLocation,
-  setRegion
+  setRegion,
+  sendUserLocation
 } from '../actions';
 import style from './styles';
 
@@ -44,13 +47,15 @@ class AppNavigator extends Component {
   _getCurrentPosition(enableHighAccuracy) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
         const region = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
+          latitude: latitude,
+          longitude: longitude,
         }
         this.props.onUserLocationChange(
-          position.coords.latitude,
-          position.coords.longitude,
+          latitude,
+          longitude,
           {
             type: enableHighAccuracy ? 'GPS' : 'NETWORK'
           }
@@ -93,11 +98,20 @@ class AppNavigator extends Component {
     // listen to high accuracy and low accuracy
     this.watchIDGPS = this._setUpLocationWatcher(true);
     this.watchIDNetwork = this._setUpLocationWatcher(false);
+
+    // send location to server
+    this.locationTimeout = setInterval(() => {
+      this.props.sendUserLocation(
+        this.props.userId,
+        this.props.userLocation.latitude,
+        this.props.userLocation.longitude);
+    }, TIME_BETWEEN_LOCATIONS);
   }
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchIDGPS);
     navigator.geolocation.clearWatch(this.watchIDNetwork);
+    clearInterval(this.locationTimeout);
   }
 
   render() {
@@ -171,13 +185,24 @@ class AppNavigator extends Component {
 AppNavigator.propTypes = {
   onRegionChange: React.PropTypes.func,
   onUserLocationChange: React.PropTypes.func,
+  userLocation: React.PropTypes.object,
+  sendUserLocation: React.PropTypes.func,
+  userId: React.PropTypes.string
+}
+
+function mapStateToProps(state) {
+  return {
+    userLocation: state.position.userLocation,
+    userId: state.activeUser.id
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     onRegionChange: (region) => dispatch(setRegion(region)),
-    onUserLocationChange: (latitude, longitude, info) => dispatch(setUserLocation(latitude, longitude, info))
+    onUserLocationChange: (latitude, longitude, info) => dispatch(setUserLocation(latitude, longitude, info)),
+    sendUserLocation: (userId, longitude, latitude) => dispatch(sendUserLocation(userId, latitude, longitude))
   };
 }
 
-export default connect(null,mapDispatchToProps)(AppNavigator);
+export default connect(mapStateToProps, mapDispatchToProps)(AppNavigator);
