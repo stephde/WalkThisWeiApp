@@ -13,7 +13,8 @@ import { TIME_BETWEEN_LOCATIONS } from '../constants/position';
 import {
   setUserLocation,
   setRegion,
-  sendUserLocation
+  sendUserLocation,
+  turnVibrationOn
 } from '../actions';
 import style from './styles';
 
@@ -114,6 +115,13 @@ class AppNavigator extends Component {
     clearInterval(this.locationTimeout);
   }
 
+  componentWillReceiveProps(newProps) {
+    if(newProps.currentChapterIndex !== this.props.currentChapterIndex ||
+       newProps.currentSubChapterIndex !== this.props.currentSubChapterIndex) {
+         newProps.turnVibrationOn();
+    }
+  }
+
   render() {
     return (
       <LocationObserver>
@@ -187,13 +195,16 @@ AppNavigator.propTypes = {
   onUserLocationChange: React.PropTypes.func,
   userLocation: React.PropTypes.object,
   sendUserLocation: React.PropTypes.func,
-  userId: React.PropTypes.string
+  userId: React.PropTypes.string,
+  turnVibrationOn: React.PropTypes.func
 }
 
 function mapStateToProps(state) {
   return {
     userLocation: state.position.userLocation,
-    userId: state.activeUser.id
+    userId: state.activeUser.id,
+    currentChapterIndex: state.progress.custom.currentChapterIndex,
+    currentSubChapterIndex: state.progress.custom.currentSubChapterIndex
   };
 }
 
@@ -201,7 +212,8 @@ function mapDispatchToProps(dispatch) {
   return {
     onRegionChange: (region) => dispatch(setRegion(region)),
     onUserLocationChange: (latitude, longitude, info) => dispatch(setUserLocation(latitude, longitude, info)),
-    sendUserLocation: (userId, longitude, latitude) => dispatch(sendUserLocation(userId, latitude, longitude))
+    sendUserLocation: (userId, longitude, latitude) => dispatch(sendUserLocation(userId, latitude, longitude)),
+    turnVibrationOn: () => dispatch(turnVibrationOn())
   };
 }
 
