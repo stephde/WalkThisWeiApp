@@ -13,7 +13,7 @@ const initialState = {
   operation: {},
   isConnectedToDevice: false,
   deviceId: '',
-  isLEDOn: ''
+  isLEDOn: false
 };
 
 export default function ble(state = initialState, action) {

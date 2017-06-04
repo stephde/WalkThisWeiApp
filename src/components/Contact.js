@@ -8,16 +8,16 @@ class Contact extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if(typeof this.props.nearByContacts !== 'undefined' &&
-       typeof newProps.nearByContacts !== 'undefined' &&
-       newProps.nearByContacts.length !== this.props.nearByContacts.length) {
-      if(newProps.nearByContacts.length > 0) {
+    if(typeof newProps.nearByContacts === 'undefined') {
+      return;
+    }
+    if(newProps.nearByContacts.length > 0) {
+      if(!this.props.isLEDOn) {
         this.props.turnVibrationAndLEDOn();
       }
-      else {
-        if(typeof this.props.nearByContacts !== 'undefined') {
-          this.props.turnVibrationAndLEDOff();
-        }
+    } else {
+      if(this.props.isLEDOn) {
+        this.props.turnVibrationAndLEDOff();
       }
     }
   }
@@ -25,12 +25,14 @@ class Contact extends Component {
 
 Contact.propTypes = {
   turnVibrationAndLEDOn: React.PropTypes.func,
-  turnVibrationAndLEDOff: React.PropTypes.func
+  turnVibrationAndLEDOff: React.PropTypes.func,
+  isLEDOn: React.PropTypes.bool
 }
 
 function mapStateToProps(state) {
   return {
-    nearByContacts: ['232233'],
+    isLEDOn: state.ble.isLEDOn,
+    nearByContacts: state.position.contacts,
   };
 }
 
