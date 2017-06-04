@@ -3,7 +3,8 @@ import {
   fetchStoryById,
   fetchStoriesByIds,
   fetchUserById,
-  fetchStoryProgress
+  fetchStoryProgress,
+  fetchContacts
 } from '../helpers/fetchHelper.js';
 import {
   postLogin,
@@ -50,7 +51,10 @@ import {
   PLAYER_OPENED,
   CONTROL_PLAYER,
   HANDLED_PLAYER_PRESS,
-  CLOSE_PLAYER
+  CLOSE_PLAYER,
+  GET_CONTACTS_START,
+  GET_CONTACTS_SUCCESS,
+  GET_CONTACTS_ERROR
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -363,5 +367,22 @@ export function storeNewStatus(command) {
   export function closePlayer() {
     return {
       type: CLOSE_PLAYER
+    };
+  }
+
+  const getContactsStart = () => ({ type: GET_CONTACTS_START });
+  const getContactsSuccess = (json) => ({ type: GET_CONTACTS_SUCCESS, payload: json });
+  const getContactsError = (error) => ({ type: GET_CONTACTS_ERROR, payload: error });
+
+  export function getContacts(userId) {
+    return (dispatch) => {
+      dispatch(getContactsStart());
+      return fetchContacts(userId)
+        .then(json => {
+          dispatch(getContactsSuccess(json));
+        }).catch((e) => {
+          console.log(e);
+          dispatch(getContactsError(e));
+        });
     };
   }

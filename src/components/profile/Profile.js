@@ -17,36 +17,36 @@ class Profile extends Component {
       contacts: [
         {
           id: 1,
-          name: 'Lauren',
-          contactPlace: 'Apr. 14 @ Dish',
-          image: require('../../../images/contactf.png')
+          nickName: 'Lauren'
         },
         {
           id: 2,
-          name: 'Ralph',
-          contactPlace: 'Apr. 15 @ Dish',
-          image: require('../../../images/contactm.png')
+          nickName: 'Ralph'
         }
       ]
     };
   }
 
   _getContacts() {
-    return this.state.contacts
-      .map((contact) => {
-        return (
-          <View key={contact.id} style={{flex: 1, paddingTop: 16, flexDirection: 'row'}}>
-            <Image source={contact.image}/>
-            <View style={{flex: 1, paddingLeft: 16, justifyContent: 'center'}}>
-              <Text style={styles.text}>{contact.name}</Text>
-              <Text style={styles.text}>{contact.contactPlace}</Text>
+    if(this.state.contacts.length > 0) {
+      return this.state.contacts
+        .map((contact) => {
+          return (
+            <View key={contact.id} style={{flex: 1, paddingTop: 16, flexDirection: 'row'}}>
+              <Image source={require('../../../images/contact.png')}/>
+              <View style={{flex: 1, paddingLeft: 16, justifyContent: 'center'}}>
+                <Text style={styles.text}>{contact.nickName}</Text>
+                <Text style={styles.text}>Jun. 8 @ Expe</Text>
+              </View>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <Icon name='ios-call-outline' style={Object.assign({fontSize: 40}, styles.textColor)}/>
+              </View>
             </View>
-            <View style={{flex: 1, alignItems: 'flex-end'}}>
-              <Icon name='ios-call-outline' style={Object.assign({fontSize: 40}, styles.textColor)}/>
-            </View>
-          </View>
-        );
-      });
+          );
+        });
+    }
+    return (<Text>You do not have any contacts yet</Text>)
+
   }
 
   onHandleAddWearable() {
