@@ -17,25 +17,33 @@ import { isInDistance } from '../../helpers/locationHelper';
 
 function mapStateToProps(state) {
   const activeStory = getActiveStory(state.stories.data, state.activeUser);
-  const activeStoryProgress = getActiveStoryProgress(state.stories.data, state.activeUser, state.progress.data);
-  let annotation = {}
-  if (state.player.annotationIndex === -1) {
-    annotation = getActiveSubChapter(activeStory, activeStoryProgress);
+  let annotation = {};
+  // only set annotation, if a story is active
+  if(activeStory) {
+    // marker has been clicked
+    if (state.player.annotationIndex !== -1) {
+      const activeStoryProgress = getActiveStoryProgress(state.stories.data, state.activeUser, state.progress.data);
+      const activeSubChapters = getActiveSubChapters(activeStory, activeStoryProgress);
+      annotation = activeSubChapters[state.player.annotationIndex];
+    }
+    // wearable button has been pushed
+    else if (!_.isEmpty(state.progress.custom)) {
+      const {currentChapterIndex, currenSubChapterIndex} = state.progress.custom;
+      const activeSubChapters = activeStory.chapters[currentChapterIndex - 1].subChapters;
+      annotation = activeSubChapters[currenSubChapterIndex - 1];
+    }
+    // check if annotation is in distance
+    if (!_.isEmpty(annotation)) {
+      annotation.inDistance = isInDistance(
+        state.position.userLocation,
+        {
+          latitude: annotation.coordinates[1],
+          longitude: annotation.coordinates[0]
+        },
+        DISTANCE
+      );
+    }
   }
-  else {
-    annotation = getActiveSubChapters(activeStory, activeStoryProgress)[state.player.annotationIndex];
-  }
-  if (!_.isEmpty(annotation)) {
-    annotation.inDistance = isInDistance(
-      state.position.userLocation,
-      {
-        latitude: annotation.coordinates[1],
-        longitude: annotation.coordinates[0]
-      },
-      DISTANCE
-    );
-  }
-
   return {
     openPlayer: state.player.openPlayer,
     annotation: annotation,
