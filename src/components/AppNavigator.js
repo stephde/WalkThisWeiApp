@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import { Icon, Text } from 'native-base';
+
 import { Router, Scene, Actions } from 'react-native-router-flux';
+import { NativeRouter, Link } from 'react-router-native'
+import { Navigation, Card } from 'react-router-navigation'
+
 import { connect } from 'react-redux';
 import MapChoser from './map/MapChoser';
 import UserStoriesContainer from './UserStoriesContainer';
@@ -103,66 +107,65 @@ class AppNavigator extends Component {
   render() {
     return (
       <LocationObserver>
-        <Router
-          getSceneStyle={getSceneStyle}
-          titleStyle={{
-            color: 'white'
-          }}
-          navigationBarStyle={{
-            backgroundColor: '#70C8BE',
-          }}
-          barButtonIconStyle={{ tintColor: 'white' }}
-        >
-          <Scene
-            key="root"
-          >
-            <Scene
-              key="map"
+        <NativeRouter>
+          <Navigation>
+            <Card
+              exact
+              path="/"
               component={MapChoser}
               title="WalkThisWei"
-              hideTabBar
-              initial
-              rightButtonImage={require('../../images/user.png')}
-              rightButtonIconStyle={style.user}
-              onRight={() => Actions.profile()}
             />
             <Scene
-              key="storyTabs"
-              tabBarStyle={{
-                backgroundColor: '#70C8BE',
-              }}
-              tabTitleStyle={{
-                color: 'white'
-              }}
-              tabs
+              key="root"
             >
               <Scene
-                key="myStories"
-                title="My Stories"
-                component={UserStoriesContainer}
-                icon={TabIcon}
+                key="map"
+                component={MapChoser}
+                title="WalkThisWei"
+                hideTabBar
+                initial
+                rightButtonImage={require('../../images/user.png')}
+                rightButtonIconStyle={style.user}
+                onRight={() => Actions.profile()}
               />
               <Scene
-                key="allStories"
-                title="All Stories"
-                component={AllStoriesContainer}
-                icon={TabIcon}
+                key="storyTabs"
+                tabBarStyle={{
+                  backgroundColor: '#70C8BE',
+                }}
+                tabTitleStyle={{
+                  color: 'white'
+                }}
+                tabs
+              >
+                <Scene
+                  key="myStories"
+                  title="My Stories"
+                  component={UserStoriesContainer}
+                  icon={TabIcon}
+                />
+                <Scene
+                  key="allStories"
+                  title="All Stories"
+                  component={AllStoriesContainer}
+                  icon={TabIcon}
+                />
+              </Scene>
+              <Scene
+                key="detailedStory"
+                title="Detailed Story"
+                component={DetailedStoryContainer}
+                hideNavBar={false}
+              />
+              <Scene
+                key="profile"
+                component={Profile}
+                hideNavBar={true}
+                sceneStyle={{backgroundColor: '#70C8BE'}}
               />
             </Scene>
-            <Scene
-              key="detailedStory"
-              title="Detailed Story"
-              component={DetailedStoryContainer}
-              hideNavBar={false}
-            />
-            <Scene
-              key="profile"
-              component={Profile}
-              hideNavBar={true}
-              sceneStyle={{backgroundColor: '#70C8BE'}}
-            />
-          </Scene>
-        </Router>
+          </Navigation>
+        </NativeRouter>
       </LocationObserver>
     );
   }
