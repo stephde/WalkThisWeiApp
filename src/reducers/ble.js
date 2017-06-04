@@ -5,13 +5,15 @@ import {
   IS_NOT_CONNECTED_TO_DEVICE,
   SET_DEVICE_ID,
   DISCONNECT_WEARABLE,
-  IS_BLUETOOTH_ON
+  IS_BLUETOOTH_ON,
+  CHANGE_STATUS_OF_LED
 } from '../constants/actionTypes.js';
 
 const initialState = {
   operation: {},
   isConnectedToDevice: false,
-  deviceId: ''
+  deviceId: '',
+  isLEDOn: false
 };
 
 export default function ble(state = initialState, action) {
@@ -51,6 +53,11 @@ export default function ble(state = initialState, action) {
       return {
         ... state,
         isBluetoothOn: action.payload.isBluetoothOn
+      }
+    case CHANGE_STATUS_OF_LED:
+     return {
+       ... state,
+       isLEDOn: action.payload.isLEDOn
       }
     default:
       return state;
