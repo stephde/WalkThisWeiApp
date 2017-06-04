@@ -12,7 +12,6 @@ import MapView, { Marker } from 'react-native-maps';
 import styles from './styles';
 import { Button, Text, Icon, Container, Content } from 'native-base';
 import ActiveStoryStatusHeader from './ActiveStoryStatusHeader';
-import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
 import StoryCard from '../StoryCard';
 import cultureMarker from '../../../images/culture.png';

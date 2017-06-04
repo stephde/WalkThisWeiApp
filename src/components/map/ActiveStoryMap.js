@@ -12,7 +12,6 @@ import _ from 'lodash';
 import styles from './styles';
 import { Button, Text, Icon } from 'native-base';
 import ActiveStoryStatusHeader from './ActiveStoryStatusHeader';
-import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
 import MarkerPlayer from '../player/player';
 import {
