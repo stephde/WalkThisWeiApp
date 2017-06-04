@@ -35,13 +35,13 @@ class Profile extends Component {
     return this.state.contacts
       .map((contact) => {
         return (
-          <View key={contact.id} style={{paddingTop: 16, flexDirection: 'row'}}>
+          <View key={contact.id} style={{flex: 1, paddingTop: 16, flexDirection: 'row'}}>
             <Image source={contact.image}/>
-            <View style={{paddingLeft: 16, justifyContent: 'center'}}>
+            <View style={{flex: 1, paddingLeft: 16, justifyContent: 'center'}}>
               <Text style={styles.text}>{contact.name}</Text>
               <Text style={styles.text}>{contact.contactPlace}</Text>
             </View>
-            <View style={{marginLeft: 80}}>
+            <View style={{flex: 1, alignItems: 'flex-end'}}>
               <Icon name='ios-call-outline' style={Object.assign({fontSize: 40}, styles.textColor)}/>
             </View>
           </View>
@@ -105,7 +105,7 @@ class Profile extends Component {
       </Button>
     );
   }
-  
+
   render() {
     const contacts = this._getContacts();
     return (
@@ -115,7 +115,7 @@ class Profile extends Component {
           <Button transparent onPress={() => {Actions.pop();}}>
             <Icon name="ios-arrow-back" style={styles.backButton}/>
           </Button>
-          <View>
+          <View style={{alignItems: 'center'}}>
             <Image source={require('../../../images/man-user.png')} style={styles.user} />
             <Text style={styles.profileText}>{this.props.user.nickName}</Text>
           </View>
@@ -123,7 +123,7 @@ class Profile extends Component {
 
         <List style={styles.profileContent}>
 
-          <ListItem>
+          <ListItem style={styles.profileItem}>
             <View>
               <Text style={styles.headline}>Earned Badges</Text>
               <View style={{paddingTop: 8}}>
@@ -132,16 +132,16 @@ class Profile extends Component {
             </View>
           </ListItem>
 
-          <ListItem>
-            <View style={{paddingTop: 16}}>
+          <ListItem style={styles.profileItem}>
+            <View style={{paddingTop: 8}}>
               <Text style={styles.headline}>Walking Stats</Text>
               <Text style={styles.text}>Today’s Distance: 5km (1 h)</Text>
               <Text style={styles.text}>Weekly Distance: 12km (8:20h)</Text>
             </View>
           </ListItem>
 
-          <ListItem>
-            <View style={{paddingTop: 16}}>
+          <ListItem style={styles.profileItem}>
+            <View style={{paddingTop: 8, flex: 1}}>
               <Text style={styles.headline}>Contacts</Text>
               { contacts }
             </View>
