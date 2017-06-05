@@ -8,7 +8,7 @@ import Camera from 'react-native-camera';
 import styles from './styles';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
-import { disconnectWearable, setDeviceId } from '../../actions';
+import { disconnectWearable, getContacts, setDeviceId } from '../../actions';
 
 class Profile extends Component {
   constructor() {
@@ -27,9 +27,13 @@ class Profile extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getContacts(this.props.user.id);
+  }
+
   _getContacts() {
-    if(this.state.contacts.length > 0) {
-      return this.state.contacts
+    if(this.props.contacts.length > 0) {
+      return this.props.contacts
         .map((contact) => {
           return (
             <View key={contact.id} style={{flex: 1, paddingTop: 16, flexDirection: 'row'}}>
@@ -166,14 +170,16 @@ function mapStateToProps(state) {
   return {
     deviceId: state.ble.deviceId,
     user: state.activeUser,
-    isBluetoothOn: state.ble.isBluetoothOn
+    isBluetoothOn: state.ble.isBluetoothOn,
+    contacts: state.contact
   };
 }
 
 function mapDispatchToProps(dispatch){
   return {
     setDeviceId: (deviceId) => dispatch(setDeviceId(deviceId)),
-    disconnectWearable: () => dispatch(disconnectWearable())
+    disconnectWearable: () => dispatch(disconnectWearable()),
+    getContacts: (userId) => dispatch(getContacts(userId))
   };
 }
 
@@ -182,7 +188,8 @@ Profile.propTypes = {
   deviceId: React.PropTypes.string,
   user: React.PropTypes.object,
   disconnectWearable: React.PropTypes.func,
-  isBluetoothOn: React.PropTypes.bool
+  isBluetoothOn: React.PropTypes.bool,
+  getContacts: React.PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
