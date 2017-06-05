@@ -45,7 +45,7 @@ export default class MarkerPlayer extends Component {
           this.setState({isPlaying: true});
         }
         else {
-          if(this.props.annotation.inDistance) {
+          if(!_.isEmpty(this.props.annotation) && this.props.annotation.inDistance) {
             ReactNativeAudioStreaming.play(this.props.annotation.url, {});
             this.setState({hasBeenStarted: true});
             this.setState({isPlaying: true});

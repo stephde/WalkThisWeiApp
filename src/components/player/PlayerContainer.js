@@ -28,9 +28,9 @@ function mapStateToProps(state) {
     }
     // wearable button has been pushed
     else if (!_.isEmpty(state.progress.custom)) {
-      const {currentChapterIndex, currenSubChapterIndex} = state.progress.custom;
+      const {currentChapterIndex, currentSubChapterIndex} = state.progress.custom;
       const activeSubChapters = activeStory.chapters[currentChapterIndex - 1].subChapters;
-      annotation = activeSubChapters[currenSubChapterIndex - 1];
+      annotation = activeSubChapters[currentSubChapterIndex - 1];
     }
     // check if annotation is in distance
     if (!_.isEmpty(annotation)) {
