@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
-import { completeOperation, isConnectedToDevice, isNotConnectedToDevice, isBluetoothOn, storeNewStatus} from '../../actions';
+import { completeOperation, connectToDevice, disconnectDevice, isBluetoothOn, storeNewStatus} from '../../actions';
 import { connect } from 'react-redux';
 import { Toast } from 'native-base';
 import _ from 'lodash';
@@ -44,7 +44,7 @@ class BleComponent extends Component {
       position: 'top',
       buttonText: 'Okay'
     });
-    this.props.isNotConnectedToDevice();
+    this.props.disconnectDevice();
   }
   // trigger a write or read operation for the BLE
   _executeOperation(newProps) {
@@ -120,7 +120,7 @@ class BleComponent extends Component {
           return device.discoverAllServicesAndCharacteristics();
         })
         .then(() => {
-          this.props.isConnectedToDevice();
+          this.props.connectToDevice();
           this.monitoring = this.manager.monitorCharacteristicForDevice(this.props.deviceId,
                                                     SERVICE_ID,
                                                     READ_CHARACTERISTIC_ID,
@@ -164,17 +164,18 @@ class BleComponent extends Component {
 function mapStateToProps(state) {
   return {
     operation: state.ble.operation,
-    deviceId: state.ble.deviceId
+    deviceId: state.ble.deviceId,
+    isConnectedToDevice: state.ble.isConnectedToDevice
   };
 }
 
 function mapDispatchToProps(dispatch){
   return {
     completeOperation: () => dispatch(completeOperation()),
-    isConnectedToDevice: () => dispatch(isConnectedToDevice()),
-    isNotConnectedToDevice: () => dispatch(isNotConnectedToDevice()),
     isBluetoothOn: (isOn) => dispatch(isBluetoothOn(isOn)),
-    storeNewStatus: (command) => dispatch(storeNewStatus(command))
+    storeNewStatus: (command) => dispatch(storeNewStatus(command)),
+    connectToDevice: () => dispatch(connectToDevice()),
+    disconnectDevice: () => dispatch(disconnectDevice())
   };
 }
 

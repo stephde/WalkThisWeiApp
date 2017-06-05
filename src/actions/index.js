@@ -32,6 +32,7 @@ import {
   SET_REGION,
   SET_USER_LOCATION,
   FILTER_CHANGED,
+  REACHED_SUBCHAPTER,
   SHOW_NEW_CHAPTER_TOGGLE,
   FINISHED_STORY,
   WRITE_CHARACTERISTIC,
@@ -217,6 +218,16 @@ export function setUserLocation(latitude, longitude, info) {
   };
 }
 
+export function reachedSubChapter(chapterIndex, subChapterIndex) {
+  return {
+    type: REACHED_SUBCHAPTER,
+    payload: {
+      chapterIndex,
+      subChapterIndex
+    }
+  }
+}
+
 export function filterChanged(filterKey) {
   return {
     type: FILTER_CHANGED,
@@ -257,13 +268,13 @@ export function completeOperation() {
   }
 }
 
-export function isConnectedToDevice() {
+export function connectToDevice() {
   return {
     type: IS_CONNECTED_TO_DEVICE
   }
 }
 
-export function isNotConnectedToDevice() {
+export function disconnectDevice() {
   return {
     type: IS_NOT_CONNECTED_TO_DEVICE
   }
