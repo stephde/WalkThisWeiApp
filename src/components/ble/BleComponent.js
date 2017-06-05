@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BleManager } from 'react-native-ble-plx';
 import { Buffer } from 'buffer';
-import { completeOperation, connectedToDevice, notConnectedToDevice, isBluetoothOn, storeNewStatus} from '../../actions';
+import { completeOperation, connectToDevice, disconnectDevice, isBluetoothOn, storeNewStatus} from '../../actions';
 import { connect } from 'react-redux';
 import { Toast } from 'native-base';
 import _ from 'lodash';
@@ -44,7 +44,7 @@ class BleComponent extends Component {
       position: 'top',
       buttonText: 'Okay'
     });
-    this.props.notConnectedToDevice();
+    this.props.disconnectDevice();
   }
   // trigger a write or read operation for the BLE
   _executeOperation(newProps) {
@@ -120,7 +120,7 @@ class BleComponent extends Component {
           return device.discoverAllServicesAndCharacteristics();
         })
         .then(() => {
-          this.props.connectedToDevice();
+          this.props.connectToDevice();
           this.monitoring = this.manager.monitorCharacteristicForDevice(this.props.deviceId,
                                                     SERVICE_ID,
                                                     READ_CHARACTERISTIC_ID,
@@ -165,7 +165,7 @@ function mapStateToProps(state) {
   return {
     operation: state.ble.operation,
     deviceId: state.ble.deviceId,
-    connectedToDevice: state.ble.connectedToDevice
+    isConnectedToDevice: state.ble.isConnectedToDevice
   };
 }
 
@@ -174,8 +174,8 @@ function mapDispatchToProps(dispatch){
     completeOperation: () => dispatch(completeOperation()),
     isBluetoothOn: (isOn) => dispatch(isBluetoothOn(isOn)),
     storeNewStatus: (command) => dispatch(storeNewStatus(command)),
-    connectedToDevice: () => dispatch(connectedToDevice()),
-    notConnectedToDevice: () => dispatch(notConnectedToDevice())
+    connectToDevice: () => dispatch(connectToDevice()),
+    disconnectDevice: () => dispatch(disconnectDevice())
   };
 }
 

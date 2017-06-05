@@ -268,13 +268,13 @@ export function completeOperation() {
   }
 }
 
-export function connectedToDevice() {
+export function connectToDevice() {
   return {
     type: IS_CONNECTED_TO_DEVICE
   }
 }
 
-export function notConnectedToDevice() {
+export function disconnectDevice() {
   return {
     type: IS_NOT_CONNECTED_TO_DEVICE
   }
