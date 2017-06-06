@@ -20,6 +20,10 @@ import {
   NEXT_SUBCHAPTER_MARKER,
   OUT_OF_DISTANCE_MARKER
 } from '../../constants/markerTypes';
+import {
+  INITIAL_LONGITUDE_DELTA,
+  INITIAL_LATITUDE_DELTA
+} from '../../constants/position';
 import markerTurquois from '../../../images/marker_turquois.png';
 import markerRed from '../../../images/marker_red.png';
 import markerGray from '../../../images/marker_gray.png';
@@ -96,8 +100,8 @@ export default class ActiveStoryMap extends Component {
             initialRegion={{
               latitude: 0,
               longitude: 0,
-              latitudeDelta:  0.00922*1.5,
-              longitudeDelta: 0.00421*1.5,
+              latitudeDelta:  INITIAL_LATITUDE_DELTA,
+              longitudeDelta: INITIAL_LONGITUDE_DELTA,
             }}
             style={ styles.map }
             customMapStyle={ mapStyle }
@@ -141,8 +145,8 @@ export default class ActiveStoryMap extends Component {
 
 ActiveStoryMap.defaultProps = {
   mapRegion: {
-    latitudeDelta:  0.00922*1.5,
-    longitudeDelta: 0.00421*1.5,
+    latitudeDelta:  INITIAL_LATITUDE_DELTA,
+    longitudeDelta: INITIAL_LONGITUDE_DELTA,
   }
 }
 
