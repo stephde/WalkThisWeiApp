@@ -10,7 +10,8 @@ import {
   postLogin,
   postActiveStory,
   postStoryProgress,
-  postUserLocation
+  postUserLocation,
+  postNewContact
 } from '../helpers/postHelper.js';
 import { API_URL } from '../constants/url.js';
 import { Actions, ActionConst } from 'react-native-router-flux';
@@ -54,7 +55,12 @@ import {
   CLOSE_PLAYER,
   GET_CONTACTS_START,
   GET_CONTACTS_SUCCESS,
-  GET_CONTACTS_ERROR
+  GET_CONTACTS_ERROR,
+  ADD_CONTACT,
+  ADD_NEW_CONTACT_START,
+  ADD_NEW_CONTACT_SUCCESS,
+  ADD_NEW_CONTACT_ERROR,
+  UNSET_NEW_CONTACT
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -301,6 +307,10 @@ export function turnVibrationAndLEDOff() {
   return writeCharacteristic("F020");
 }
 
+export function triggerShortVibration() {
+  return writeCharacteristic("F05");
+}
+
 export function setDeviceId(deviceId) {
   return {
     type: SET_DEVICE_ID,
@@ -384,5 +394,34 @@ export function storeNewStatus(command) {
           console.log(e);
           dispatch(getContactsError(e));
         });
+    };
+  }
+
+  export function addContact() {
+    return {
+      type: ADD_CONTACT
+    };
+  }
+
+  const addNewContactStart = () => ({ type: ADD_NEW_CONTACT_START });
+  const addNewContactSuccess = (json) => ({ type: ADD_NEW_CONTACT_SUCCESS, payload: json });
+  const addNewContactError = (error) => ({ type: ADD_NEW_CONTACT_ERROR, payload: error });
+
+  export function addNewContact(userId) {
+    return (dispatch) => {
+      dispatch(addNewContactStart());
+      return postNewContact(userId)
+        .then(json => {
+          dispatch(addNewContactSuccess(json));
+        }).catch((e) => {
+          console.log(e);
+          dispatch(addNewContactError(e));
+        });
+    };
+  }
+
+  export function hasSeenNewContact() {
+    return {
+      type: UNSET_NEW_CONTACT
     };
   }

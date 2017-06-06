@@ -7,7 +7,10 @@ import {
   connectToDevice,
   isBluetoothOn,
   storeNewStatus,
-  controlPlayer} from '../../actions';
+  controlPlayer,
+  addContact
+} from '../../actions';
+
 import { connect } from 'react-redux';
 import { Toast } from 'native-base';
 import _ from 'lodash';
@@ -139,9 +142,14 @@ class BleComponent extends Component {
                 case 'F3':
                   this.props.controlPlayer();
                   break;
+                case 'F4':
+                  if(this.props.isLEDOn) {
+                    this.props.addContact();
+                  }
+                  break;
                 default:
                   console.log('Unknown value');
-              }
+               }
             }
           });
           return resolve();
@@ -175,6 +183,7 @@ class BleComponent extends Component {
 
 function mapStateToProps(state) {
   return {
+    isLEDOn: state.ble.isLEDOn,
     operation: state.ble.operation,
     deviceId: state.ble.deviceId,
     isConnectedToDevice: state.ble.isConnectedToDevice
@@ -188,7 +197,8 @@ function mapDispatchToProps(dispatch){
     connectToDevice: () => dispatch(connectToDevice()),
     disconnectDevice: () => dispatch(disconnectDevice()),
     isBluetoothOn: (isOn) => dispatch(isBluetoothOn(isOn)),
-    controlPlayer: () => dispatch(controlPlayer())
+    controlPlayer: () => dispatch(controlPlayer()),
+    addContact: () => dispatch(addContact())
   };
 }
 
