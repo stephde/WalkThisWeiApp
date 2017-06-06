@@ -8,6 +8,7 @@ import {
     Dimensions,
     Platform
 } from 'react-native';
+import _ from 'lodash';
 import MapView, { Marker } from 'react-native-maps';
 import styles from './styles';
 import { Button, Text, Icon, Container, Content } from 'native-base';
@@ -44,6 +45,7 @@ export default class StoryOverviewMap extends Component {
     constructor() {
       super();
       this.state = {
+        lastRegion: {},
         selectedAnnotation: {}
       };
     }
@@ -97,12 +99,23 @@ export default class StoryOverviewMap extends Component {
             showsUserLocation={true}
             followUserLocation={true}
             onRegionChangeComplete={
-              region => this.props.onRegionChange(region)
+              region => {
+                const {lastRegion} = this.state;
+                if (_.isEqual(lastRegion, region))
+                  return;
+
+                this.setState({
+                  ...this.state,
+                  lastRegion: region
+                });
+
+                return this.props.onRegionChange(region)
+              }
             }
           >
             { markers }
           </MapView>
-          <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
+          <Button rounded onPress={() => this.props.goToStoriesTab()} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>
           <Modal
@@ -118,7 +131,7 @@ export default class StoryOverviewMap extends Component {
                   <StoryCard
                     story={this.state.selectedAnnotation}
                     isStartable={false}
-                    onImageClick={() => goToDetailedStory(this.state.selectedAnnotation.id)}
+                    onImageClick={() => this.props.goToDetailedStory(this.state.selectedAnnotation.id)}
                   />
                 </Content>
               </Container>
@@ -128,9 +141,19 @@ export default class StoryOverviewMap extends Component {
     }
 }
 
+StoryOverviewMap.defaultProps = {
+  mapRegion: {
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta:  0.00922*1.5,
+    longitudeDelta: 0.00421*1.5,
+  }
+}
+
 StoryOverviewMap.propTypes = {
   stories: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
   onRegionChange: React.PropTypes.func,
-  goToDetailedStory: React.PropTypes.func
+  goToDetailedStory: React.PropTypes.func,
+  goToStoriesTab: React.PropTypes.func
 }

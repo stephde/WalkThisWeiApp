@@ -34,6 +34,7 @@ export default class ActiveStoryMap extends Component {
     constructor() {
       super();
       this.state = {
+        lastRegion: {},
         selectedAnnotation: ''
       };
     }
@@ -95,7 +96,18 @@ export default class ActiveStoryMap extends Component {
             showsUserLocation={true}
             followUserLocation={true}
             onRegionChangeComplete={
-              region => this.props.onRegionChange(region)
+              region => {
+                const {lastRegion} = this.state;
+                if (_.isEqual(lastRegion, region))
+                  return;
+
+                this.setState({
+                  ...this.state,
+                  lastRegion: region
+                });
+
+                return this.props.onRegionChange(region)
+              }
             }
           >
             { coordinates.length > 1 &&
@@ -126,6 +138,15 @@ export default class ActiveStoryMap extends Component {
         </View>
       );
     }
+}
+
+ActiveStoryMap.defaultProps = {
+  mapRegion: {
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta:  0.00922*1.5,
+    longitudeDelta: 0.00421*1.5,
+  }
 }
 
 ActiveStoryMap.propTypes = {

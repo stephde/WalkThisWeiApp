@@ -11,7 +11,7 @@ import {
   postStoryProgress,
 } from '../helpers/postHelper.js';
 import { API_URL } from '../constants/url.js';
-import { push } from 'react-router-redux';
+import { push, replace } from 'react-router-redux';
 import {
   GET_STORIES_START,
   GET_STORIES_ERROR,
@@ -112,8 +112,8 @@ export function setStoryActive(userId, storyId) {
     return postActiveStory(userId, storyId)
       .then(json => {
         dispatch(setStoryActiveSuccess(json));
-        dispatch(push('/workaround'));
         dispatch(getStoryProgress(userId, storyId))
+        dispatch(replace('/'));
       }).catch((e) => {
         console.error(e);
         dispatch(setStoryActiveError(e.message));

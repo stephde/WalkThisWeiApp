@@ -35,7 +35,8 @@ function mapDispatchToProps(dispatch){
   return {
     getStoriesAroundUser: () => dispatch(getStoriesAroundCurrentLocation()),
     onRegionChange: (region) => dispatch(setRegion(region)),
-    goToDetailedStory: (detailedStoryId) => dispatch(push(`/detailedStory/${detailedStoryId}`))
+    goToDetailedStory: (detailedStoryId) => dispatch(push(`/detailedStory/${detailedStoryId}`)),
+    goToStoriesTab: () => dispatch(push('/stories/userStories'))
   };
 }
 
