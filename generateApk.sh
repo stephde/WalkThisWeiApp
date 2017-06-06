@@ -14,3 +14,6 @@ cd android
 # sign package
 # --> requires keystore
 jarsigner -verbose -keystore my-keystore.keystore app/build/outputs/apk/app-release-unsigned.apk walkThisWei
+
+# zipaling file for playstore
+zipalign -f -v 4 app/build/outputs/apk/walkThisWei.apk walkThisWei_aligned.apk
