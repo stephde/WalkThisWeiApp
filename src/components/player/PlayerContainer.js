@@ -32,7 +32,6 @@ function mapStateToProps(state) {
       const {currentChapterIndex, currentSubChapterIndex} = state.progress.custom;
       const activeSubChapters = activeStory.chapters[currentChapterIndex - 1].subChapters;
       annotation = activeSubChapters[currentSubChapterIndex - 1];
-      console.log(annotation);
     }
     // check if annotation is in distance
     if (!_.isEmpty(annotation)) {
