@@ -171,7 +171,7 @@ function mapStateToProps(state) {
     deviceId: state.ble.deviceId,
     user: state.activeUser,
     isBluetoothOn: state.ble.isBluetoothOn,
-    contacts: state.contact
+    contacts: state.contact.contacts
   };
 }
 
