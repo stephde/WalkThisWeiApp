@@ -56,6 +56,10 @@ const styles = {
     padding: 15,
     alignSelf: 'stretch'
   },
+  tabUnderlineStyle: {
+    borderBottomWidth: 4,
+    borderBottomColor: '#70C8BE'
+  },
   tabs: {
     width: "100%",
     flex: 1,
@@ -143,7 +147,9 @@ class DetailedStoryContainer extends Component {
             </Text>
           </View>
 
-          <Tabs onChangeTab={(event) => {this.setState({activeTab: event.ref.ref});}}>
+          <Tabs
+              onChangeTab={(event) => {this.setState({activeTab: event.ref.ref});}}
+              tabBarUnderlineStyle={styles.tabUnderlineStyle}>
             <Tab
               ref="info"
               heading={
