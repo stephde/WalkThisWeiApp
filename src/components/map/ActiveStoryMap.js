@@ -93,11 +93,18 @@ export default class ActiveStoryMap extends Component {
       return (
         <View style={styles.container}>
           <MapView
+            initialRegion={{
+              latitude: 0,
+              longitude: 0,
+              latitudeDelta:  0.00922*1.5,
+              longitudeDelta: 0.00421*1.5,
+            }}
             style={ styles.map }
             customMapStyle={ mapStyle }
             region={ this.props.mapRegion }
             showsUserLocation={true}
             followUserLocation={true}
+            userLocationAnnotationTitle=''
             onRegionChangeComplete={
               region => this.props.onRegionChange(region)
             }
@@ -130,6 +137,13 @@ export default class ActiveStoryMap extends Component {
         </View>
       );
     }
+}
+
+ActiveStoryMap.defaultProps = {
+  mapRegion: {
+    latitudeDelta:  0.00922*1.5,
+    longitudeDelta: 0.00421*1.5,
+  }
 }
 
 ActiveStoryMap.propTypes = {

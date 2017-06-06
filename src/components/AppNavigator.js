@@ -83,7 +83,6 @@ class AppNavigator extends Component {
             type: enableHighAccuracy ? 'GPS' : 'NETWORK'
           }
         );
-        this.props.onRegionChange(region);
       },
       (error) => console.log(error),
       { enableHighAccuracy, timeout: 20000, distanceFilter: 5 }

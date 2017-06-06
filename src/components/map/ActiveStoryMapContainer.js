@@ -30,7 +30,7 @@ function getComposedAnnotations(annotations, position, activeProgress){
         longitude: annotation.coordinates[0]
       },
       DISTANCE
-    );
+    ) && i < nextSubChapterIndex;
     const markerType = inDistance
       ? IN_DISTANCE_MARKER
       : i === nextSubChapterIndex - 1

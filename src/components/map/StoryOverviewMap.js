@@ -95,11 +95,18 @@ export default class StoryOverviewMap extends Component {
       return (
         <View style={styles.container}>
           <MapView
+            initialRegion={{
+              latitude: 0,
+              longitude: 0,
+              latitudeDelta:  0.00922*1.5,
+              longitudeDelta: 0.00421*1.5,
+            }}
             style={ styles.map }
             customMapStyle={ mapStyle }
             region={ this.props.mapRegion }
             showsUserLocation={true}
             followUserLocation={true}
+            userLocationAnnotationTitle=''
             onRegionChangeComplete={
               region => this.props.onRegionChange(region)
             }
@@ -129,6 +136,13 @@ export default class StoryOverviewMap extends Component {
         </View>
       );
     }
+}
+
+StoryOverviewMap.defaultProps = {
+  mapRegion: {
+    latitudeDelta:  0.00922*1.5,
+    longitudeDelta: 0.00421*1.5,
+  }
 }
 
 StoryOverviewMap.propTypes = {
