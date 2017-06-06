@@ -45,7 +45,12 @@ import {
   USER_LOCATION_START,
   USER_LOCATION_SUCCESS,
   USER_LOCATION_ERROR,
-  CHANGE_STATUS_OF_LED
+  CHANGE_STATUS_OF_LED,
+  OPEN_PLAYER,
+  PLAYER_OPENED,
+  CONTROL_PLAYER,
+  HANDLED_PLAYER_PRESS,
+  CLOSE_PLAYER
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -327,3 +332,36 @@ export function storeNewStatus(command) {
      }
    };
  }
+
+ export function openPlayer(annotationIndex) {
+    return {
+      type: OPEN_PLAYER,
+      payload: {
+        annotationIndex: annotationIndex
+      }
+    };
+  }
+
+  export function openedPlayer() {
+    return {
+      type: PLAYER_OPENED
+    };
+  }
+
+  export function controlPlayer() {
+    return {
+      type: CONTROL_PLAYER
+    };
+  }
+
+  export function handledPlayerButtonPress() {
+    return {
+      type: HANDLED_PLAYER_PRESS
+    };
+  }
+
+  export function closePlayer() {
+    return {
+      type: CLOSE_PLAYER
+    };
+  }

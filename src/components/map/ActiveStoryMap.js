@@ -13,8 +13,6 @@ import styles from './styles';
 import { Button, Text, Icon } from 'native-base';
 import ActiveStoryStatusHeader from './ActiveStoryStatusHeader';
 import { Actions } from 'react-native-router-flux';
-import Modal from 'react-native-modalbox';
-import MarkerPlayer from '../player/player';
 import {
   IN_DISTANCE_MARKER,
   NEXT_SUBCHAPTER_MARKER,
@@ -81,8 +79,7 @@ export default class ActiveStoryMap extends Component {
     }
 
     handleOnMarkerPress (key) {
-      this.setState({selectedAnnotation: this.props.annotations[key]});
-      this.refs.modal1.open();
+      this.props.openPlayer(key);
     }
 
     render() {
@@ -125,16 +122,6 @@ export default class ActiveStoryMap extends Component {
           <Button rounded onPress={Actions.storyTabs} style={ styles.storiesButton }>
             <Text>Stories</Text>
           </Button>
-          <Modal
-            style={styles.modal}
-            ref={"modal1"}
-            animationDuration={700}
-            swipeToClose={true}>
-            <Button transparent onPress={() => {this.refs.modal1.close();}}>
-              <Icon name="close-circle" style={Object.assign(styles.modalTextColor, styles.modalClosingButton)}/>
-            </Button>
-            <MarkerPlayer annotation={this.state.selectedAnnotation}/>
-          </Modal>
           <View style={styles.floatView}>
             <ActiveStoryStatusHeader />
           </View>
@@ -154,4 +141,5 @@ ActiveStoryMap.propTypes = {
   annotations: React.PropTypes.array,
   mapRegion: React.PropTypes.object,
   onRegionChange: React.PropTypes.func,
+  openPlayer: React.PropTypes.func
 }

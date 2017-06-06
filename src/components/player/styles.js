@@ -6,5 +6,14 @@ export default {
   },
   playerTextColor: {
     color:'#FFFFFF'
-  }
+  },
+  modal: {
+    backgroundColor: 'rgba(155, 155, 155, 0.3)'
+  },
+  modalClosingButton: {
+     fontSize: 25
+  },
+  modalTextColor: {
+    color: '#FFFFFF'
+  },
 }
