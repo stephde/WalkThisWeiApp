@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { Button, Container, Form, Icon, Input, InputGroup, Item, Text, Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { Col, Row, Grid } from "react-native-easy-grid";
@@ -64,6 +64,12 @@ var styles = {
     borderRadius: 17,
     marginRight: 3
   },
+  logo: {
+    flex: 1,
+    width: 150,
+    height: 150,
+    resizeMode: 'contain'
+  },
   buttonView: {
     flex: 1
   }
@@ -98,14 +104,19 @@ class Login extends Component {
     return (
       <Container style={styles.container}>
         <Grid>
-          <Row size={30} style={styles.row}>
+          <Row size={15} style={styles.row}>
             <Text style={styles.signUpText}>Sign Up with us</Text>
           </Row>
-          <Row size={25} style={styles.row}>
+          <Row size={20} style={styles.row}>
+            <View>
+              <Image source={require('../../../images/logo_512.jpg')} style={styles.logo} />
+            </View>
+          </Row>
+          <Row size={20} style={styles.row}>
             <View style={styles.textView}>
               <Text style={styles.descriptionText}>
-                Just enter a username into the input field below, hit the button
-                and you are ready to explore your surroundings!
+                Just enter a username, hit the button
+                and you are ready to go!
               </Text>
             </View>
           </Row>
