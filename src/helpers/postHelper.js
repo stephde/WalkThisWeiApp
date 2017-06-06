@@ -33,6 +33,6 @@ export function postUserLocation(userId, lat, long) {
   return postApi(`/users/${userId}/location`, {long, lat});
 }
 
-export function postAddNewContact(userId) {
+export function postNewContact(userId) {
   return postApi(`/users/${userId}/addContacts`, {userId});
 }

@@ -111,7 +111,7 @@ class BleComponent extends Component {
   }
 
   decode(command) {
-    decoded = Buffer.from('RgM=', 'base64');
+    decoded = Buffer.from(command, 'base64');
     return String.fromCharCode(decoded[0]) + decoded[1];
   }
 

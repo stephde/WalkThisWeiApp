@@ -9,7 +9,7 @@ class Contact extends Component {
 
   componentWillReceiveProps(newProps) {
     if(newProps.addContact && newProps.addContact != this.props.addContact) {
-      this.props.addNewContact(userId);
+      this.props.addNewContact(newProps.userId);
     }
     if(newProps.newContacts) {
       this.props.hasSeenNewContact();
