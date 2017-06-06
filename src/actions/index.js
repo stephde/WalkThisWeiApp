@@ -342,7 +342,7 @@ export function storeNewStatus(command) {
     };
   }
 
-  export function playerOpened() {
+  export function openedPlayer() {
     return {
       type: PLAYER_OPENED
     };
@@ -360,7 +360,7 @@ export function storeNewStatus(command) {
     };
   }
 
-  export function closedPlayer() {
+  export function closePlayer() {
     return {
       type: CLOSE_PLAYER
     };

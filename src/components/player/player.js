@@ -22,10 +22,16 @@ export default class MarkerPlayer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    // new annotation is played
+    if(newProps.annotation !== this.props.annotation) {
+      this.setState({
+        isPlaying: false,
+        hasBeenStarted: false
+      });
+    }
     if(newProps.openPlayer !== this.props.openPlayer) {
       if(newProps.openPlayer) {
         this.refs.modal1.open();
-        this.props.playerOpened();
       }
     }
     if(newProps.controlButtonPressed) {
@@ -46,6 +52,7 @@ export default class MarkerPlayer extends Component {
         }
         else {
           if(!_.isEmpty(this.props.annotation) && this.props.annotation.inDistance) {
+            console.log(this.props.annotation);
             ReactNativeAudioStreaming.play(this.props.annotation.url, {});
             this.setState({hasBeenStarted: true});
             this.setState({isPlaying: true});
@@ -92,7 +99,8 @@ export default class MarkerPlayer extends Component {
         style={styles.modal}
         ref={"modal1"}
         animationDuration={700}
-        onClosed={() => {this.props.closedPlayer();}}
+        onClosed={() => {this.props.closePlayer();}}
+        onOpened={() => {this.props.openedPlayer();}}
         swipeToClose={true}>
         <Button transparent onPress={() => {this.refs.modal1.close();}}>
           <Icon name="close-circle" style={Object.assign(styles.modalTextColor, styles.modalClosingButton)}/>

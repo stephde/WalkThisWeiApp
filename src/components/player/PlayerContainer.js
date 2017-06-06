@@ -1,9 +1,9 @@
 import MarkerPlayer from './player';
 import { connect } from 'react-redux';
 import {
-  playerOpened,
+  openedPlayer,
   handledPlayerButtonPress,
-  closedPlayer
+  closePlayer
 } from '../../actions';
 import _ from 'lodash';
 import {
@@ -20,17 +20,19 @@ function mapStateToProps(state) {
   let annotation = {};
   // only set annotation, if a story is active
   if(activeStory) {
-    // marker has been clicked
-    if (state.player.annotationIndex !== -1) {
+    // marker has been clicked and not the button
+    if (state.player.annotationIndex !== -1 && !state.player.controlButtonPressed) {
       const activeStoryProgress = getActiveStoryProgress(state.stories.data, state.activeUser, state.progress.data);
       const activeSubChapters = getActiveSubChapters(activeStory, activeStoryProgress);
       annotation = activeSubChapters[state.player.annotationIndex];
     }
     // wearable button has been pushed
+    // event that button was clicked
     else if (!_.isEmpty(state.progress.custom)) {
       const {currentChapterIndex, currentSubChapterIndex} = state.progress.custom;
       const activeSubChapters = activeStory.chapters[currentChapterIndex - 1].subChapters;
       annotation = activeSubChapters[currentSubChapterIndex - 1];
+      console.log(annotation);
     }
     // check if annotation is in distance
     if (!_.isEmpty(annotation)) {
@@ -53,9 +55,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch){
   return {
-    playerOpened: () => dispatch(playerOpened()),
+    openedPlayer: () => dispatch(openedPlayer()),
     handledPlayerButtonPress: () => dispatch(handledPlayerButtonPress()),
-    closedPlayer: () => dispatch(closedPlayer())
+    closePlayer: () => dispatch(closePlayer())
   };
 }
 
