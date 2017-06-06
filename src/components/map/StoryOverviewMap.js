@@ -15,6 +15,10 @@ import ActiveStoryStatusHeader from './ActiveStoryStatusHeader';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
 import StoryCard from '../StoryCard';
+import {
+  INITIAL_LONGITUDE_DELTA,
+  INITIAL_LATITUDE_DELTA
+} from '../../constants/position';
 import cultureMarker from '../../../images/culture.png';
 import eduMarker from '../../../images/edu.png';
 import historyMarker from '../../../images/history.png';
@@ -95,11 +99,18 @@ export default class StoryOverviewMap extends Component {
       return (
         <View style={styles.container}>
           <MapView
+            initialRegion={{
+              latitude: 0,
+              longitude: 0,
+              latitudeDelta:  INITIAL_LATITUDE_DELTA,
+              longitudeDelta: INITIAL_LONGITUDE_DELTA,
+            }}
             style={ styles.map }
             customMapStyle={ mapStyle }
             region={ this.props.mapRegion }
             showsUserLocation={true}
             followUserLocation={true}
+            userLocationAnnotationTitle=''
             onRegionChangeComplete={
               region => this.props.onRegionChange(region)
             }
@@ -129,6 +140,13 @@ export default class StoryOverviewMap extends Component {
         </View>
       );
     }
+}
+
+StoryOverviewMap.defaultProps = {
+  mapRegion: {
+    latitudeDelta:  INITIAL_LATITUDE_DELTA,
+    longitudeDelta: INITIAL_LONGITUDE_DELTA,
+  }
 }
 
 StoryOverviewMap.propTypes = {

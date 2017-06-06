@@ -13,11 +13,15 @@ const initialState = {
 
 export default function ui(state = initialState, action) {
   switch (action.type) {
+    case SET_STORY_PROGRESS_SUCCESS:
+      return {
+        ...state,
+        showChapterButton: false,
+      };
     case SHOW_NEW_CHAPTER_TOGGLE:
       return {
         ...state,
         showChapterButton: true,
-        onNewChapterButtonClick: action.payload.onClick,
         newChapterProgress: action.payload.nextProgress
       };
     case FINISHED_STORY:

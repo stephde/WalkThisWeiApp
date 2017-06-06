@@ -30,6 +30,14 @@ class LocationObserver extends React.Component {
 
     const { nextChapterIndex, nextSubChapterIndex } = progress;
     const chapterCount = _.get(activeStory, 'chapters.length');
+
+    const currentSubChapters = _.get(activeStory, `chapters[${nextChapterIndex - 1}].subChapters`);
+    const unlockedSubChapters = _.filter(currentSubChapters, (v,i) => i < nextSubChapterIndex-1);
+    _.forEach(unlockedSubChapters, (subChapter, i) => {
+      if (this._userIsInRange(subChapter.coordinates, userLocation))
+        this.props.reachedSubChapter(nextChapterIndex, i + 1);
+    })
+
     const subChapterCount = _.get(activeStory, `chapters[${nextChapterIndex - 1}].subChapters.length`);
     const nextSubChapter = _.get(activeStory, `chapters[${nextChapterIndex - 1}].subChapters[${nextSubChapterIndex - 1}]`);
 

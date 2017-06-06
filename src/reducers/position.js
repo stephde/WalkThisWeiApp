@@ -5,13 +5,17 @@ import {
   USER_LOCATION_SUCCESS,
   USER_LOCATION_ERROR
 } from '../constants/actionTypes.js';
+import {
+  INITIAL_LONGITUDE_DELTA,
+  INITIAL_LATITUDE_DELTA
+} from '../constants/position';
 
 const initialState = {
   mapRegion:{
     latitude: 0,
     longitude: 0,
-    latitudeDelta:  0.00922*1.5,
-    longitudeDelta: 0.00421*1.5,
+    latitudeDelta:  INITIAL_LATITUDE_DELTA,
+    longitudeDelta: INITIAL_LONGITUDE_DELTA,
   },
   userLocation: {
     longitude: 0,
