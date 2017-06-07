@@ -21,7 +21,8 @@ export default {
     marginLeft: 16,
     marginRight: 16,
     paddingBottom: 16,
-    paddingTop: 8
+    paddingTop: 8,
+    paddingRight: 0
   },
   headline: {
     fontSize: 20,
@@ -75,7 +76,8 @@ export default {
   },
   user: {
     width: 120,
-    height: 120
+    height: 120,
+    alignSelf: 'center'
   },
   textColor: {
     color: '#000000'
