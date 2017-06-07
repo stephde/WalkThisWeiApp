@@ -21,7 +21,8 @@ export default {
     marginLeft: 16,
     marginRight: 16,
     paddingBottom: 16,
-    paddingTop: 8
+    paddingTop: 8,
+    paddingRight: 0
   },
   headline: {
     fontSize: 20,
