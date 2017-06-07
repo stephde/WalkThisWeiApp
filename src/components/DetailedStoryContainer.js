@@ -56,6 +56,10 @@ const styles = {
     padding: 15,
     alignSelf: 'stretch'
   },
+  tabUnderlineStyle: {
+    borderBottomWidth: 4,
+    borderBottomColor: '#70C8BE'
+  },
   tabs: {
     width: "100%",
     flex: 1,
@@ -82,11 +86,21 @@ const styles = {
     color: '#DDDDDD',
     fontSize: 26,
     fontWeight: '500'
-  }
+  },
+  activeColor: '#70C8BE',
+  inactiveColor: '#6B6B6B'
 }
 
 
+
 class DetailedStoryContainer extends Component {
+  constructor () {
+    super();
+    this.state = {
+      activeTab: 'info',
+    };
+  }
+
   _buildChapterTabs(){
     return _.map(this.props.story.chapters, chapter =>
         <ChapterCard
@@ -133,21 +147,34 @@ class DetailedStoryContainer extends Component {
             </Text>
           </View>
 
-          <Tabs>
+          <Tabs
+              onChangeTab={(event) => {this.setState({activeTab: event.ref.ref});}}
+              tabBarUnderlineStyle={styles.tabUnderlineStyle}>
             <Tab
-                heading={ <TabHeading><Icon name="list" /><Text>Info</Text></TabHeading>}
-                style={styles.tab}>
-              <Text style={styles.subHeader}>{ this._getDescHeaderText() }</Text>
-              <Text style={styles.descText}>{ this.props.story.description }</Text>
+              ref="info"
+              heading={
+                <TabHeading style={{backgroundColor: '#fff'}}>
+                  <Icon name="list" style={{color: this.state.activeTab ===  'info' ? styles.activeColor : styles.inactiveColor}}/>
+                  <Text style={{color: this.state.activeTab ===  'info' ? styles.activeColor : styles.inactiveColor}}>Info</Text>
+                </TabHeading>
+              }
+              style={styles.tab}>
+                <Text style={styles.subHeader}>{ this._getDescHeaderText() }</Text>
+                <Text style={styles.descText}>{ this.props.story.description }</Text>
 
-              <Text style={styles.subHeader}>Progress</Text>
-              <Text style={styles.descText}>{ this._getProgressText() }</Text>
+                <Text style={styles.subHeader}>Progress</Text>
+                <Text style={styles.descText}>{ this._getProgressText() }</Text>
             </Tab>
             <Tab
-                textStyle={{color: '#70c8be'}}
-                heading={ <TabHeading><Icon name="book" /><Text>Chapters</Text></TabHeading>}
-                style={styles.tab}>
-              { chapterTabs }
+              ref="chapter"
+              heading={
+                <TabHeading style={{backgroundColor: '#fff'}}>
+                  <Icon name="book" style={{color: this.state.activeTab ===  'chapter' ? styles.activeColor : styles.inactiveColor}}/>
+                  <Text style={{color: this.state.activeTab ===  'chapter' ? styles.activeColor : styles.inactiveColor}}>Chapters</Text>
+                </TabHeading>
+              }
+              style={styles.tab}>
+                { chapterTabs }
             </Tab>
           </Tabs>
 
