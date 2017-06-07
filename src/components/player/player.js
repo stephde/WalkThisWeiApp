@@ -73,18 +73,18 @@ export default class MarkerPlayer extends Component {
           </Button>
       );
     }
-    return (<Text style={Object.assign(styles.playerTextColor, {fontSize: 18})}>Too far away. Move closer to listen to the content!</Text>);
+    return (<Text style={Object.assign({fontSize: 16}, styles.playerTextColor)}>Too far away. Move closer to listen to the content!</Text>);
   }
 
   _renderModalContent() {
     if(!_.isEmpty(this.props.annotation)) {
       return (
-        <View style={styles.container}>
+        <View style={Object.assign({paddingLeft: 12, paddingRight: 12}, styles.container)}>
           <View style={{flex:0.5, alignItems:'center', justifyContent: 'flex-end'}}>
-            <Text style={styles.playerTextColor}>{this.props.annotation.title}</Text>
-            <Text style={styles.playerTextColor}>{this.props.annotation.description}</Text>
+            <Text style={Object.assign({fontSize: 18}, styles.playerTextColor)}>{this.props.annotation.title}</Text>
+            <Text style={Object.assign({fontSize: 18, paddingTop: 8}, styles.playerTextColor)}>{this.props.annotation.description}</Text>
           </View>
-          <View style={{flex:0.5, alignItems:'flex-start', paddingTop: 18}}>
+          <View style={{flex:0.5, alignItems:'center', paddingTop: 18}}>
             {this._renderPlayerControls()}
           </View>
         </View>
