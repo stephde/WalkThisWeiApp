@@ -16,22 +16,6 @@ import {
 } from '../../actions';
 
 class Profile extends Component {
-  constructor() {
-    super();
-    this.state = {
-      contacts: [
-        {
-          id: 1,
-          nickName: 'Lauren'
-        },
-        {
-          id: 2,
-          nickName: 'Ralph'
-        }
-      ]
-    };
-  }
-
   componentWillReceiveProps(newProps) {
     if(newProps.contacts.length > this.props.contacts.length) {
       this.props.triggerShortVibration();
@@ -161,14 +145,25 @@ class Profile extends Component {
               { contacts }
             </View>
           </ListItem>
-
+          {this.props.isBluetoothOn &&
+            <ListItem style={styles.profileItem}>
+              <View style={{paddingTop: 8, flex: 1}}>
+                <Text style={styles.headline}>Wearable</Text>
+                <View style={{flex: 1, flexDirection: 'row', paddingTop: 8}}>
+                  <View style={{flex: 1}}>
+                    <Text style={styles.text}>Connected:</Text>
+                  </View>
+                  <View style={{flex: 1, alignItems: 'flex-end'}}>
+                    <Text style={styles.text}>{this.props.isConnectedToDevice ? 'Yes' : 'No'}</Text>
+                  </View>
+                </View>
+                <View style={styles.wearableButton}>
+                  {this._renderWearable()}
+                </View>
+              </View>
+            </ListItem>
+          }
         </List>
-
-        {this.props.isBluetoothOn &&
-          <View style={styles.wearableButton}>
-            {this._renderWearable()}
-          </View>
-        }
 
       </Content>
       {this._renderCameraModal()}
@@ -182,6 +177,7 @@ function mapStateToProps(state) {
     deviceId: state.ble.deviceId,
     user: state.activeUser,
     isBluetoothOn: state.ble.isBluetoothOn,
+    isConnectedToDevice: state.ble.isConnectedToDevice,
     contacts: state.contact.contacts
   };
 }
@@ -201,6 +197,7 @@ Profile.propTypes = {
   user: React.PropTypes.object,
   disconnectWearable: React.PropTypes.func,
   isBluetoothOn: React.PropTypes.bool,
+  isConnectedToDevice: React.PropTypes.bool,
   getContacts: React.PropTypes.func,
   triggerShortVibration: React.PropTypes.func
 }

@@ -13,7 +13,8 @@ const initialState = {
   operation: {},
   isConnectedToDevice: false,
   deviceId: '',
-  isLEDOn: false
+  isLEDOn: false,
+  isBluetoothOn: false
 };
 
 export default function ble(state = initialState, action) {
