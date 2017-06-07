@@ -8,7 +8,12 @@ import Camera from 'react-native-camera';
 import styles from './styles';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
-import { disconnectWearable, getContacts, setDeviceId } from '../../actions';
+import {
+  disconnectWearable,
+  getContacts,
+  setDeviceId,
+  triggerShortVibration
+} from '../../actions';
 
 class Profile extends Component {
   constructor() {
@@ -25,6 +30,12 @@ class Profile extends Component {
         }
       ]
     };
+  }
+
+  componentWillReceiveProps(newProps) {
+    if(newProps.contacts.length > this.props.contacts.length) {
+      this.props.triggerShortVibration();
+    }
   }
 
   componentDidMount() {
@@ -179,7 +190,8 @@ function mapDispatchToProps(dispatch){
   return {
     setDeviceId: (deviceId) => dispatch(setDeviceId(deviceId)),
     disconnectWearable: () => dispatch(disconnectWearable()),
-    getContacts: (userId) => dispatch(getContacts(userId))
+    getContacts: (userId) => dispatch(getContacts(userId)),
+    triggerShortVibration: () => dispatch(triggerShortVibration())
   };
 }
 
@@ -189,7 +201,8 @@ Profile.propTypes = {
   user: React.PropTypes.object,
   disconnectWearable: React.PropTypes.func,
   isBluetoothOn: React.PropTypes.bool,
-  getContacts: React.PropTypes.func
+  getContacts: React.PropTypes.func,
+  triggerShortVibration: React.PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
