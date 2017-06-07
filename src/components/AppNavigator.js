@@ -143,7 +143,7 @@ class AppNavigator extends Component {
               title="WalkThisWei"
               hideTabBar
               initial
-              rightButtonImage={require('../../images/user.png')}
+              rightButtonImage={require('../../images/man-user.png')}
               rightButtonIconStyle={style.user}
               onRight={() => Actions.profile()}
             />
