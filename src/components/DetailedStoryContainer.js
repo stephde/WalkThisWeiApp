@@ -153,7 +153,7 @@ class DetailedStoryContainer extends Component {
             <Tab
               ref="info"
               heading={
-                <TabHeading>
+                <TabHeading style={{backgroundColor: '#fff'}}>
                   <Icon name="list" style={{color: this.state.activeTab ===  'info' ? styles.activeColor : styles.inactiveColor}}/>
                   <Text style={{color: this.state.activeTab ===  'info' ? styles.activeColor : styles.inactiveColor}}>Info</Text>
                 </TabHeading>
@@ -168,7 +168,7 @@ class DetailedStoryContainer extends Component {
             <Tab
               ref="chapter"
               heading={
-                <TabHeading>
+                <TabHeading style={{backgroundColor: '#fff'}}>
                   <Icon name="book" style={{color: this.state.activeTab ===  'chapter' ? styles.activeColor : styles.inactiveColor}}/>
                   <Text style={{color: this.state.activeTab ===  'chapter' ? styles.activeColor : styles.inactiveColor}}>Chapters</Text>
                 </TabHeading>
