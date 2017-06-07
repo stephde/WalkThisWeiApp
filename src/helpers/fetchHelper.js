@@ -53,3 +53,9 @@ export function fetchStoryProgress(userId, activeStoryId) {
 
   return getApi(query);
 }
+
+export function fetchContacts(userId) {
+  const query = `/users/${userId}/contacts`;
+
+  return getApi(query);
+}

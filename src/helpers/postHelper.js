@@ -32,3 +32,7 @@ export function postLogin(deviceId, nickName) {
 export function postUserLocation(userId, lat, long) {
   return postApi(`/users/${userId}/location`, {long, lat});
 }
+
+export function postNewContact(userId) {
+  return postApi(`/users/${userId}/addContacts`, {userId});
+}

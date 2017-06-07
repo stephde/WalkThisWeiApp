@@ -7,6 +7,7 @@ import progress from './progress';
 import ui from './ui';
 import ble from './ble';
 import player from './player';
+import contact from './contact';
 
 export default combineReducers({
   stories,
@@ -16,5 +17,6 @@ export default combineReducers({
   filter,
   ui,
   ble,
-  player
+  player,
+  contact
 });

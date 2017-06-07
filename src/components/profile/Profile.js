@@ -8,7 +8,12 @@ import Camera from 'react-native-camera';
 import styles from './styles';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
-import { disconnectWearable, setDeviceId } from '../../actions';
+import {
+  disconnectWearable,
+  getContacts,
+  setDeviceId,
+  triggerShortVibration
+} from '../../actions';
 
 class Profile extends Component {
   constructor() {
@@ -17,36 +22,46 @@ class Profile extends Component {
       contacts: [
         {
           id: 1,
-          name: 'Lauren',
-          contactPlace: 'Apr. 14 @ Dish',
-          image: require('../../../images/contactf.png')
+          nickName: 'Lauren'
         },
         {
           id: 2,
-          name: 'Ralph',
-          contactPlace: 'Apr. 15 @ Dish',
-          image: require('../../../images/contactm.png')
+          nickName: 'Ralph'
         }
       ]
     };
   }
 
+  componentWillReceiveProps(newProps) {
+    if(newProps.contacts.length > this.props.contacts.length) {
+      this.props.triggerShortVibration();
+    }
+  }
+
+  componentDidMount() {
+    this.props.getContacts(this.props.user.id);
+  }
+
   _getContacts() {
-    return this.state.contacts
-      .map((contact) => {
-        return (
-          <View key={contact.id} style={{paddingTop: 16, flexDirection: 'row'}}>
-            <Image source={contact.image}/>
-            <View style={{paddingLeft: 16, justifyContent: 'center'}}>
-              <Text style={styles.text}>{contact.name}</Text>
-              <Text style={styles.text}>{contact.contactPlace}</Text>
+    if(this.props.contacts.length > 0) {
+      return this.props.contacts
+        .map((contact) => {
+          return (
+            <View key={contact.id} style={{flex: 1, paddingTop: 16, flexDirection: 'row'}}>
+              <Image source={require('../../../images/contact.png')}/>
+              <View style={{flex: 1, paddingLeft: 16, justifyContent: 'center'}}>
+                <Text style={styles.text}>{contact.nickName}</Text>
+                <Text style={styles.text}>Jun. 8 @ Expe</Text>
+              </View>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <Icon name='ios-call-outline' style={Object.assign({fontSize: 40}, styles.textColor)}/>
+              </View>
             </View>
-            <View style={{marginLeft: 80}}>
-              <Icon name='ios-call-outline' style={Object.assign({fontSize: 40}, styles.textColor)}/>
-            </View>
-          </View>
-        );
-      });
+          );
+        });
+    }
+    return (<Text>You do not have any contacts yet</Text>)
+
   }
 
   onHandleAddWearable() {
@@ -105,7 +120,7 @@ class Profile extends Component {
       </Button>
     );
   }
-  
+
   render() {
     const contacts = this._getContacts();
     return (
@@ -115,7 +130,7 @@ class Profile extends Component {
           <Button transparent onPress={() => {Actions.pop();}}>
             <Icon name="ios-arrow-back" style={styles.backButton}/>
           </Button>
-          <View>
+          <View style={{alignItems: 'center'}}>
             <Image source={require('../../../images/man-user.png')} style={styles.user} />
             <Text style={styles.profileText}>{this.props.user.nickName}</Text>
           </View>
@@ -123,7 +138,7 @@ class Profile extends Component {
 
         <List style={styles.profileContent}>
 
-          <ListItem>
+          <ListItem style={styles.profileItem}>
             <View>
               <Text style={styles.headline}>Earned Badges</Text>
               <View style={{paddingTop: 8}}>
@@ -132,16 +147,16 @@ class Profile extends Component {
             </View>
           </ListItem>
 
-          <ListItem>
-            <View style={{paddingTop: 16}}>
+          <ListItem style={styles.profileItem}>
+            <View style={{paddingTop: 8}}>
               <Text style={styles.headline}>Walking Stats</Text>
               <Text style={styles.text}>Today’s Distance: 5km (1 h)</Text>
               <Text style={styles.text}>Weekly Distance: 12km (8:20h)</Text>
             </View>
           </ListItem>
 
-          <ListItem>
-            <View style={{paddingTop: 16}}>
+          <ListItem style={styles.profileItem}>
+            <View style={{paddingTop: 8, flex: 1}}>
               <Text style={styles.headline}>Contacts</Text>
               { contacts }
             </View>
@@ -166,14 +181,17 @@ function mapStateToProps(state) {
   return {
     deviceId: state.ble.deviceId,
     user: state.activeUser,
-    isBluetoothOn: state.ble.isBluetoothOn
+    isBluetoothOn: state.ble.isBluetoothOn,
+    contacts: state.contact.contacts
   };
 }
 
 function mapDispatchToProps(dispatch){
   return {
     setDeviceId: (deviceId) => dispatch(setDeviceId(deviceId)),
-    disconnectWearable: () => dispatch(disconnectWearable())
+    disconnectWearable: () => dispatch(disconnectWearable()),
+    getContacts: (userId) => dispatch(getContacts(userId)),
+    triggerShortVibration: () => dispatch(triggerShortVibration())
   };
 }
 
@@ -182,7 +200,9 @@ Profile.propTypes = {
   deviceId: React.PropTypes.string,
   user: React.PropTypes.object,
   disconnectWearable: React.PropTypes.func,
-  isBluetoothOn: React.PropTypes.bool
+  isBluetoothOn: React.PropTypes.bool,
+  getContacts: React.PropTypes.func,
+  triggerShortVibration: React.PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

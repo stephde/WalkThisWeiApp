@@ -1,18 +1,27 @@
 export default {
   container: {
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#70C8BE',
+    paddingBottom: 8
   },
   profileText: {
     color: '#FFFFFF',
     fontWeight: '500',
     textAlign: 'center',
-    fontSize: 30,
-    padding: 10
+    fontSize: 30
   },
   profileContent: {
     backgroundColor: '#FFFFFF',
-    padding: 16,
-    paddingRight: 30
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingLeft: 0,
+    paddingRight: 0
+  },
+  profileItem: {
+    marginLeft: 16,
+    marginRight: 16,
+    paddingBottom: 16,
+    paddingTop: 8
   },
   headline: {
     fontSize: 20,
@@ -30,18 +39,17 @@ export default {
   button: {
     borderWidth: 2,
     borderColor: '#70C8BE',
-    alignSelf: 'auto',
-    fontSize: 18
+    alignSelf: 'auto'
   },
   buttonText: {
     color: '#70C8BE',
     fontSize: 18
   },
-  wearableButton: { 
-    paddingTop: 16, 
-    paddingBottom: 20, 
-    flex: 1, 
-    alignItems: 'center', 
+  wearableButton: {
+    paddingTop: 16,
+    paddingBottom: 20,
+    flex: 1,
+    alignItems: 'center',
     backgroundColor: '#FFFFFF'
   },
   capture: {
