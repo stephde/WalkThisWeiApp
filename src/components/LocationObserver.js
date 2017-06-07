@@ -12,14 +12,14 @@ import { DISTANCE } from '../constants/distance';
 
 class LocationObserver extends React.Component {
 
-  _userIsInRange(audioLocation, userLocation) {
+  _userIsInRange(audioLocation, userLocation, distanceToUnlock) {
     return isInDistance(
-      userLocation,
-      {
-        latitude: audioLocation[1],
-        longitude: audioLocation[0]
-      },
-      DISTANCE
+        userLocation,
+        {
+          latitude: audioLocation[1],
+          longitude: audioLocation[0]
+        },
+        distanceToUnlock ? distanceToUnlock : DISTANCE
     );
   }
 
@@ -33,8 +33,9 @@ class LocationObserver extends React.Component {
 
     const currentSubChapters = _.get(activeStory, `chapters[${nextChapterIndex - 1}].subChapters`);
     const unlockedSubChapters = _.filter(currentSubChapters, (v,i) => i < nextSubChapterIndex-1);
+    const distanceToUnlock = activeStory.distanceToUnlock;
     _.forEach(unlockedSubChapters, (subChapter, i) => {
-      if (this._userIsInRange(subChapter.coordinates, userLocation))
+      if (this._userIsInRange(subChapter.coordinates, userLocation, distanceToUnlock))
         this.props.reachedSubChapter(nextChapterIndex, i + 1);
     })
 
@@ -43,7 +44,7 @@ class LocationObserver extends React.Component {
 
     if (!nextSubChapter) return;
 
-    if (this._userIsInRange(nextSubChapter.coordinates, userLocation)) {
+    if (this._userIsInRange(nextSubChapter.coordinates, userLocation, distanceToUnlock)) {
       if (chapterCount === nextChapterIndex
         && subChapterCount === nextSubChapterIndex) {
         // Story is finished, last subchapter in last chapter was reached
