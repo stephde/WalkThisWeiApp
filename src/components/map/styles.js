@@ -60,5 +60,10 @@ export default {
     bottom: 20,
     left: 20,
     backgroundColor: '#70C8BE'
+  },
+  markerImage: {
+    height: 45,
+    width: 45,
+    borderRadius: 20
   }
 }
