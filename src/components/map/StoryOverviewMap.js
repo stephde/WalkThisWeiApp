@@ -11,7 +11,6 @@ import {
 import MapView, { Marker } from 'react-native-maps';
 import styles from './styles';
 import { Button, Text, Icon, Container, Content } from 'native-base';
-import ActiveStoryStatusHeader from './ActiveStoryStatusHeader';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modalbox';
 import StoryCard from '../StoryCard';
@@ -26,7 +25,6 @@ import natureMarker from '../../../images/nature.png';
 import religionMarker from '../../../images/religion.png';
 import scienceMarker from '../../../images/science.png';
 const isAndroid = (Platform.OS === 'android');
-const {height, width} = Dimensions.get('window');
 
 import mapStyle from './mapStyle'
 
@@ -77,10 +75,7 @@ export default class StoryOverviewMap extends Component {
                 : <Image
                     source={markerPicture}
                     resizeMode={'contain'}
-                    style={{
-                      height: 30,
-                      width: 30,
-                    }}
+                    style={styles.markerImage}
                   />
               }
             </Marker>
