@@ -62,7 +62,7 @@ function mapStateToProps(state) {
       subChapters,
       state.position.userLocation,
       activeProgress,
-      activeStory.distanceToUnlock),
+      activeStory ? activeStory.distanceToUnlock : null),
     mapRegion: state.position.mapRegion,
     currentUser: state.activeUser,
   };
