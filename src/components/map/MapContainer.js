@@ -7,6 +7,7 @@ import {
 } from '../../actions';
 import { isInDistance } from '../../helpers/locationHelper';
 import { DISTANCE } from '../../constants/distance.js';
+import { getActiveStory } from '../helpers/stateHelper';
 
 function getVisibleAnnotations(stories, user) {
   if (!user || !stories) return [];
@@ -20,7 +21,7 @@ function getVisibleAnnotations(stories, user) {
     : [];
 }
 
-function getComposedAnnotations(annotations, position){
+function getComposedAnnotations(annotations, position, distanceToUnlock){
   return annotations.map(annotation => {
     const inDistance = isInDistance(
       position,
@@ -28,7 +29,7 @@ function getComposedAnnotations(annotations, position){
         latitude: annotation.coordinates[1],
         longitude: annotation.coordinates[0]
       },
-      DISTANCE
+        distanceToUnlock ? distanceToUnlock : DISTANCE
     );
     return {
       ...annotation,
@@ -40,8 +41,11 @@ function getComposedAnnotations(annotations, position){
 function mapStateToProps(state) {
   const annotations = getVisibleAnnotations(state.stories.data, state.activeUser);
 
+  const activeStory = getActiveStory(state.stories.data, state.activeUser);
+  const distanceToUnlock = activeStory ? activeStory.distanceToUnlock : null;
+
   return {
-    annotations: getComposedAnnotations(annotations, state.position.userLocation),
+    annotations: getComposedAnnotations(annotations, state.position.userLocation, distanceToUnlock),
     mapRegion: state.position.mapRegion,
     currentUser: state.activeUser
   };

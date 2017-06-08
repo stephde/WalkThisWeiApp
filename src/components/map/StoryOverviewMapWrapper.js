@@ -13,7 +13,7 @@ export default class StoryOverviewMapWrapper extends Component {
     // Request active story only if it's available and it changed
     const newUserPosition = nextProps.userLocation;
     const oldUserPosition = this.props.userLocation;
-    if (isInDistance(newUserPosition, oldUserPosition, 20))
+    if (isInDistance(newUserPosition, oldUserPosition, 20))   // refetch stories around user every 20m
       return;
     this.props.getStoriesAroundUser();
   }

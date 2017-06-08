@@ -19,7 +19,7 @@ import {
   OUT_OF_DISTANCE_MARKER
 } from '../../constants/markerTypes.js';
 
-function getComposedAnnotations(annotations, position, activeProgress){
+function getComposedAnnotations(annotations, position, activeProgress, distanceToUnlock){
   const nextSubChapterIndex = activeProgress
     ? activeProgress.nextSubChapterIndex
     : -1;
@@ -30,7 +30,7 @@ function getComposedAnnotations(annotations, position, activeProgress){
         latitude: annotation.coordinates[1],
         longitude: annotation.coordinates[0]
       },
-      DISTANCE
+      distanceToUnlock ? distanceToUnlock : DISTANCE
     ) && i < nextSubChapterIndex;
     const markerType = inDistance
       ? IN_DISTANCE_MARKER
@@ -61,7 +61,8 @@ function mapStateToProps(state) {
     annotations: getComposedAnnotations(
       subChapters,
       state.position.userLocation,
-      activeProgress),
+      activeProgress,
+      activeStory.distanceToUnlock),
     mapRegion: state.position.mapRegion,
     currentUser: state.activeUser,
   };
