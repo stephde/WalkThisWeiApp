@@ -84,5 +84,11 @@ export default {
   },
   titleFontSize: {
     fontSize: 20
+  }, 
+  resetButton: {
+    backgroundColor: "#fff",
+    borderWidth: 2,
+    borderColor: '#70C8BE',
+    alignSelf: 'auto'
   }
 }

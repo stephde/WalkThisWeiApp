@@ -11,7 +11,8 @@ import {
   postActiveStory,
   postStoryProgress,
   postUserLocation,
-  postNewContact
+  postNewContact,
+  postResetUser
 } from '../helpers/postHelper.js';
 import { API_URL } from '../constants/url.js';
 import { Actions, ActionConst } from 'react-native-router-flux';
@@ -61,7 +62,10 @@ import {
   ADD_NEW_CONTACT_SUCCESS,
   ADD_NEW_CONTACT_ERROR,
   UNSET_NEW_CONTACT,
-  CHANGE_LAYOUT
+  CHANGE_LAYOUT,
+  RESET_USER,
+  RESET_USER_SUCCESS,
+  RESET_USER_ERROR
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -77,7 +81,7 @@ export function getStoriesAroundCurrentLocation() {
       .then(json => {
         dispatch(getStoriesSuccess(json));
       }).catch((e) => {
-        console.error(e);
+        console.log(e);
         dispatch(getStoriesError(e.message));
       })
   }
@@ -91,7 +95,7 @@ export function getStoriesByLocation(latitude, longitude) {
       .then(json => {
         dispatch(getStoriesSuccess(json));
       }).catch((e) => {
-        console.error(e);
+        console.log(e);
         dispatch(getStoriesError(e.message));
       })
   }
@@ -104,7 +108,7 @@ export function getStoriesByIds(storyIds) {
       .then(json => {
         dispatch(getStoriesSuccess(json));
       }).catch((e) => {
-        console.error(e);
+        console.log(e);
         dispatch(getStoriesError(e.message));
       })
   }
@@ -117,7 +121,7 @@ export function getStoryById(storyId) {
       .then(json => {
         dispatch(getStoriesSuccess(json));
       }).catch((e) => {
-        console.error(e);
+        console.log(e);
         dispatch(getStoriesError(e.message));
       })
   }
@@ -136,7 +140,7 @@ export function setStoryActive(userId, storyId) {
         Actions.map({type: ActionConst.RESET});
         dispatch(getStoryProgress(userId, storyId))
       }).catch((e) => {
-        console.error(e);
+        console.log(e);
         dispatch(setStoryActiveError(e.message));
       })
   };
@@ -154,7 +158,7 @@ export function setStoryProgress(userId, storyId, progress) {
       .then(json => {
         dispatch(setStoryProgressSuccess(json));
       }).catch((e) => {
-        console.error(e);
+        console.log(e);
         dispatch(setStoryProgressError(e.message));
       })
   };
@@ -171,7 +175,7 @@ export function getStoryProgress(userId, storyId) {
       .then(json => {
         dispatch(getStoryProgressSuccess(json));
       }).catch((e) => {
-        console.error(e);
+        console.log(e);
         dispatch(getStoryProgressError(e.message));
       })
   };
@@ -435,3 +439,18 @@ export function storeNewStatus(command) {
       }
     }
   }
+
+const resetUserSuccess = () => ({ type: RESET_USER_SUCCESS})
+const resetUserError = () => ({ type: RESET_USER_ERROR})
+
+export function resetUser(userId) {
+  return (dispatch) => {
+    return postResetUser(userId)
+        .then(() => {
+          dispatch(resetUserSuccess())
+        }).catch((e) => {
+          console.log(e)
+          dispatch(resetUserError(e))
+        })
+  }
+}
