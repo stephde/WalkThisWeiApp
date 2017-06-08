@@ -7,6 +7,7 @@ import { Button, Icon, Text} from 'native-base';
 import Modal from 'react-native-modalbox';
 import styles from './styles';
 import _ from 'lodash';
+import Dimensions from 'Dimensions';
 
 export default class MarkerPlayer extends Component {
   constructor () {
@@ -22,6 +23,11 @@ export default class MarkerPlayer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    if(newProps.changeLayout !== this.props.changeLayout) {
+      const height = Dimensions.get('window').height;
+      const width = Dimensions.get('window').width
+      this.refs.modal1.setState({height: height, width: width});
+    }
     // new annotation is played
     if(newProps.annotation !== this.props.annotation) {
       this.setState({

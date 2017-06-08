@@ -60,7 +60,8 @@ import {
   ADD_NEW_CONTACT_START,
   ADD_NEW_CONTACT_SUCCESS,
   ADD_NEW_CONTACT_ERROR,
-  UNSET_NEW_CONTACT
+  UNSET_NEW_CONTACT,
+  CHANGE_LAYOUT
 } from '../constants/actionTypes.js';
 
 const getStoriesStart = () => ({ type: GET_STORIES_START });
@@ -424,4 +425,13 @@ export function storeNewStatus(command) {
     return {
       type: UNSET_NEW_CONTACT
     };
+  }
+
+  export function changeLayout(changeLayout) {
+    return {
+      type: CHANGE_LAYOUT,
+      payload: {
+        changeLayout: changeLayout
+      }
+    }
   }

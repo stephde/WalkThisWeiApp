@@ -51,6 +51,7 @@ function mapStateToProps(state) {
     openPlayer: state.player.openPlayer,
     annotation: annotation,
     controlButtonPressed: state.player.controlButtonPressed,
+    changeLayout: state.ui.changeLayout
   };
 }
 

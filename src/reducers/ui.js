@@ -2,13 +2,15 @@ import {
   SHOW_NEW_CHAPTER_TOGGLE,
   SET_STORY_ACTIVE_START,
   SET_STORY_PROGRESS_SUCCESS,
-  FINISHED_STORY
+  FINISHED_STORY,
+  CHANGE_LAYOUT
 } from '../constants/actionTypes';
 
 const initialState = {
   showChapterButton: false,
   hasFinishedStory: false,
   newChapterProgress: {},
+  changeLayout: false
 };
 
 export default function ui(state = initialState, action) {
@@ -36,6 +38,11 @@ export default function ui(state = initialState, action) {
         showChapterButton: false,
         hasFinishedStory: false
       };
+    case CHANGE_LAYOUT:
+      return {
+        ...state,
+        changeLayout: action.payload.changeLayout
+      }
     default:
       return state;
   }
