@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import { ReactNativeAudioStreaming } from 'react-native-audio-streaming';
 import { Button, Icon, Text} from 'native-base';
 import Modal from 'react-native-modalbox';
@@ -69,20 +69,21 @@ export default class MarkerPlayer extends Component {
     if (this.props.annotation.inDistance) {
       return (
           <Button transparent onPress={() => this._onPlayerControllButtonPress()}>
-            <Icon name={this._getPlayerControlButton()} style={Object.assign({fontSize: 50}, styles.playerTextColor)}/>
+            <Icon name={this._getPlayerControlButton()} style={styles.playButton}/>
           </Button>
       );
     }
-    return (<Text style={Object.assign({fontSize: 16}, styles.playerTextColor)}>Too far away. Move closer to listen to the content!</Text>);
+    return (<Text style={styles.toFarAwayText}>Too far away. Move closer to listen to the content!</Text>);
   }
 
   _renderModalContent() {
     if(!_.isEmpty(this.props.annotation)) {
       return (
-        <View style={Object.assign({paddingLeft: 12, paddingRight: 12}, styles.container)}>
+        <View style={styles.container}>
+          <Image source={require('../../../images/icon-min.png')} style={styles.logo}/>
           <View style={{flex:0.5, alignItems:'center', justifyContent: 'flex-end'}}>
-            <Text style={Object.assign({fontSize: 18}, styles.playerTextColor)}>{this.props.annotation.title}</Text>
-            <Text style={Object.assign({fontSize: 18, paddingTop: 8}, styles.playerTextColor)}>{this.props.annotation.description}</Text>
+            <Text style={styles.playerTitle}>{this.props.annotation.title}</Text>
+            <Text style={styles.playerText}>{this.props.annotation.description}</Text>
           </View>
           <View style={{flex:0.5, alignItems:'center', paddingTop: 18}}>
             {this._renderPlayerControls()}
