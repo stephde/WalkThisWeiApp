@@ -12,7 +12,8 @@ import {
   disconnectWearable,
   getContacts,
   setDeviceId,
-  triggerShortVibration
+  triggerShortVibration,
+  resetUser
 } from '../../actions';
 
 class Profile extends Component {
@@ -63,6 +64,10 @@ class Profile extends Component {
     }
   }
 
+  onHandleReset() {
+    this.props.resetUser(this.props.user.id)
+  }
+
   _renderCameraModal() {
     return (
       <Modal
@@ -70,6 +75,7 @@ class Profile extends Component {
         ref={"cameraModal"}
         animationDuration={300}
         swipeToClose={false}>
+        
         <Camera
           ref={(cam) => {
             this.camera = cam;
@@ -163,6 +169,16 @@ class Profile extends Component {
               </View>
             </ListItem>
           }
+          <ListItem>
+
+            <View>
+              <Button style={styles.resetButton} onPress={() => this.onHandleReset()}>
+                <Text style={styles.buttonText}>
+                  Reset!
+                </Text>
+              </Button>
+            </View>
+          </ListItem>
         </List>
 
       </Content>
@@ -187,7 +203,8 @@ function mapDispatchToProps(dispatch){
     setDeviceId: (deviceId) => dispatch(setDeviceId(deviceId)),
     disconnectWearable: () => dispatch(disconnectWearable()),
     getContacts: (userId) => dispatch(getContacts(userId)),
-    triggerShortVibration: () => dispatch(triggerShortVibration())
+    triggerShortVibration: () => dispatch(triggerShortVibration()),
+    resetUser: (userId) => dispatch(resetUser(userId))
   };
 }
 
@@ -199,7 +216,8 @@ Profile.propTypes = {
   isBluetoothOn: React.PropTypes.bool,
   isConnectedToDevice: React.PropTypes.bool,
   getContacts: React.PropTypes.func,
-  triggerShortVibration: React.PropTypes.func
+  triggerShortVibration: React.PropTypes.func,
+  resetUser: React.PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
