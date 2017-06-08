@@ -33,6 +33,8 @@ function mapStateToProps(state) {
       const activeSubChapters = activeStory.chapters[currentChapterIndex - 1].subChapters;
       annotation = activeSubChapters[currentSubChapterIndex - 1];
     }
+
+    const distanceToUnlock = activeStory.distanceToUnlock;
     // check if annotation is in distance
     if (!_.isEmpty(annotation)) {
       annotation.inDistance = isInDistance(
@@ -41,7 +43,7 @@ function mapStateToProps(state) {
           latitude: annotation.coordinates[1],
           longitude: annotation.coordinates[0]
         },
-        DISTANCE
+        distanceToUnlock ? distanceToUnlock : DISTANCE
       );
     }
   }
