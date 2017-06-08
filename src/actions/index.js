@@ -62,6 +62,7 @@ import {
   ADD_NEW_CONTACT_SUCCESS,
   ADD_NEW_CONTACT_ERROR,
   UNSET_NEW_CONTACT,
+  CHANGE_LAYOUT,
   RESET_USER,
   RESET_USER_SUCCESS,
   RESET_USER_ERROR
@@ -428,6 +429,15 @@ export function storeNewStatus(command) {
     return {
       type: UNSET_NEW_CONTACT
     };
+  }
+
+  export function changeLayout(changeLayout) {
+    return {
+      type: CHANGE_LAYOUT,
+      payload: {
+        changeLayout: changeLayout
+      }
+    }
   }
 
 const resetUserSuccess = () => ({ type: RESET_USER_SUCCESS})

@@ -8,6 +8,7 @@ import Camera from 'react-native-camera';
 import styles from './styles';
 import Modal from 'react-native-modalbox';
 import { connect } from 'react-redux';
+import Dimensions from 'Dimensions';
 import {
   disconnectWearable,
   getContacts,
@@ -18,6 +19,11 @@ import {
 
 class Profile extends Component {
   componentWillReceiveProps(newProps) {
+    if(newProps.changeLayout !== this.props.changeLayout) {
+      const height = Dimensions.get('window').height;
+      const width = Dimensions.get('window').width;
+      this.refs.cameraModal.setState({height: height, width: width});
+    }
     if(newProps.contacts.length > this.props.contacts.length) {
       this.props.triggerShortVibration();
     }
@@ -194,7 +200,8 @@ function mapStateToProps(state) {
     user: state.activeUser,
     isBluetoothOn: state.ble.isBluetoothOn,
     isConnectedToDevice: state.ble.isConnectedToDevice,
-    contacts: state.contact.contacts
+    contacts: state.contact.contacts,
+    changeLayout: state.ui.changeLayout
   };
 }
 

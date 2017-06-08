@@ -7,12 +7,13 @@ import Contact from './components/Contact';
 import BleComponent from './components/ble/BleComponent';
 import Login from './components/login/Login';
 import MarkerPlayerContainer from './components/player/PlayerContainer';
+import { changeLayout } from './actions/';
 
 class App extends Component {
   render() {
     const view = !this.props.currentUser ? <Login/> : <AppNavigator/>;
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1}} onLayout={(evt) => {this.props.changeLayout(!this.props.currentChangeLayout)}}>
         {view}
         <BleComponent/>
         <Contact/>
@@ -23,7 +24,14 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.activeUser.id
+  currentUser: state.activeUser.id,
+  currentChangeLayout: state.ui.changeLayout
 });
 
-export default connect(mapStateToProps, {})(App);
+function mapDispatchToProps(dispatch){
+  return {
+    changeLayout: (currentLayout) => dispatch(changeLayout(currentLayout))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
